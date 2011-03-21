@@ -3,6 +3,7 @@ package cms.model.dao;
 import cms.model.model.PageEntity;
 import cms.model.meta.PageEntityMeta;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Transaction;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
@@ -25,16 +26,20 @@ public class PageDAO implements IDAO {
 	}
 
 	public void insert(PageEntity pageEntity) {
-		//Transaction tx = Datastore.beginTransaction();
-		Datastore.put(pageEntity);
-		//tx.commit();
+		Transaction tx = Datastore.beginTransaction();
+		Datastore.put(tx, pageEntity);
+		tx.commit();
 	}
 
 	public void edit(PageEntity pageEntity) {
-		Datastore.put(pageEntity);
+		Transaction tx = Datastore.beginTransaction();
+		Datastore.put(tx, pageEntity);
+		tx.commit();
 	}
 
 	public void delete(Key key) {
-		Datastore.delete(key);
+		Transaction tx = Datastore.beginTransaction();
+		Datastore.delete(tx, key);
+		tx.commit();
 	}
 }
