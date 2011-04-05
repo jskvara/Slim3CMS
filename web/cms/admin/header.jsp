@@ -8,25 +8,31 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title><c:if test="${not empty title}">${title} | </c:if>Slim3 CMS</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection, tv" />
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />
+  <!--[if lt IE 8]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+  <link rel="stylesheet" href="/css/admin.css" type="text/css" media="screen, projection, tv" />
 </head>
 <body>
 
-<div id="wrapper"><!-- #wrapper -->
+<div id="wrapper" class="container"><!-- #wrapper -->
 
   <div id="header"><!-- #header -->
     <div class="span-12">
       <a id="homelink" href="/admin/">Admin</a>
     </div>
-    <!--<div id="userbox" class="span-12 last">
+    <div id="userbox" class="span-12 last">
       <p>
-        <strong>info@uklidslany.cz</strong> |
+        <strong>jskvara@gmail.com</strong> |
         <a href="/admin/auth/logout/">odhlásit</a>
       </p>
-    </div>-->
+    </div>
   </div><!-- /#header -->
   <hr />
 
   <div id="sidebar" class="span-4"><!-- #sidebar -->
+	<br /><br /><br />
     <ul>
       <li><a href="/admin/page/">Stránky</a></li>
     </ul>

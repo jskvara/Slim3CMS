@@ -4,7 +4,7 @@ public class Message {
 	protected String message;
 	protected String type;
 
-	public static String OK = "ok";
+	public static String SUCCESS = "success";
 	public static String INFO = "info";
 	public static String ERROR = "error";
 
@@ -13,7 +13,7 @@ public class Message {
 
 	public Message(String message) {
 		this.message = message;
-		this.type = OK;
+		this.type = SUCCESS;
 	}
 
 	public Message(String message, String type) {

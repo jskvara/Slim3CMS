@@ -1,0 +1,79 @@
+body {
+	font-size: 100%;
+}
+
+#userbox {
+	text-align: right;
+}
+
+#content h1 {
+	clear: both;
+	font-family: Georgia, serif;
+	text-align: center;
+}
+
+#content p {
+	line-height: 130%;
+	text-indent: 1.5em;
+	margin-bottom: 1ex;
+	text-align: justify;
+}
+
+#footer {
+	margin-top: 2ex;
+	text-align: center;
+}
+
+input.error {
+	border: 1px solid red;
+}
+
+/*.flash {
+	background-color: #fff9d7;
+	border: 1px solid #e2c822;
+	color: black;
+	margin: 1em 0;
+	padding: 1em;
+}*/
+
+table.grid {
+	padding: 0;
+	margin: 0;
+	border-collapse:collapse;
+}
+
+table.grid td, 
+table.grid th {
+	color: #525b37;
+	background: #fff;
+	border: 1px solid #d1cdab;
+	padding: 6px 6px 6px 12px;
+}
+
+table.grid th {
+	color: #505767;
+	background: #e3e9ba;
+	text-align: left;
+}
+
+table.grid .alt td {
+	background: #f8f8f0;
+}
+
+form table th {
+	text-align: right;
+}
+
+form input.default {
+	font-weight: bold;
+	font-size: 105%;
+}
+
+form input.readonly {
+	background: #D6D5D9;
+}
+
+form .largeTextarea {
+	height: 400px;
+	width: 700px;
+}

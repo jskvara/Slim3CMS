@@ -16,7 +16,7 @@
 	<tr>
 		<th>&nbsp;</th>
 		<td>
-			<input type="submit" name="submit" id="submit" value="Přidat" /> &nbsp;
+			<input type="submit" name="submit" id="submit" class="default" value="Přidat" /> &nbsp;
 			<a href="/admin/page/">Zpět</a>
 		</td>
 	</tr>
