@@ -23,7 +23,8 @@
 		<th>&nbsp;</th>
 		<td>
 			<input type="hidden" ${f:hidden("key")}/>
-			<input type="submit" name="submit" id="submit" value="Upravit" />
+			<input type="submit" name="submit" id="submit" value="Upravit" /> &nbsp;
+			<a href="/admin/page/">Zpět</a>
 		</td>
 	</tr>
 </table>

@@ -15,7 +15,10 @@
 	</tr>
 	<tr>
 		<th>&nbsp;</th>
-		<td><input type="submit" name="submit" id="submit" value="Přidat" /></td>
+		<td>
+			<input type="submit" name="submit" id="submit" value="Přidat" /> &nbsp;
+			<a href="/admin/page/">Zpět</a>
+		</td>
 	</tr>
 </table>
 </form>

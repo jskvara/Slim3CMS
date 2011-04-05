@@ -28,9 +28,9 @@ public final class Messages {
 		request.setAttribute("messages", messages);
 	}
 
-	public static void deleteSessionMessages() { // TODO add to filter
-		getRequest().getSession().setAttribute("messages", null);
-	}
+//	public static void deleteSessionMessages() {
+//		getRequest().getSession().setAttribute("messages", null);
+//	}
 
 	public static List<Message> getRequestMessages() {
 		return (List<Message>) getRequest().getAttribute("messages");

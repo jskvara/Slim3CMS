@@ -92,7 +92,13 @@ public class PageEntity implements IEntity {
 //		this.position = position;
 //	}
 
+	@Override
 	public String toString() {
-		return "Url: "+ getUrl();
+		StringBuilder ret = new StringBuilder("PageEntity{");
+		ret.append("Key:").append(key).append(",");
+		ret.append("Url:").append(url);
+		ret.append("}");
+
+		return ret.toString();
 	}
 }

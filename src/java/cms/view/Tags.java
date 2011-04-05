@@ -1,6 +1,5 @@
 package cms.view;
 
-import cms.model.model.IEntity;
 import cms.util.Messages;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +10,6 @@ public class Tags {
 
 	public static Iterator getMessages() {
 		return Messages.getAllMessages().iterator();
-	}
-
-	public static IEntity entity(String name) {
-		return (IEntity) request().getAttribute(name);
 	}
 
 	protected static HttpServletRequest request() throws IllegalStateException {

@@ -5,9 +5,13 @@
 
 <p><a href="/admin/page/">Stránky</a></p>
 
-<form method="post" action="${f:url('/admin/page/delete')}">
-	<p>Opravdu si přejete smazat stránku: ${s3ct:entity("key")}</p>
-	<p><input type="submit" name="submit" id="submit" value="Smazat" /></p>
+<form method="post" action='${f:url("/admin/page/delete")}'>
+	<p>Opravdu si přejete smazat stránku: ${f:h(entity.url)}?</p>
+	<p>
+		<input type="hidden" ${f:hidden("key")} />
+		<input type="submit" name="submit" id="submit" value="Smazat" /> &nbsp;
+		<a href="/admin/page/">Zpět</a>
+	</p>
 </form>
 
 <%@include file="/cms/admin/footer.jsp" %>
