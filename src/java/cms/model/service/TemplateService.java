@@ -23,7 +23,7 @@ public class TemplateService {
 		return templateDAO.get(key);
 	}
 
-	public void insert(Map<String, Object> input) {
+	public TemplateEntity insert(Map<String, Object> input) {
 		TemplateEntity templateEntity = templateConverter.convert(input);
 		try {
 			templateValidator.validate(templateEntity);
@@ -31,17 +31,18 @@ public class TemplateService {
 			// TODO
 		}
 
-		templateDAO.insert(templateEntity);
+		return templateDAO.insert(templateEntity);
 	}
 
-	public void edit(Map<String, Object> input) {
+	public TemplateEntity edit(Map<String, Object> input) {
 		TemplateEntity templateEntity = templateConverter.convert(input);
 		try {
 			templateValidator.validate(templateEntity);
 		} catch(ValidatorException ex) {
+			// TODO
 		}
 
-		templateDAO.edit(templateEntity);
+		return templateDAO.edit(templateEntity);
 	}
 
 	public void delete(Key key) {

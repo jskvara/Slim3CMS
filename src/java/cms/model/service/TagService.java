@@ -23,7 +23,7 @@ public class TagService {
 		return tagDAO.get(key);
 	}
 
-	public void insert(Map<String, Object> input) {
+	public TagEntity insert(Map<String, Object> input) {
 		TagEntity tagEntity = tagConverter.convert(input);
 		try {
 			tagValidator.validate(tagEntity);
@@ -31,17 +31,17 @@ public class TagService {
 			// TODO
 		}
 		
-		tagDAO.insert(tagEntity);
+		return tagDAO.insert(tagEntity);
 	}
 
-	public void edit(Map<String, Object> input) {
+	public TagEntity edit(Map<String, Object> input) {
 		TagEntity tagEntity = tagConverter.convert(input);
 		try {
 			tagValidator.validate(tagEntity);
 		} catch(ValidatorException ex) {
 		}
 		
-		tagDAO.edit(tagEntity);
+		return tagDAO.edit(tagEntity);
 	}
 
 	public void delete(Key key) {

@@ -1,11 +1,18 @@
 package cms.model.validator;
 
-public class ValidatorException extends Exception {
+import cms.model.service.ServiceException;
+import org.slim3.controller.validator.Errors;
 
-    public ValidatorException() {
-    }
+public class ValidatorException extends ServiceException {
 
-    public ValidatorException(String msg) {
-        super(msg);
-    }
+	public ValidatorException() {
+	}
+
+	public ValidatorException(String msg) {
+		super(msg);
+	}
+
+	public ValidatorException(Errors errors) {
+		this.errors = errors;
+	}
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" 
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+  
+  <tlib-version>1.0</tlib-version>
+  <short-name>s3ct</short-name>
+  <uri>/WEB-INF/tlds/slim3cmsTags</uri>
+  <description>Slim3cmsTags</description>
+  <display-name>Slim3 CMS Tags</display-name>
+  
+  <function>
+    <description>
+      Get messages iterator from request
+    </description>
+    <name>getMessages</name>
+    <function-class>cms.view.Tags</function-class>
+    <function-signature>java.util.Iterator getMessages()</function-signature>
+    <example>
+      &lt;c:forEach var="m" items="${s3ct:getMessages()}"&gt;
+    </example>
+  </function>
+
+  <function>
+    <description>
+      Get entity
+    </description>
+    <name>entity</name>
+    <function-class>cms.view.Tags</function-class>
+    <function-signature>cms.model.model.IEntity entity(java.lang.String)</function-signature>
+    <example>
+      ${s3ct:entity("page")}
+    </example>
+  </function>
+
+</taglib>

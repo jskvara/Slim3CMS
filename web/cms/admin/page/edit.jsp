@@ -23,7 +23,7 @@
 		<th>&nbsp;</th>
 		<td>
 			<input type="hidden" ${f:hidden("key")}/>
-			<input name="submit" id="submit" value="Přidat" type="submit" />
+			<input type="submit" name="submit" id="submit" value="Upravit" />
 		</td>
 	</tr>
 </table>

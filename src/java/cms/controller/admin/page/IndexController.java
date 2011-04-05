@@ -13,6 +13,6 @@ public class IndexController extends Controller {
 		requestScope("title", "Stránky");
 		requestScope("pages", pageService.getAllPages());
 
-		return forward("/cms/index.jsp");
+		return forward("/cms/admin/page/index.jsp");
 	}
 }

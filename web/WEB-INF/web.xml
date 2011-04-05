@@ -101,5 +101,4 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
---&gt;
-    </web-app>
+</web-app>

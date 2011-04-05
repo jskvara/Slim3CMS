@@ -1,11 +1,13 @@
 package cms.model.validator;
 
-import cms.model.model.IEntity;
+import cms.model.meta.PageEntityMeta;
 
-public class PageValidator implements IValidator {
-	public boolean validate(IEntity entity) throws ValidatorException {
-		// TODO
-		return true;
+public class PageValidator extends AbstractValidator {
+
+	protected PageEntityMeta meta = new PageEntityMeta();
+
+	protected void validateFields() {
+		validators.add(meta.url, validators.required(), validators.maxlength(255), validators.minlength(5));
 	}
 	
 }

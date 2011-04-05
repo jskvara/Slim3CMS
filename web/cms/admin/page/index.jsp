@@ -4,14 +4,18 @@
 <%@taglib prefix="f" uri="/WEB-INF/tlds/f.tld"%>
 <%@include file="/cms/admin/header.jsp" %>
 
-<p><a href="/admin/page/add">Přidat stránku</a></p>
+<p><a href="${f:url("/admin/page/add")}">Přidat stránku</a></p>
 
 <c:if test="${empty pages}">
 	<p>Nebyly přidány žádné stránky</p>
 </c:if>
 <c:if test="${not empty pages}">
 	<c:forEach var="page" items="${pages}">
-		${f:h(page.url)}<br />
+		<c:set var="editUrl" value="edit/${f:h(page.key)}"/><%-- jsp uses + for mathematical operation --%>
+		<c:set var="deleteUrl" value="delete/${f:h(page.key)}"/>
+		${f:h(page.url)}: 
+			<a href="${f:url(editUrl)}">Upravit</a>
+			<a href="${f:url(deleteUrl)}">Delete</a><br />
 		<%--<form action="?action=edit" method="post">
 			<input type="text" name="text" value="<c:out value="${todo.text}" />" />
 			<input type="hidden" name="id" value="${todo.keyAsString}" />

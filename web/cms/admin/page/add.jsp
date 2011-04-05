@@ -15,7 +15,7 @@
 	</tr>
 	<tr>
 		<th>&nbsp;</th>
-		<td><input name="submit" id="submit" value="Přidat" type="submit" /></td>
+		<td><input type="submit" name="submit" id="submit" value="Přidat" /></td>
 	</tr>
 </table>
 </form>

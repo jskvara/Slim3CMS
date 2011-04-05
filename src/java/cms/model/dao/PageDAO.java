@@ -25,21 +25,26 @@ public class PageDAO implements IDAO {
 		return pageEntity;
 	}
 
-	public void insert(PageEntity pageEntity) {
+	public PageEntity insert(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
 		Datastore.put(tx, pageEntity);
 		tx.commit();
+
+		return pageEntity;
 	}
 
-	public void edit(PageEntity pageEntity) {
+	public PageEntity edit(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
 		Datastore.put(tx, pageEntity);
 		tx.commit();
+
+		return pageEntity;
 	}
 
 	public void delete(Key key) {
 		Transaction tx = Datastore.beginTransaction();
-		Datastore.delete(tx, key);
+		PageEntity page = Datastore.get(tx, pageMeta, key);
+		Datastore.delete(tx, page.getKey());
 		tx.commit();
 	}
 }

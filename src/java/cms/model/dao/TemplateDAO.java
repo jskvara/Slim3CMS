@@ -1,15 +1,15 @@
 package cms.model.dao;
 
 import cms.model.model.TemplateEntity;
-import cms.model.meta.TemplateMeta;
+import cms.model.meta.TemplateEntityMeta;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Transaction;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.slim3.datastore.Datastore;
 
 public class TemplateDAO {
-	private TemplateMeta templateMeta = new TemplateMeta();
+	private TemplateEntityMeta templateMeta = new TemplateEntityMeta();
 
 	public List<TemplateEntity> getAll() {
 		// List<TemplateEntity> templateEntities = Datastore.query(templateMeta).sort(pageMeta.position.desc).asList();
@@ -22,15 +22,26 @@ public class TemplateDAO {
 		return templateEntity;
 	}
 
-	public void insert(TemplateEntity templateEntity) {
+	public TemplateEntity insert(TemplateEntity templateEntity) {
+		Transaction tx = Datastore.beginTransaction();
 		Datastore.put(templateEntity);
+		tx.commit();
+
+		return templateEntity;
 	}
 
-	public void edit(TemplateEntity templateEntity) {
+	public TemplateEntity edit(TemplateEntity templateEntity) {
+		Transaction tx = Datastore.beginTransaction();
 		Datastore.put(templateEntity);
+		tx.commit();
+
+		return templateEntity;
 	}
 
 	public void delete(Key key) {
-		Datastore.delete(key);
+		Transaction tx = Datastore.beginTransaction();
+		TemplateEntity tag = Datastore.get(tx, templateMeta, key);
+		Datastore.delete(tx, tag.getKey());
+		tx.commit();
 	}
 }

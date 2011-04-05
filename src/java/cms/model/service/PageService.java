@@ -4,7 +4,6 @@ import cms.model.converter.PageConverter;
 import cms.model.dao.PageDAO;
 import cms.model.model.PageEntity;
 import cms.model.validator.PageValidator;
-import cms.model.validator.ValidatorException;
 import com.google.appengine.api.datastore.Key;
 import java.util.Map;
 import java.util.List;
@@ -26,26 +25,18 @@ public class PageService {
 		return pageDAO.getByUrl(url);
 	}
 
-	public void insert(Map<String, Object> input) {
+	public PageEntity insert(Map<String, Object> input) throws ServiceException {
 		PageEntity pageEntity = pageConverter.convert(input);
-		try {
-			pageValidator.validate(pageEntity);
-		} catch(ValidatorException ex) {
-			// TODO
-		}
-		//System.out.println("PE: "+ pageEntity);
+		pageValidator.validate(pageEntity);
 		
-		pageDAO.insert(pageEntity);
+		return pageDAO.insert(pageEntity);
 	}
 
-	public void edit(Map<String, Object> input) {
+	public PageEntity edit(Map<String, Object> input) throws ServiceException {
 		PageEntity pageEntity = pageConverter.convert(input);
-		try {
-			pageValidator.validate(pageEntity);
-		} catch(ValidatorException ex) {
-		}
+		pageValidator.validate(pageEntity);
 		
-		pageDAO.edit(pageEntity);
+		return pageDAO.edit(pageEntity);
 	}
 
 	public void delete(Key key) {

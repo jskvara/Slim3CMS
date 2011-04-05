@@ -23,7 +23,7 @@ public class NewsService {
 		return newsDAO.get(key);
 	}
 
-	public void insert(Map<String, Object> input) {
+	public NewsEntity insert(Map<String, Object> input) {
 		NewsEntity newsEntity = newsConverter.convert(input);
 		try {
 			newsValidator.validate(newsEntity);
@@ -31,17 +31,18 @@ public class NewsService {
 			// TODO
 		}
 		
-		newsDAO.insert(newsEntity);
+		return newsDAO.insert(newsEntity);
 	}
 
-	public void edit(Map<String, Object> input) {
+	public NewsEntity edit(Map<String, Object> input) {
 		NewsEntity newsEntity = newsConverter.convert(input);
 		try {
 			newsValidator.validate(newsEntity);
 		} catch(ValidatorException ex) {
+			// TODO
 		}
 		
-		newsDAO.edit(newsEntity);
+		return newsDAO.edit(newsEntity);
 	}
 
 	public void delete(Key key) {
