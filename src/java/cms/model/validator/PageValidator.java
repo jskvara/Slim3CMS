@@ -8,6 +8,8 @@ public class PageValidator extends AbstractValidator {
 
 	protected void validateFields() {
 		validators.add(meta.url, validators.required(), validators.maxlength(255), validators.minlength(5));
+		// TODO unique
+		validators.add(meta.title, validators.maxlength(255));
 	}
 	
 }

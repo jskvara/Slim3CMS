@@ -28,13 +28,13 @@ input.error {
 	border: 1px solid red;
 }
 
-/*.flash {
+.flash {
 	background-color: #fff9d7;
 	border: 1px solid #e2c822;
 	color: black;
 	margin: 1em 0;
 	padding: 1em;
-}*/
+}
 
 table.grid {
 	padding: 0;

@@ -4,7 +4,9 @@ import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageEntity;
 import cms.model.service.PageService;
 import cms.model.service.ServiceException;
+import cms.util.Message;
 import cms.util.Messages;
+import com.google.appengine.api.datastore.Key;
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.BeanUtil;
@@ -19,11 +21,8 @@ public class EditController extends Controller {
 	public Navigation run() throws Exception {
 		requestScope("title", "Upravit stránku");
 
-		if (request.getParameter("submit") != null) {
+		if (param("submit") != null) {
 			try {
-//				RequestMap requestMap = new RequestMap(request);
-//				requestMap.put("key", asKey(pageMeta.key));
-//				requestMap.put("version", pageMeta.version);
 				pageService.edit(new RequestMap(request));
 			} catch(ServiceException e) {
 				request.setAttribute("errors", e.getErrors());
@@ -33,7 +32,12 @@ public class EditController extends Controller {
 			return redirect("/admin/page/");
 		}
 
-		PageEntity pageEntity = pageService.getPage(asKey(pageMeta.key));
+		Key key = asKey(pageMeta.key);
+		if (key == null) {
+			Messages.setSessionMessage("Chybný parametr,", Message.ERROR);
+			return redirect("/admin/page/");
+		}
+		PageEntity pageEntity = pageService.getPage(key);
 		BeanUtil.copy(pageEntity, request);
 		return forward("/cms/admin/page/edit.jsp");
 	}

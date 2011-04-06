@@ -15,13 +15,14 @@ public class AddController extends Controller {
 	public Navigation run() throws Exception {
 		requestScope("title", "Přidat stránku");
 		
-		if (request.getParameter("submit") != null) {
+		if (param("submit") != null) {
 			try {
 				pageService.insert(new RequestMap(request));
 			} catch(ServiceException e) {
 				request.setAttribute("errors", e.getErrors());
 				return forward("/cms/admin/page/add.jsp");
 			}
+			// TODO sessionScope
 			Messages.setSessionMessage("Stránka byla přidána.");
 			return redirect("/admin/page/");
 		}

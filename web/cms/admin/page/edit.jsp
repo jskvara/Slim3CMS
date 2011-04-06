@@ -4,19 +4,33 @@
 
 <p><a href="/admin/page/">Stránky</a></p>
 
-<ul>
+<%--<ul>
 <c:forEach var="error" items="${f:errors()}">
 	<li>${f:h(error)}</li>
 </c:forEach>
-</ul>
+</ul>--%>
 
 <form method="post" action="${f:url('/admin/page/edit')}">
 <table>
 	<tr>
 		<th><label for="url">Url:</label></th>
 		<td>
-			<input type="text" id="url" ${f:text("url")} class="${f:errorClass('url', 'error')}" />
+			<input type="text" id="url" ${f:text("url")} class="text ${f:errorClass('url', 'error')}" />
 			${f:h(errors.url)}
+		</td>
+	</tr>
+	<tr>
+		<th><label for="url">Titulek:</label></th>
+		<td>
+			<input type="text" id="title" ${f:text("title")} class="text ${f:errorClass('title', 'error')}" />
+			${f:h(errors.title)}
+		</td>
+	</tr>
+	<tr>
+		<th><label for="url">Zobrazit:</label></th>
+		<td>
+			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="text ${f:errorClass('visible', 'error')}" />
+			${f:h(errors.visible)}
 		</td>
 	</tr>
 	<tr>

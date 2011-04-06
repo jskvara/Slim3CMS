@@ -31,12 +31,12 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	public final StringAttributeMeta<PageEntity> url = 
 			new StringAttributeMeta<PageEntity>(this, "url", "url");
 
-//	public final StringAttributeMeta<PageEntity> title =
-//			new StringAttributeMeta<PageEntity>(this, "title", "title");
-//
-//	public final CoreAttributeMeta<PageEntity, Boolean> visible =
-//			new CoreAttributeMeta<PageEntity, Boolean>(this, "visible", "visible", Boolean.class);
-//
+	public final StringAttributeMeta<PageEntity> title =
+			new StringAttributeMeta<PageEntity>(this, "title", "title");
+
+	public final CoreAttributeMeta<PageEntity, Boolean> visible =
+			new CoreAttributeMeta<PageEntity, Boolean>(this, "visible", "visible", Boolean.class);
+
 //	public final CoreAttributeMeta<PageEntity, Integer> position =
 //			new CoreAttributeMeta<PageEntity, Integer>(this, "position", "position", Integer.class);
 //
@@ -68,8 +68,8 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		model.setKey(entity.getKey());
 //		model.setVersion((Long) entity.getProperty("version"));
 		model.setUrl((String) entity.getProperty("url"));
-//		model.setTitle((String) entity.getProperty("title"));
-//		model.setVisible(booleanToPrimitiveBoolean(((Boolean) entity.getProperty("visible"))));
+		model.setTitle((String) entity.getProperty("title"));
+		model.setVisible(booleanToPrimitiveBoolean(((Boolean) entity.getProperty("visible"))));
 //		model.setPosition(longToPrimitiveInt((Long )entity.getProperty("position")));
 		// model.setAuthorKey((Key) entity.getProperty("authorKey"));
 //		if (model.getAuthorRef() == null) {
@@ -91,8 +91,8 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		}
 //		entity.setProperty("version", m.getVersion());
 		entity.setProperty("url", m.getUrl());
-//		entity.setProperty("title", m.getTitle());
-//		entity.setProperty("visible", m.getVisible());
+		entity.setProperty("title", m.getTitle());
+		entity.setProperty("visible", m.getVisible());
 //		entity.setProperty("position", m.getPosition());
 //		if (m.getAuthorRef() == null) {
 //			throw new NullPointerException("The property(authorRef) must not be null.");
@@ -175,12 +175,12 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		writer.setNextPropertyName("url");
 		encoder = new Default();
 		encoder.encode(writer, m.getUrl());
-//		writer.setNextPropertyName("title");
-//		encoder = new Default();
-//		encoder.encode(writer, m.getTitle());
-//		writer.setNextPropertyName("visible");
-//		encoder = new Default();
-//		encoder.encode(writer, m.getVisible());
+		writer.setNextPropertyName("title");
+		encoder = new Default();
+		encoder.encode(writer, m.getTitle());
+		writer.setNextPropertyName("visible");
+		encoder = new Default();
+		encoder.encode(writer, m.getVisible());
 //		writer.setNextPropertyName("position");
 //		encoder = new Default();
 //		encoder.encode(writer, m.getPosition());
@@ -211,12 +211,12 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		reader = rootReader.newObjectReader("url");
 		decoder = new Default();
 		m.setUrl(decoder.decode(reader, m.getUrl()));
-//		reader = rootReader.newObjectReader("title");
-//		decoder = new Default();
-//		m.setTitle(decoder.decode(reader, m.getTitle()));
-//		reader = rootReader.newObjectReader("visible");
-//		decoder = new Default();
-//		m.setVisible(decoder.decode(reader, m.getVisible()));
+		reader = rootReader.newObjectReader("title");
+		decoder = new Default();
+		m.setTitle(decoder.decode(reader, m.getTitle()));
+		reader = rootReader.newObjectReader("visible");
+		decoder = new Default();
+		m.setVisible(decoder.decode(reader, m.getVisible()));
 //		reader = rootReader.newObjectReader("position");
 //		decoder = new Default();
 //		m.setPosition(decoder.decode(reader, m.getPosition()));

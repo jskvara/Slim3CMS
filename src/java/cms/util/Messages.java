@@ -9,12 +9,16 @@ import org.slim3.util.RequestLocator;
 public final class Messages {
 
 	public static void setSessionMessage(String message) {
+		setSessionMessage(message, Message.SUCCESS);
+	}
+
+	public static void setSessionMessage(String message, String type) {
 		HttpSession session = getRequest().getSession();
 		List<Message> messages = (List<Message>)session.getAttribute("messages");
 		if (messages == null) {
 			messages = new ArrayList<Message>();
 		}
-		messages.add(new Message(message));
+		messages.add(new Message(message, type));
 		session.setAttribute("messages", messages);
 	}
 
