@@ -8,40 +8,39 @@ import org.slim3.util.RequestLocator;
 
 public final class Messages {
 
+	public static final String FLASH_SESSION_KEY = "flash-session-key";
+	public static final String FLASH_REQUEST_KEY = "flash-request-key";
+
 	public static void setSessionMessage(String message) {
 		setSessionMessage(message, Message.SUCCESS);
 	}
 
 	public static void setSessionMessage(String message, String type) {
 		HttpSession session = getRequest().getSession();
-		List<Message> messages = (List<Message>)session.getAttribute("messages");
+		List<Message> messages = (List<Message>)session.getAttribute(FLASH_SESSION_KEY);
 		if (messages == null) {
 			messages = new ArrayList<Message>();
 		}
 		messages.add(new Message(message, type));
-		session.setAttribute("messages", messages);
+		session.setAttribute(FLASH_SESSION_KEY, messages);
 	}
 
 	public static void setRequestMessage(String message) {
 		HttpServletRequest request = getRequest();
-		List<Message> messages = (List<Message>) request.getAttribute("messages");
+		List<Message> messages = (List<Message>) request.getAttribute(FLASH_REQUEST_KEY);
 		if (messages == null) {
 			messages = new ArrayList<Message>();
 		}
 		messages.add(new Message(message));
-		request.setAttribute("messages", messages);
+		request.setAttribute(FLASH_REQUEST_KEY, messages);
 	}
 
-//	public static void deleteSessionMessages() {
-//		getRequest().getSession().setAttribute("messages", null);
-//	}
-
 	public static List<Message> getRequestMessages() {
-		return (List<Message>) getRequest().getAttribute("messages");
+		return (List<Message>) getRequest().getAttribute(FLASH_REQUEST_KEY);
 	}
 
 	public static List<Message> getSessiontMessages() {
-		return (List<Message>) getRequest().getSession().getAttribute("messages");
+		return (List<Message>) getRequest().getSession().getAttribute(FLASH_SESSION_KEY);
 	}
 
 	public static List<Message> getAllMessages() {

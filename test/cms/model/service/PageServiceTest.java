@@ -58,9 +58,13 @@ public class PageServiceTest extends AppEngineTestCase {
     public void insert() {
 		Map<String, Object> input = new HashMap<String, Object>();
 		input.put("url", "url");
-		PageEntity pageEntity = service.insert(input);
-		PageEntity stored = Datastore.get(PageEntity.class, pageEntity.getKey());
-		assertThat(stored.getUrl(), is("url"));
+		try {
+			PageEntity pageEntity = service.insert(input);
+			PageEntity stored = Datastore.get(PageEntity.class, pageEntity.getKey());
+			assertThat(stored.getUrl(), is("url"));
+		} catch(ServiceException e) {
+			fail();
+		}
 	}
 
 	@Test
@@ -71,8 +75,13 @@ public class PageServiceTest extends AppEngineTestCase {
 		Map<String, Object> input = new HashMap<String, Object>();
 		input.put("key", page.getKey());
 		input.put("url", "url3");
-		PageEntity updated = service.edit(input);
-		assertThat(updated.getUrl(), is("url3"));
+		PageEntity updated;
+		try {
+			updated = service.edit(input);
+			assertThat(updated.getUrl(), is("url3"));
+		} catch (ServiceException ex) {
+			fail();
+		}
 	}
 
 	@Test

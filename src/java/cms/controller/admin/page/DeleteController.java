@@ -17,7 +17,7 @@ public class DeleteController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
-		requestScope("title", "Smazat stránku");
+		requestScope("pageTitle", "Smazat stránku");
 		
 		if (param("submit") != null) {
 			Key key = asKey(pageMeta.key);

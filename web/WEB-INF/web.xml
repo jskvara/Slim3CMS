@@ -43,11 +43,11 @@
         <url-pattern>/ktrwjr/ktrwjr/ktrwjr.s3gwt</url-pattern>
     </servlet-mapping>-->
     <filter>
-        <filter-name>CleanupFilter</filter-name>
-        <filter-class>cms.util.CleanupFilter</filter-class>
+        <filter-name>FlashScopeFilter</filter-name>
+        <filter-class>cms.util.FlashScopeFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>CleanupFilter</filter-name>
+        <filter-name>FlashScopeFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter-mapping>

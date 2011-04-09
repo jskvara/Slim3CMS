@@ -23,7 +23,7 @@
 	<tr>
 		<th><label for="url">Zobrazit:</label></th>
 		<td>
-			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="text ${f:errorClass('visible', 'error')}" />
+			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="${f:errorClass('visible', 'error')}" />
 			${f:h(errors.visible)}
 		</td>
 	</tr>

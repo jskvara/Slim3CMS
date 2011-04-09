@@ -13,7 +13,7 @@ public class AddController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
-		requestScope("title", "Přidat stránku");
+		requestScope("pageTitle", "Přidat stránku");
 		
 		if (param("submit") != null) {
 			try {

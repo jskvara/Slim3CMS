@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title><c:if test="${not empty title}">${title} | </c:if>Slim3 CMS</title>
+  <title><c:if test="${not empty pageTitle}">${pageTitle} | </c:if>Slim3 CMS</title>
 
   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection, tv" />
   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />
@@ -39,12 +39,8 @@
   </div><!-- /#sidebar -->
 
   <div id="content" class="span-20 last"><!-- #content -->
-    <h1><c:if test="${not empty title}">${title}</c:if><c:if test="${empty title}">Administrace</c:if></h1>
+    <h1><c:if test="${not empty pageTitle}">${pageTitle}</c:if><c:if test="${empty pageTitle}">Administrace</c:if></h1>
 
-<%--<c:if test="${not empty(s3ct:getMessages())}">--%>
-<ul>
 <c:forEach var="msg" items="${s3ct:getMessages()}">
-	<li class="${f:h(msg.type)}">${f:h(msg.message)}</li>
+	<div class="${f:h(msg.type)}">${f:h(msg.message)}</div>
 </c:forEach>
-</ul>
-<%--</c:if>--%>

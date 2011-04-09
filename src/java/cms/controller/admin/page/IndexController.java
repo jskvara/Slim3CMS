@@ -10,7 +10,7 @@ public class IndexController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
-		requestScope("title", "Stránky");
+		requestScope("pageTitle", "Stránky");
 		requestScope("pages", pageService.getAllPages());
 
 		return forward("/cms/admin/page/index.jsp");

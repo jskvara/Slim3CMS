@@ -22,6 +22,11 @@ public class TemplateDAO {
 		return templateEntity;
 	}
 
+	public TemplateEntity getByName(String name) {
+		TemplateEntity templateEntity = Datastore.query(templateMeta).filter(templateMeta.name.equal(name)).asSingle();
+		return templateEntity;
+	}
+
 	public TemplateEntity insert(TemplateEntity templateEntity) {
 		Transaction tx = Datastore.beginTransaction();
 		Datastore.put(templateEntity);

@@ -19,7 +19,7 @@ public class EditController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
-		requestScope("title", "Upravit stránku");
+		requestScope("pageTitle", "Upravit stránku");
 
 		if (param("submit") != null) {
 			try {

@@ -4,7 +4,6 @@ import cms.model.converter.TemplateConverter;
 import cms.model.dao.TemplateDAO;
 import cms.model.model.TemplateEntity;
 import cms.model.validator.TemplateValidator;
-import cms.model.validator.ValidatorException;
 import com.google.appengine.api.datastore.Key;
 import java.util.Map;
 import java.util.List;
@@ -15,7 +14,7 @@ public class TemplateService {
 	private TemplateConverter templateConverter = new TemplateConverter();
 	private TemplateValidator templateValidator = new TemplateValidator();
 
-	public List<TemplateEntity> getAllTemplate() {
+	public List<TemplateEntity> getAllTemplates() {
 		return templateDAO.getAll();
 	}
 
@@ -23,24 +22,20 @@ public class TemplateService {
 		return templateDAO.get(key);
 	}
 
-	public TemplateEntity insert(Map<String, Object> input) {
-		TemplateEntity templateEntity = templateConverter.convert(input);
-		try {
-			templateValidator.validate(templateEntity);
-		} catch(ValidatorException ex) {
-			// TODO
-		}
+	public TemplateEntity getTemplateByName(String name) {
+		return templateDAO.getByName(name);
+	}
 
+	public TemplateEntity insert(Map<String, Object> input) throws ServiceException {
+		TemplateEntity templateEntity = templateConverter.convert(input);
+		templateValidator.validate(templateEntity);
+		
 		return templateDAO.insert(templateEntity);
 	}
 
-	public TemplateEntity edit(Map<String, Object> input) {
+	public TemplateEntity edit(Map<String, Object> input) throws ServiceException {
 		TemplateEntity templateEntity = templateConverter.convert(input);
-		try {
-			templateValidator.validate(templateEntity);
-		} catch(ValidatorException ex) {
-			// TODO
-		}
+		templateValidator.validate(templateEntity);
 
 		return templateDAO.edit(templateEntity);
 	}
