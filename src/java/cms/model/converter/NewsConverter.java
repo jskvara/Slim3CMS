@@ -1,16 +1,14 @@
 package cms.model.converter;
 
 import cms.model.model.NewsEntity;
-import java.util.Map;
-import org.slim3.util.BeanUtil;
 
-public class NewsConverter implements IConverter {
+public class NewsConverter extends AbstractConverter {
 
-	public NewsEntity convert(Map<String, Object> input) {
-		NewsEntity newsEntity = new NewsEntity();
-		BeanUtil.copy(input, newsEntity);
-		
-		return newsEntity;
+	public NewsConverter() {
+		entity = new NewsEntity();
 	}
-	
+
+	public void convertFields() throws ConverterException {
+		((NewsEntity) entity).setCreated(convertDate("created"));
+	}
 }

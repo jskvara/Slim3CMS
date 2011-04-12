@@ -11,8 +11,8 @@ public class TemplateEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-	@Attribute(version = true)
-	private Long version;
+//	@Attribute(version = true)
+//	private Long version;
 
 	private String name;
 	private String content;
@@ -25,13 +25,13 @@ public class TemplateEntity implements IEntity {
 		this.key = key;
 	}
 
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+//	public Long getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(Long version) {
+//		this.version = version;
+//	}
 
 	public String getName() {
 		return name;

@@ -4,7 +4,7 @@ import cms.model.meta.PageEntityMeta;
 
 public class PageValidator extends AbstractValidator {
 
-	protected PageEntityMeta meta = new PageEntityMeta();
+	protected PageEntityMeta meta = PageEntityMeta.get();
 
 	protected void validateFields() {
 		validators.add(meta.url, validators.required(), validators.maxlength(255), validators.minlength(5));

@@ -4,7 +4,6 @@ import cms.model.converter.NewsConverter;
 import cms.model.dao.NewsDAO;
 import cms.model.model.NewsEntity;
 import cms.model.validator.NewsValidator;
-import cms.model.validator.ValidatorException;
 import com.google.appengine.api.datastore.Key;
 import java.util.Map;
 import java.util.List;
@@ -23,24 +22,16 @@ public class NewsService {
 		return newsDAO.get(key);
 	}
 
-	public NewsEntity insert(Map<String, Object> input) {
-		NewsEntity newsEntity = newsConverter.convert(input);
-		try {
-			newsValidator.validate(newsEntity);
-		} catch(ValidatorException ex) {
-			// TODO
-		}
-		
+	public NewsEntity insert(Map<String, Object> input) throws ServiceException {
+		NewsEntity newsEntity = (NewsEntity) newsConverter.convert(input);
+		newsValidator.validate(newsEntity);
+
 		return newsDAO.insert(newsEntity);
 	}
 
-	public NewsEntity edit(Map<String, Object> input) {
-		NewsEntity newsEntity = newsConverter.convert(input);
-		try {
-			newsValidator.validate(newsEntity);
-		} catch(ValidatorException ex) {
-			// TODO
-		}
+	public NewsEntity edit(Map<String, Object> input) throws ServiceException {
+		NewsEntity newsEntity = (NewsEntity) newsConverter.convert(input);
+		newsValidator.validate(newsEntity);
 		
 		return newsDAO.edit(newsEntity);
 	}

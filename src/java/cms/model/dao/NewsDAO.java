@@ -4,7 +4,6 @@ import cms.model.model.NewsEntity;
 import cms.model.meta.NewsEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
-import java.util.ArrayList;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
@@ -12,8 +11,7 @@ public class NewsDAO implements IDAO {
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();
 	
 	public List<NewsEntity> getAll() {
-		// List<NewsEntity> newsEntities = Datastore.query(newsMeta).sort(newsMeta.created.desc).asList();
-		List<NewsEntity> newsEntities = new ArrayList<NewsEntity>();
+		List<NewsEntity> newsEntities = Datastore.query(newsMeta).sort(newsMeta.created.desc).asList();
 		return newsEntities;
 	}
 

@@ -5,6 +5,7 @@
 
 <p><a href="/admin/page/">Stránky</a></p>
 
+<div class="info">
 <form method="post" action='${f:url("/admin/page/delete")}'>
 	<p>Opravdu si přejete smazat stránku: &quot;/${f:h(entity.url)}&quot;?</p>
 	<p>
@@ -13,5 +14,6 @@
 		<a href="/admin/page/">Zpět</a>
 	</p>
 </form>
+</div>
 
 <%@include file="/cms/admin/footer.jsp" %>

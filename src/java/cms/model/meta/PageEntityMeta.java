@@ -1,15 +1,11 @@
 package cms.model.meta;
 
-import cms.model.model.AuthorEntity;
 import cms.model.model.PageEntity;
-import cms.model.model.TemplateEntity;
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import org.slim3.datastore.CoreAttributeMeta;
 import org.slim3.datastore.ModelMeta;
-import org.slim3.datastore.ModelRef;
-import org.slim3.datastore.ModelRefAttributeMeta;
 import org.slim3.datastore.StringAttributeMeta;
 import org.slim3.datastore.json.Default;
 import org.slim3.datastore.json.JsonCoder;
@@ -18,9 +14,6 @@ import org.slim3.datastore.json.JsonRootReader;
 import org.slim3.datastore.json.JsonWriter;
 
 public final class PageEntityMeta extends ModelMeta<PageEntity> {
-
-	//public final CoreAttributeMeta<PageEntity, Date> createdDate = new CoreAttributeMeta<PageEntity, Date>(this, "createdDate", "createdDate", Date.class);
-	//public final CoreAttributeMeta<PageEntity, Long> lastChange = new CoreAttributeMeta<PageEntity, Long>(this, "lastChange", "lastChange", Long.class);
 
 	public final CoreAttributeMeta<PageEntity, Key> key =
 			new CoreAttributeMeta<PageEntity, Key>(this, "__key__", "key", Key.class);
@@ -123,19 +116,19 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	}
 
 	@Override
+	protected void incrementVersion(Object model) {
+//		PageEntity m = (PageEntity) model;
+//		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
+//		m.setVersion(Long.valueOf(ver + 1L));
+	}
+	
+	@Override
 	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) {
 //		PageEntity m = (PageEntity) model;
 //		if (m.getAuthorRef() == null) {
 //			throw new NullPointerException("The property(authorRef) must not be null.");
 //		}
 //		m.getAuthorRef().assignKeyIfNecessary(ds);
-	}
-
-	@Override
-	protected void incrementVersion(Object model) {
-//		PageEntity m = (PageEntity) model;
-//		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
-//		m.setVersion(Long.valueOf(ver + 1L));
 	}
 
 	@Override
@@ -175,9 +168,11 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		writer.setNextPropertyName("url");
 		encoder = new Default();
 		encoder.encode(writer, m.getUrl());
+
 		writer.setNextPropertyName("title");
 		encoder = new Default();
 		encoder.encode(writer, m.getTitle());
+		
 		writer.setNextPropertyName("visible");
 		encoder = new Default();
 		encoder.encode(writer, m.getVisible());
@@ -211,9 +206,11 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		reader = rootReader.newObjectReader("url");
 		decoder = new Default();
 		m.setUrl(decoder.decode(reader, m.getUrl()));
+
 		reader = rootReader.newObjectReader("title");
 		decoder = new Default();
 		m.setTitle(decoder.decode(reader, m.getTitle()));
+		
 		reader = rootReader.newObjectReader("visible");
 		decoder = new Default();
 		m.setVisible(decoder.decode(reader, m.getVisible()));

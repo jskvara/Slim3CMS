@@ -28,13 +28,12 @@ public class DeleteController extends Controller {
 		}
 
 		Key key = asKey(pageMeta.key);
-		if (key != null) {
+		if (key == null) {
 			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
 			return redirect("/admin/page/");
 		}
 		PageEntity pageEntity = pageService.getPage(key);
 		requestScope("entity", pageEntity);
-		BeanUtil.copy(pageEntity, request);
 		
 //		Enumeration names = request.getAttributeNames();
 //		String name = (String)names.nextElement();

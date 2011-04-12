@@ -14,11 +14,11 @@ public class NewsEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-	@Attribute(version = true)
-	private Long version;
+//	@Attribute(version = true)
+//	private Long version;
 
-	private ModelRef<AuthorEntity> authortRef =
-			new ModelRef<AuthorEntity>(AuthorEntity.class);
+//	private ModelRef<AuthorEntity> authortRef =
+//			new ModelRef<AuthorEntity>(AuthorEntity.class);
 
 	private String title;
 	
@@ -27,7 +27,7 @@ public class NewsEntity implements IEntity {
 	@Attribute(listener = CreationDate.class)
 	private Date created; // = new Date();
 
-	private String visible;
+	private Boolean visible;
 
 	public Key getKey() {
 		return key;
@@ -37,17 +37,17 @@ public class NewsEntity implements IEntity {
 		this.key = key;
 	}
 
-	public Long getVersion() {
-		return version;
-	}
+//	public Long getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(Long version) {
+//		this.version = version;
+//	}
 
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public ModelRef<AuthorEntity> getAuthortRef() {
-		return authortRef;
-	}
+//	public ModelRef<AuthorEntity> getAuthortRef() {
+//		return authortRef;
+//	}
 
 	public String getTitle() {
 		return title;
@@ -73,11 +73,11 @@ public class NewsEntity implements IEntity {
 		this.text = text;
 	}
 
-	public String getVisible() {
+	public Boolean getVisible() {
 		return visible;
 	}
 
-	public void setVisible(String visible) {
+	public void setVisible(Boolean visible) {
 		this.visible = visible;
 	}
 }

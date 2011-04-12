@@ -35,6 +35,7 @@
 	<br /><br /><br />
     <ul>
       <li><a href="/admin/page/">Stránky</a></li>
+	  <li><a href="/admin/news/">Novinky</a></li>
     </ul>
   </div><!-- /#sidebar -->
 

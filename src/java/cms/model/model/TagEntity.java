@@ -12,13 +12,13 @@ public class TagEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-	@Attribute(version = true)
-	private Long version;
+//	@Attribute(version = true)
+//	private Long version;
 
-	@Attribute(persistent = false)
-	private InverseModelListRef<PageTagEntity, TagEntity> pageTagListRef = new
-			InverseModelListRef<PageTagEntity, TagEntity>
-			(PageTagEntity.class, "tagRef", this);
+//	@Attribute(persistent = false)
+//	private InverseModelListRef<PageTagEntity, TagEntity> pageTagListRef = new
+//			InverseModelListRef<PageTagEntity, TagEntity>
+//			(PageTagEntity.class, "tagRef", this);
 
 	private String name;
 
@@ -30,17 +30,17 @@ public class TagEntity implements IEntity {
 		this.key = key;
 	}
 
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public InverseModelListRef<PageTagEntity, TagEntity> getPageTagListRef() {
-		return pageTagListRef;
-	}
+//	public Long getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(Long version) {
+//		this.version = version;
+//	}
+//
+//	public InverseModelListRef<PageTagEntity, TagEntity> getPageTagListRef() {
+//		return pageTagListRef;
+//	}
 
 	public String getName() {
 		return name;

@@ -8,8 +8,9 @@ public class ConverterException extends ServiceException {
 	public ConverterException() {
 	}
 	
-	public ConverterException(String msg) {
-		super(msg);
+	public ConverterException(String name, String msg) {
+		this.errors = new Errors();
+		this.errors.put(name, msg);
 	}
 
 	public ConverterException(Errors errors) {
