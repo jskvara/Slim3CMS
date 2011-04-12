@@ -1,11 +1,13 @@
 package cms.model.validator;
 
-import cms.model.model.IEntity;
+import cms.model.meta.TemplateEntityMeta;
 
-public class TemplateValidator implements IValidator {
-	public boolean validate(IEntity entity) throws ValidatorException {
-		// TODO
-		return true;
+public class TemplateValidator extends AbstractValidator {
+
+	TemplateEntityMeta meta = TemplateEntityMeta.get();
+
+	protected void validateFields() {
+		validators.add(meta.name, validators.required(), validators.maxlength(255));
+		// TODO unique
 	}
-	
 }

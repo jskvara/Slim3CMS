@@ -5,7 +5,6 @@ import cms.model.model.NewsEntity;
 import cms.model.model.dto.NewsDTO;
 import cms.model.service.NewsService;
 import cms.model.service.ServiceException;
-import cms.util.DateUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;

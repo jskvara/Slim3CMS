@@ -1041,7 +1041,6 @@ public final class Datastore {
      * @throws NullPointerException
      *             if the key parameter is null
      */
-    // TODO
     public static Future<Entity> getWithoutTxAsync(Key key)
             throws NullPointerException {
         return asyncDelegate().getWithoutTxAsync(key);

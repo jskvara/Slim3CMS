@@ -14,21 +14,18 @@ public class AddController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
-		requestScope("pageTitle", "Přidat novinku");
+		requestScope("pageTitle", "Přidat štítek");
 		
 		if (param("submit") != null) {
 			try {
 				newsService.insert(new RequestMap(request));
 			} catch(ServiceException e) {
 				request.setAttribute("errors", e.getErrors());
-				return forward("/cms/admin/news/add.jsp");
+				return forward("/cms/admin/tag/add.jsp");
 			}
-			Messages.setSessionMessage("Novinka byla přidána.");
-			return redirect("/admin/news/");
+			Messages.setSessionMessage("Štítek byl přidán.");
+			return redirect("/admin/tag/");
 		}
-
-		requestScope("visible", true);
-		requestScope("created", DateUtil.dateToString());
 		
 		return forward("/cms/admin/news/add.jsp");
 	}

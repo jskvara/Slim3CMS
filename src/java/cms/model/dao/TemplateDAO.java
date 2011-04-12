@@ -4,7 +4,6 @@ import cms.model.model.TemplateEntity;
 import cms.model.meta.TemplateEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
-import java.util.ArrayList;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
@@ -12,8 +11,7 @@ public class TemplateDAO {
 	private TemplateEntityMeta templateMeta = new TemplateEntityMeta();
 
 	public List<TemplateEntity> getAll() {
-		// List<TemplateEntity> templateEntities = Datastore.query(templateMeta).sort(pageMeta.position.desc).asList();
-		List<TemplateEntity> templateEntities = new ArrayList<TemplateEntity>();
+		List<TemplateEntity> templateEntities = Datastore.query(templateMeta).sort(templateMeta.name.desc).asList();
 		return templateEntities;
 	}
 

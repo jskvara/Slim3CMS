@@ -36,6 +36,8 @@
     <ul>
       <li><a href="/admin/page/">Stránky</a></li>
 	  <li><a href="/admin/news/">Novinky</a></li>
+	  <li><a href="/admin/tag/">Štítky</a></li>
+	  <li><a href="/admin/template/">Šablony</a></li>
     </ul>
   </div><!-- /#sidebar -->
 

@@ -7,7 +7,7 @@
 <p><a href="${f:url("/admin/news/add")}">Přidat novinku</a></p>
 
 <c:if test="${empty news}">
-	<p>Nebyly přidány žádné novinky</p>
+	<p class="notice">Nebyly přidány žádné novinky</p>
 </c:if>
 <c:if test="${not empty news}">
 <table class="grid">
