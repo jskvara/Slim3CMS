@@ -27,8 +27,8 @@ public class AddController extends Controller {
 			return redirect("/admin/news/");
 		}
 
-		requestScope("visible", true);
 		requestScope("created", DateUtil.dateToString());
+		requestScope("visible", true);
 		
 		return forward("/cms/admin/news/add.jsp");
 	}

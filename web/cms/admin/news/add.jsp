@@ -7,28 +7,28 @@
 <form method="post" action="${f:url('/admin/news/add')}">
 <table>
 	<tr>
-		<th><label for="url">Nadpis:</label></th>
+		<th><label for="title">Nadpis:</label></th>
 		<td>
 			<input type="text" id="title" ${f:text("title")} class="text ${f:errorClass('title', 'error')}" />
 			${f:h(errors.title)}
 		</td>
 	</tr>
 	<tr>
-		<th><label for="url">Text:</label></th>
+		<th><label for="text">Text:</label></th>
 		<td>
 			<textarea name="text" id="text" class="${f:errorClass('text', 'error')}">${f:h(text)}</textarea>
 			${f:h(errors.text)}
 		</td>
 	</tr>
 	<tr>
-		<th><label for="url">Vytvořeno:</label></th>
+		<th><label for="created">Vytvořeno:</label></th>
 		<td>
 			<input type="text" id="created" ${f:text("created")} class="text ${f:errorClass('created', 'error')}" />
 			${f:h(errors.created)}
 		</td>
 	</tr>
 	<tr>
-		<th><label for="url">Zobrazit:</label></th>
+		<th><label for="visible">Zobrazit:</label></th>
 		<td>
 			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="${f:errorClass('visible', 'error')}" />
 			${f:h(errors.visible)}

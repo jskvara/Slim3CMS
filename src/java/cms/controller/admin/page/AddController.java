@@ -22,7 +22,6 @@ public class AddController extends Controller {
 				request.setAttribute("errors", e.getErrors());
 				return forward("/cms/admin/page/add.jsp");
 			}
-			// TODO sessionScope
 			Messages.setSessionMessage("Stránka byla přidána.");
 			return redirect("/admin/page/");
 		}

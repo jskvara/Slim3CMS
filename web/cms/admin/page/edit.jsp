@@ -20,14 +20,14 @@
 		</td>
 	</tr>
 	<tr>
-		<th><label for="url">Titulek:</label></th>
+		<th><label for="title">Titulek:</label></th>
 		<td>
 			<input type="text" id="title" ${f:text("title")} class="text ${f:errorClass('title', 'error')}" />
 			${f:h(errors.title)}
 		</td>
 	</tr>
 	<tr>
-		<th><label for="url">Zobrazit:</label></th>
+		<th><label for="visible">Zobrazit:</label></th>
 		<td>
 			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="${f:errorClass('visible', 'error')}" />
 			${f:h(errors.visible)}

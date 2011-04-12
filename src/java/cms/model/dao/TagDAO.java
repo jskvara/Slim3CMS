@@ -4,7 +4,6 @@ import cms.model.model.TagEntity;
 import cms.model.meta.TagEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
-import java.util.ArrayList;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
@@ -12,8 +11,7 @@ public class TagDAO implements IDAO {
 	private TagEntityMeta tagMeta = TagEntityMeta.get();
 	
 	public List<TagEntity> getAll() {
-		// List<TageEntity> tagEntities = Datastore.query(tagMeta).sort(pageMeta.name.desc).asList();
-		List<TagEntity> tagEntities = new ArrayList<TagEntity>();
+		List<TagEntity> tagEntities = Datastore.query(tagMeta).sort(tagMeta.name.desc).asList();
 		return tagEntities;
 	}
 

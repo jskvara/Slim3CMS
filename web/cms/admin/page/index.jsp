@@ -7,7 +7,7 @@
 <p><a href="${f:url("/admin/page/add")}">Přidat stránku</a></p>
 
 <c:if test="${empty pages}">
-	<p>Nebyly přidány žádné stránky</p>
+	<p class="notice">Nebyly přidány žádné stránky</p>
 </c:if>
 <c:if test="${not empty pages}">
 <table class="grid">

@@ -39,6 +39,7 @@ public class EditController extends Controller {
 		}
 		PageEntity pageEntity = pageService.getPage(key);
 		BeanUtil.copy(pageEntity, request);
+		
 		return forward("/cms/admin/page/edit.jsp");
 	}
 }

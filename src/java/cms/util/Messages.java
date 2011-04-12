@@ -46,7 +46,6 @@ public final class Messages {
 	public static List<Message> getAllMessages() {
 		List<Message> messages = new ArrayList<Message>();
 
-		// TODO errors
 		List<Message> requestMessages = getRequestMessages();
 		if (requestMessages != null) {
 			messages.addAll(requestMessages);

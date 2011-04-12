@@ -1,11 +1,13 @@
 package cms.model.validator;
 
-import cms.model.model.IEntity;
+import cms.model.meta.TagEntityMeta;
 
-public class TagValidator implements IValidator {
-	public boolean validate(IEntity entity) throws ValidatorException {
-		// TODO
-		return true;
+public class TagValidator extends AbstractValidator {
+
+	protected TagEntityMeta meta = TagEntityMeta.get();
+
+	protected void validateFields() {
+		validators.add(meta.name, validators.required(), validators.maxlength(255));
+		// TODO unique
 	}
-	
 }
