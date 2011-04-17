@@ -9,8 +9,9 @@ public class ServiceException extends Exception {
 	public ServiceException() {
 	}
 
-	public ServiceException(String msg) {
-		super(msg);
+	public ServiceException(String name, String msg) {
+		this.errors = new Errors();
+		this.errors.put(name, msg);
 	}
 
 	public ServiceException(Errors errors) {
@@ -20,12 +21,4 @@ public class ServiceException extends Exception {
 	public Errors getErrors() {
 		return errors;
 	}
-
-	/*public ValidatorException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
-
-	public ValidatorException(Throwable cause) {
-		super(cause);
-	}*/
 }

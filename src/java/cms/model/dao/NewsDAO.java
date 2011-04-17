@@ -7,7 +7,7 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
-public class NewsDAO implements IDAO {
+public class NewsDAO implements DAO {
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();
 	
 	public List<NewsEntity> getAll() {

@@ -4,3 +4,4 @@ https://github.com/YusukeKokubo/SkillMaps/blob/2adaa956d84007a710e7324b3e3da0433
 http://code.google.com/p/slim3/source/browse/trunk/slim3-gen/src/main/java/org/slim3/gen/generator/ModelMetaGenerator.java
 web.xml - http://code.google.com/p/slim3/source/browse/trunk/slim3demo/war/WEB-INF/web.xml
 
+add field: modelEntity, modelMeta

@@ -3,6 +3,7 @@ package cms.controller.admin.news;
 import cms.model.meta.NewsEntityMeta;
 import cms.model.model.NewsEntity;
 import cms.model.service.NewsService;
+import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
@@ -11,7 +12,7 @@ import org.slim3.controller.Navigation;
 
 public class DeleteController extends Controller {
 
-	private NewsService newsService = new NewsService();
+	private NewsService newsService = GuiceUtil.getService(NewsService.class);
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();
 
 	@Override

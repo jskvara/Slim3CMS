@@ -4,6 +4,7 @@ import cms.model.meta.TagEntityMeta;
 import cms.model.model.TagEntity;
 import cms.model.service.ServiceException;
 import cms.model.service.TagService;
+import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
@@ -14,7 +15,7 @@ import org.slim3.util.RequestMap;
 
 public class EditController extends Controller {
 
-	private TagService tagService = new TagService();
+	private TagService tagService = GuiceUtil.getService(TagService.class);
 	private TagEntityMeta tagMeta = TagEntityMeta.get();
 
 	@Override

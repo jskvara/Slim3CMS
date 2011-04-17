@@ -8,11 +8,11 @@ public class ValidatorException extends ServiceException {
 	public ValidatorException() {
 	}
 
-	public ValidatorException(String msg) {
-		super(msg);
+	public ValidatorException(String name, String msg) {
+		super(name, msg);
 	}
 
 	public ValidatorException(Errors errors) {
-		this.errors = errors;
+		super(errors);
 	}
 }

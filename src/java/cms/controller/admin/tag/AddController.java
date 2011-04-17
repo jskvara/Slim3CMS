@@ -2,6 +2,7 @@ package cms.controller.admin.tag;
 
 import cms.model.service.ServiceException;
 import cms.model.service.TagService;
+import cms.util.GuiceUtil;
 import cms.util.Messages;
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
@@ -9,7 +10,7 @@ import org.slim3.util.RequestMap;
 
 public class AddController extends Controller {
 
-	private TagService tagService = new TagService();
+	private TagService tagService = GuiceUtil.getService(TagService.class);
 
 	@Override
 	public Navigation run() throws Exception {

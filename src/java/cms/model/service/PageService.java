@@ -5,13 +5,17 @@ import cms.model.dao.PageDAO;
 import cms.model.model.PageEntity;
 import cms.model.validator.PageValidator;
 import com.google.appengine.api.datastore.Key;
+import com.google.inject.Inject;
 import java.util.Map;
 import java.util.List;
 
-public class PageService {
-	private PageDAO pageDAO = new PageDAO();
-	private PageConverter pageConverter = new PageConverter();
-	private PageValidator pageValidator = new PageValidator();
+public class PageService implements Service {
+	@Inject
+	private PageDAO pageDAO;
+	@Inject
+	private PageConverter pageConverter;
+	@Inject
+	private PageValidator pageValidator;
 
 	public List<PageEntity> getAllPages() {
 		return pageDAO.getAll();
@@ -27,14 +31,14 @@ public class PageService {
 
 	public PageEntity insert(Map<String, Object> input) throws ServiceException {
 		PageEntity pageEntity = pageConverter.convert(input);
-		pageValidator.validate(pageEntity);
+		pageValidator.validateAdd(pageEntity);
 		
 		return pageDAO.insert(pageEntity);
 	}
 
 	public PageEntity edit(Map<String, Object> input) throws ServiceException {
 		PageEntity pageEntity = pageConverter.convert(input);
-		pageValidator.validate(pageEntity);
+		pageValidator.validateEdit(pageEntity);
 		
 		return pageDAO.edit(pageEntity);
 	}

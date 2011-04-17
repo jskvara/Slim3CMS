@@ -7,7 +7,7 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
-public class PageDAO implements IDAO {
+public class PageDAO implements DAO {
 	private PageEntityMeta pageMeta = PageEntityMeta.get();
 	
 	public List<PageEntity> getAll() {

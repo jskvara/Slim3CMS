@@ -1,11 +1,14 @@
 package cms.model.meta;
 
 import cms.model.model.PageEntity;
+import cms.model.model.TemplateEntity;
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import org.slim3.datastore.CoreAttributeMeta;
 import org.slim3.datastore.ModelMeta;
+import org.slim3.datastore.ModelRef;
+import org.slim3.datastore.ModelRefAttributeMeta;
 import org.slim3.datastore.StringAttributeMeta;
 import org.slim3.datastore.json.Default;
 import org.slim3.datastore.json.JsonCoder;
@@ -27,15 +30,18 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	public final StringAttributeMeta<PageEntity> title =
 			new StringAttributeMeta<PageEntity>(this, "title", "title");
 
+	public final StringAttributeMeta<PageEntity> content =
+			new StringAttributeMeta<PageEntity>(this, "content", "content");
+
 	public final CoreAttributeMeta<PageEntity, Boolean> visible =
 			new CoreAttributeMeta<PageEntity, Boolean>(this, "visible", "visible", Boolean.class);
 
 //	public final CoreAttributeMeta<PageEntity, Integer> position =
 //			new CoreAttributeMeta<PageEntity, Integer>(this, "position", "position", Integer.class);
 //
-//	public final ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity> templateRef =
-//			new ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity>(this, "templateRef", "templateRef", ModelRef.class, TemplateEntity.class);
-//
+	public final ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity> templateRef =
+			new ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity>(this, "templateRef", "templateRef", ModelRef.class, TemplateEntity.class);
+
 //	public final ModelRefAttributeMeta<PageEntity, ModelRef<AuthorEntity>, AuthorEntity> authorRef =
 //			new ModelRefAttributeMeta<PageEntity, ModelRef<AuthorEntity>, AuthorEntity>(this, "authorRef", "authorRef", ModelRef.class, AuthorEntity.class);
 
@@ -62,8 +68,13 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		model.setVersion((Long) entity.getProperty("version"));
 		model.setUrl((String) entity.getProperty("url"));
 		model.setTitle((String) entity.getProperty("title"));
+		model.setContent((String) entity.getProperty("content"));
 		model.setVisible(booleanToPrimitiveBoolean(((Boolean) entity.getProperty("visible"))));
 //		model.setPosition(longToPrimitiveInt((Long )entity.getProperty("position")));
+		if (model.getTemplateRef() == null) {
+			throw new NullPointerException("The property (templateRef) is null.");
+		}
+		model.getTemplateRef().setKey((Key) entity.getProperty("templateRef"));
 		// model.setAuthorKey((Key) entity.getProperty("authorKey"));
 //		if (model.getAuthorRef() == null) {
 //			throw new NullPointerException("The property(authorRef) is null.");
@@ -85,8 +96,13 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		entity.setProperty("version", m.getVersion());
 		entity.setProperty("url", m.getUrl());
 		entity.setProperty("title", m.getTitle());
+		entity.setProperty("content", m.getContent());
 		entity.setProperty("visible", m.getVisible());
 //		entity.setProperty("position", m.getPosition());
+		if (m.getTemplateRef() == null) {
+			throw new NullPointerException("The property (templateRef) must not be null.");
+		}
+		entity.setProperty("templateRef", m.getTemplateRef().getKey());
 //		if (m.getAuthorRef() == null) {
 //			throw new NullPointerException("The property(authorRef) must not be null.");
 //		}
@@ -124,7 +140,11 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	
 	@Override
 	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) {
-//		PageEntity m = (PageEntity) model;
+		PageEntity m = (PageEntity) model;
+		if (m.getTemplateRef() == null) {
+			throw new NullPointerException("The property (templateRef) must not be null.");
+		}
+		m.getTemplateRef().assignKeyIfNecessary(ds);
 //		if (m.getAuthorRef() == null) {
 //			throw new NullPointerException("The property(authorRef) must not be null.");
 //		}
@@ -172,6 +192,10 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		writer.setNextPropertyName("title");
 		encoder = new Default();
 		encoder.encode(writer, m.getTitle());
+
+		writer.setNextPropertyName("content");
+		encoder = new Default();
+		encoder.encode(writer, m.getContent());
 		
 		writer.setNextPropertyName("visible");
 		encoder = new Default();
@@ -179,6 +203,11 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		writer.setNextPropertyName("position");
 //		encoder = new Default();
 //		encoder.encode(writer, m.getPosition());
+		if(m.getTemplateRef() != null && m.getTemplateRef().getKey() != null){
+			writer.setNextPropertyName("templateRef");
+			encoder = new Default();
+			encoder.encode(writer, m.getTemplateRef(), maxDepth, currentDepth);
+		}
 //		if(m.getAuthorKey() != null){
 //			writer.setNextPropertyName("authorKey");
 //			encoder = new Default();
@@ -210,6 +239,10 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		reader = rootReader.newObjectReader("title");
 		decoder = new Default();
 		m.setTitle(decoder.decode(reader, m.getTitle()));
+
+		reader = rootReader.newObjectReader("content");
+		decoder = new Default();
+		m.setTitle(decoder.decode(reader, m.getContent()));
 		
 		reader = rootReader.newObjectReader("visible");
 		decoder = new Default();
@@ -217,6 +250,9 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		reader = rootReader.newObjectReader("position");
 //		decoder = new Default();
 //		m.setPosition(decoder.decode(reader, m.getPosition()));
+		reader = rootReader.newObjectReader("templateRef");
+		decoder = new Default();
+		decoder.decode(reader, m.getTemplateRef(), maxDepth, currentDepth);
 //		reader = rootReader.newObjectReader("authorRef");
 //		decoder = new Default();
 //		decoder.decode(reader, m.getAuthorRef(), maxDepth, currentDepth);

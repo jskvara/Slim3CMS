@@ -9,11 +9,10 @@ public class ConverterException extends ServiceException {
 	}
 	
 	public ConverterException(String name, String msg) {
-		this.errors = new Errors();
-		this.errors.put(name, msg);
+		super(name, msg);
 	}
 
 	public ConverterException(Errors errors) {
-		this.errors = errors;
+		super(errors);
 	}
 }

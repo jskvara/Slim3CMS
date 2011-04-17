@@ -16,7 +16,7 @@
 	<tr>
 		<th><label for="text">Text:</label></th>
 		<td>
-			<textarea name="text" id="text" class="${f:errorClass('text', 'error')}">${f:h(text)}</textarea>
+			<textarea cols="40" rows="10" name="text" id="text" class="${f:errorClass('text', 'error')}">${f:h(text)}</textarea>
 			${f:h(errors.text)}
 		</td>
 	</tr>

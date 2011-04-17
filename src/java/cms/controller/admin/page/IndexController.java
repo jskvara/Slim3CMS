@@ -1,12 +1,13 @@
 package cms.controller.admin.page;
 
 import cms.model.service.PageService;
+import cms.util.GuiceUtil;
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
 public class IndexController extends Controller {
 
-	private PageService pageService = new PageService();
+	private PageService pageService = GuiceUtil.getService(PageService.class);
 
 	@Override
 	public Navigation run() throws Exception {

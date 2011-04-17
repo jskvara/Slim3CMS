@@ -5,6 +5,7 @@ import cms.model.model.NewsEntity;
 import cms.model.model.dto.NewsDTO;
 import cms.model.service.NewsService;
 import cms.model.service.ServiceException;
+import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
@@ -15,7 +16,7 @@ import org.slim3.util.RequestMap;
 
 public class EditController extends Controller {
 
-	private NewsService newsService = new NewsService();
+	private NewsService newsService = GuiceUtil.getService(NewsService.class);
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();
 
 	@Override

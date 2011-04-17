@@ -4,6 +4,7 @@ import cms.model.meta.TemplateEntityMeta;
 import cms.model.model.TemplateEntity;
 import cms.model.service.ServiceException;
 import cms.model.service.TemplateService;
+import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
@@ -14,7 +15,7 @@ import org.slim3.util.RequestMap;
 
 public class EditController extends Controller {
 
-	private TemplateService templateService = new TemplateService();
+	private TemplateService templateService = GuiceUtil.getService(TemplateService.class);
 	private TemplateEntityMeta templateMeta = TemplateEntityMeta.get();
 
 	@Override

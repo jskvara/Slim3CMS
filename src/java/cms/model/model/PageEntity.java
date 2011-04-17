@@ -29,6 +29,7 @@ public class PageEntity implements IEntity {
 	
 	private String url;
 	private String title;
+	private String content;
 	private Boolean visible;
 	private Integer position;
 
@@ -76,6 +77,14 @@ public class PageEntity implements IEntity {
 		this.title = title;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public Boolean getVisible() {
 		return visible;
 	}
@@ -97,11 +106,12 @@ public class PageEntity implements IEntity {
 		StringBuilder ret = new StringBuilder("PageEntity{");
 		ret.append("Key:").append(key).append(",");
 		ret.append("Url:").append(url).append(",");
-		ret.append("Title").append(title).append(",");
+		ret.append("Title:").append(title).append(",");
+		ret.append("Content:").append(content).append(",");
 		ret.append("Visible:").append(visible).append(",");
 		ret.append("Position:").append(position).append(",");
 		ret.append("Tags:").append(pageTagListRef).append(",");
-		ret.append("Template:").append(templateRef).append(",");
+		ret.append("Template:").append(templateRef.getModel().getName()).append(",");
 		ret.append("Author:").append(authorRef);
 		ret.append("}");
 

@@ -15,7 +15,7 @@
 	<tr>
 		<th><label for="url">Url:</label></th>
 		<td>
-			<input type="text" id="url" ${f:text("url")} class="text ${f:errorClass('url', 'error')}" />
+			/ <input type="text" id="url" ${f:text("url")} class="text ${f:errorClass('url', 'error')}" />
 			${f:h(errors.url)}
 		</td>
 	</tr>
@@ -27,10 +27,29 @@
 		</td>
 	</tr>
 	<tr>
+		<th><label for="content">Obsah:</label></th>
+		<td>
+			<textarea cols="40" rows="10" name="content" id="content" class="${f:errorClass('content', 'error')}">${f:h(content)}</textarea>
+			${f:h(errors.content)}
+		</td>
+	</tr>
+	<tr>
 		<th><label for="visible">Zobrazit:</label></th>
 		<td>
 			<input type="checkbox" id="visible" ${f:checkbox("visible")} class="${f:errorClass('visible', 'error')}" />
 			${f:h(errors.visible)}
+		</td>
+	</tr>
+	<tr>
+		<th><label for="templateName">Šablona:</label></th>
+		<td>
+			<select name="templateName" id="template" class="${f:errorClass('templateName', 'error')}">
+			<c:forEach var="tpl" items="${templates}">
+				<option ${f:select("templateName", "")}></option>
+				<option ${f:select("templateName", tpl.name)}>${tpl.name}</option>
+			</c:forEach>
+			</select>
+			${f:h(errors.templateName)}
 		</td>
 	</tr>
 	<tr>

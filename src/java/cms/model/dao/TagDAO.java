@@ -7,16 +7,21 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
-public class TagDAO implements IDAO {
-	private TagEntityMeta tagMeta = TagEntityMeta.get();
+public class TagDAO implements DAO {
+	private TagEntityMeta meta = TagEntityMeta.get();
 	
 	public List<TagEntity> getAll() {
-		List<TagEntity> tagEntities = Datastore.query(tagMeta).sort(tagMeta.name.desc).asList();
+		List<TagEntity> tagEntities = Datastore.query(meta).sort(meta.name.desc).asList();
 		return tagEntities;
 	}
 
 	public TagEntity get(Key key) {
 		TagEntity tagEntity = Datastore.get(TagEntity.class, key);
+		return tagEntity;
+	}
+
+	public TagEntity getByName(String name) {
+		TagEntity tagEntity = Datastore.query(meta).filter(meta.name.equal(name)).asSingle();
 		return tagEntity;
 	}
 
@@ -38,7 +43,7 @@ public class TagDAO implements IDAO {
 
 	public void delete(Key key) {
 		Transaction tx = Datastore.beginTransaction();
-		TagEntity tag = Datastore.get(tx, tagMeta, key);
+		TagEntity tag = Datastore.get(tx, meta, key);
 		Datastore.delete(tx, tag.getKey());
 		tx.commit();
 	}
