@@ -35,7 +35,7 @@ public class EditController extends Controller {
 
 		Key key = asKey(tagMeta.key);
 		if (key == null) {
-			Messages.setSessionMessage("Chybný parametr,", Message.ERROR);
+			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
 			return redirect("/admin/tag/");
 		}
 		TagEntity tagEntity = tagService.getTag(key);

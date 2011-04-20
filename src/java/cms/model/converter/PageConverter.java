@@ -15,8 +15,10 @@ public class PageConverter implements IConverter {
 		PageEntity pageEntity = new PageEntity();
 		BeanUtil.copy(input, pageEntity);
 
+		// url
 		pageEntity.setUrl(pageEntity.getUrl().toLowerCase().trim());
-		
+
+		// template
 		String templateName = (String)input.get("templateName");
 		if(!templateName.equals("")) {
 			TemplateEntity templateEntity = templateService.getTemplateByName(templateName);
@@ -26,7 +28,7 @@ public class PageConverter implements IConverter {
 				throw new ConverterException("templateName", "Tato šablona neexistuje.");
 			}
 		}
-
+		
 		return pageEntity;
 	}
 	

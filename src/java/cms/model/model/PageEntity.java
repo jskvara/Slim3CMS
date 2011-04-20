@@ -23,9 +23,6 @@ public class PageEntity implements IEntity {
 
 	private ModelRef<TemplateEntity> templateRef =
 			new ModelRef<TemplateEntity>(TemplateEntity.class);
-
-	private ModelRef<AuthorEntity> authorRef =
-			new ModelRef<AuthorEntity>(AuthorEntity.class);
 	
 	private String url;
 	private String title;
@@ -55,10 +52,6 @@ public class PageEntity implements IEntity {
 
 	public ModelRef<TemplateEntity> getTemplateRef() {
 		return templateRef;
-	}
-
-	public ModelRef<AuthorEntity> getAuthorRef() {
-		return authorRef;
 	}
 
 	public String getUrl() {
@@ -110,9 +103,12 @@ public class PageEntity implements IEntity {
 		ret.append("Content:").append(content).append(",");
 		ret.append("Visible:").append(visible).append(",");
 		ret.append("Position:").append(position).append(",");
-		ret.append("Tags:").append(pageTagListRef).append(",");
+		ret.append("Tags:{");
+		for (PageTagEntity pageTagEntity : pageTagListRef.getModelList()) {
+			ret.append(pageTagEntity.getTagRef().getModel().getName()).append(",");
+		}
+		ret.append("}");
 		ret.append("Template:").append(templateRef.getModel().getName()).append(",");
-		ret.append("Author:").append(authorRef);
 		ret.append("}");
 
 		return ret.toString();

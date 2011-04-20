@@ -29,15 +29,18 @@ public class PageTagEntity implements IEntity {
 		return pageRef;
 	}
 
-	public void setPageRef(ModelRef<PageEntity> pageRef) {
-		this.pageRef = pageRef;
-	}
-
 	public ModelRef<TagEntity> getTagRef() {
 		return tagRef;
 	}
 
-	public void setTagRef(ModelRef<TagEntity> tagRef) {
-		this.tagRef = tagRef;
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder("PageTagEntity{");
+		ret.append("Key:").append(key).append(",");
+		ret.append("Page:").append(pageRef.getModel().getUrl()).append(",");
+		ret.append("Tag:").append(tagRef.getModel().getName());
+		ret.append("}");
+
+		return ret.toString();
 	}
 }

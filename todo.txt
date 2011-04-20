@@ -1,4 +1,5 @@
-Meta - https://github.com/rsaccon/Slim3PersistenceSync/tree/master/src/persistencejs/meta
+Meta - 
+https://github.com/rsaccon/Slim3PersistenceSync/tree/master/src/persistencejs/meta
 https://github.com/YusukeKokubo/SkillMaps/blob/2adaa956d84007a710e7324b3e3da0433a231e6b/src/com/appspot/skillmaps/server/meta/SkillRelationMeta.java
 
 http://code.google.com/p/slim3/source/browse/trunk/slim3-gen/src/main/java/org/slim3/gen/generator/ModelMetaGenerator.java

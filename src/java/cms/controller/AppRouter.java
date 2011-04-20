@@ -4,7 +4,9 @@ import org.slim3.controller.router.RouterImpl;
 
 public class AppRouter extends RouterImpl {
 	public AppRouter() {
-		addRouting("/admin/page/edit/{key}", "/admin/page/edit?key={key}"); // /{app}/admin/
+		 // /{app}/admin/
+		addRouting("/admin/page/tags/{key}", "/admin/page/tags?key={key}");
+		addRouting("/admin/page/edit/{key}", "/admin/page/edit?key={key}");
 		addRouting("/admin/page/delete/{key}", "/admin/page/delete?key={key}");
 
 		addRouting("/admin/news/edit/{key}", "/admin/news/edit?key={key}");

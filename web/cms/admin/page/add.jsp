@@ -37,9 +37,9 @@
 	<tr>
 		<th><label for="templateName">Šablona:</label></th>
 		<td>
-			<select name="templateName" id="template" class="${f:errorClass('templateName', 'error')}">
+			<select name="templateName" id="templateName" class="${f:errorClass('templateName', 'error')}">
+				<option ${f:select("templateName", "")}> - </option>
 			<c:forEach var="tpl" items="${templates}">
-				<option ${f:select("templateName", "")}></option>
 				<option ${f:select("templateName", tpl.name)}>${tpl.name}</option>
 			</c:forEach>
 			</select>

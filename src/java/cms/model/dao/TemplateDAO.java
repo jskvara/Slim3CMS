@@ -11,7 +11,7 @@ public class TemplateDAO {
 	private TemplateEntityMeta templateMeta = new TemplateEntityMeta();
 
 	public List<TemplateEntity> getAll() {
-		List<TemplateEntity> templateEntities = Datastore.query(templateMeta).sort(templateMeta.name.desc).asList();
+		List<TemplateEntity> templateEntities = Datastore.query(templateMeta).sort(templateMeta.name.asc).asList();
 		return templateEntities;
 	}
 

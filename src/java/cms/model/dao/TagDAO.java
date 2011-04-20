@@ -11,7 +11,7 @@ public class TagDAO implements DAO {
 	private TagEntityMeta meta = TagEntityMeta.get();
 	
 	public List<TagEntity> getAll() {
-		List<TagEntity> tagEntities = Datastore.query(meta).sort(meta.name.desc).asList();
+		List<TagEntity> tagEntities = Datastore.query(meta).sort(meta.name.asc).asList();
 		return tagEntities;
 	}
 

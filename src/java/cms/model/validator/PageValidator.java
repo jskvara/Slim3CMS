@@ -16,7 +16,6 @@ public class PageValidator extends AbstractValidator {
 		validators.add(meta.url, validators.required(), validators.maxlength(255));
 
 		String url = (String) input.get(meta.url.toString());
-		System.out.println("Url: "+ url);
 		if (url.startsWith("/") || url.endsWith("/")) {
 			validators.getErrors().put(meta.url.toString(), "Url nesmí začínat nebo končit '/'.");
 		}

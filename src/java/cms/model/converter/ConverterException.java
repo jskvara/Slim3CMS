@@ -7,6 +7,10 @@ public class ConverterException extends ServiceException {
 
 	public ConverterException() {
 	}
+
+	public ConverterException(ServiceException e) {
+		super(e.getErrors());
+	}
 	
 	public ConverterException(String name, String msg) {
 		super(name, msg);

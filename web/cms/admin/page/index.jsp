@@ -19,8 +19,11 @@
 <tr <c:if test="${rowCounter.count % 2 == 0}">class="alt"</c:if>>
 	<td>/${f:h(page.url)}</td>
 	<td>
-		<c:set var="editUrl" value="edit/${f:h(page.key)}"/><%-- jsp uses + for mathematical operation --%>
+		<%-- jsp uses + for mathematical operation --%>
+		<c:set var="tagsUrl" value="tags/${f:h(page.key)}"/>
+		<c:set var="editUrl" value="edit/${f:h(page.key)}"/>
 		<c:set var="deleteUrl" value="delete/${f:h(page.key)}"/>
+		<a href="${f:url(tagsUrl)}">Štítky</a> &nbsp;
 		<a href="${f:url(editUrl)}">Upravit</a> &nbsp; 
 		<a href="${f:url(deleteUrl)}">Smazat</a>
 	</td>

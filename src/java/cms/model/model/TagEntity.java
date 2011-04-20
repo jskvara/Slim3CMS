@@ -15,10 +15,10 @@ public class TagEntity implements IEntity {
 //	@Attribute(version = true)
 //	private Long version;
 
-//	@Attribute(persistent = false)
-//	private InverseModelListRef<PageTagEntity, TagEntity> pageTagListRef = new
-//			InverseModelListRef<PageTagEntity, TagEntity>
-//			(PageTagEntity.class, "tagRef", this);
+	@Attribute(persistent = false)
+	private InverseModelListRef<PageTagEntity, TagEntity> pageTagListRef = new
+			InverseModelListRef<PageTagEntity, TagEntity>
+			(PageTagEntity.class, "tagRef", this);
 
 	private String name;
 
@@ -37,10 +37,6 @@ public class TagEntity implements IEntity {
 //	public void setVersion(Long version) {
 //		this.version = version;
 //	}
-//
-//	public InverseModelListRef<PageTagEntity, TagEntity> getPageTagListRef() {
-//		return pageTagListRef;
-//	}
 
 	public String getName() {
 		return name;
@@ -48,5 +44,9 @@ public class TagEntity implements IEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public InverseModelListRef<PageTagEntity, TagEntity> getPageTagListRef() {
+		return pageTagListRef;
 	}
 }

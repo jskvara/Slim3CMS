@@ -40,7 +40,7 @@ public class EditController extends Controller {
 
 		Key key = asKey(pageMeta.key);
 		if (key == null) {
-			Messages.setSessionMessage("Chybný parametr,", Message.ERROR);
+			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
 			return redirect("/admin/page/");
 		}
 		PageEntity pageEntity = pageService.getPage(key);

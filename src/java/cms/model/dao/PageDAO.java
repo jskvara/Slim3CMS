@@ -2,6 +2,7 @@ package cms.model.dao;
 
 import cms.model.model.PageEntity;
 import cms.model.meta.PageEntityMeta;
+import cms.model.model.PageTagEntity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 import java.util.List;
@@ -27,6 +28,9 @@ public class PageDAO implements DAO {
 
 	public PageEntity insert(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
+		/*for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
+			Datastore.put(tx, pageTagEntity);
+		}*/
 		Datastore.put(tx, pageEntity);
 		tx.commit();
 
@@ -35,6 +39,9 @@ public class PageDAO implements DAO {
 
 	public PageEntity edit(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
+		/*for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
+			Datastore.put(tx, pageTagEntity);
+		}*/
 		Datastore.put(tx, pageEntity);
 		tx.commit();
 
@@ -43,8 +50,11 @@ public class PageDAO implements DAO {
 
 	public void delete(Key key) {
 		Transaction tx = Datastore.beginTransaction();
-		PageEntity page = Datastore.get(tx, pageMeta, key);
-		Datastore.delete(tx, page.getKey());
+		PageEntity pageEntity = Datastore.get(tx, pageMeta, key);
+		for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
+			Datastore.delete(tx, pageTagEntity.getKey());
+		}
+		Datastore.delete(tx, pageEntity.getKey());
 		tx.commit();
 	}
 }

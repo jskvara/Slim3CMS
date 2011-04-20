@@ -13,7 +13,7 @@ public class AddController extends Controller {
 
 	private PageService pageService = GuiceUtil.getService(PageService.class);
 	private TemplateService templateService = GuiceUtil.getService(TemplateService.class);
-
+	
 	@Override
 	public Navigation run() throws Exception {
 		requestScope("pageTitle", "Přidat stránku");
@@ -24,6 +24,7 @@ public class AddController extends Controller {
 			} catch(ServiceException e) {
 				request.setAttribute("errors", e.getErrors());
 				requestScope("templates", templateService.getAllTemplates());
+				
 				return forward("/cms/admin/page/add.jsp");
 			}
 			Messages.setSessionMessage("Stránka byla přidána.");
