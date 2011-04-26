@@ -1,5 +1,6 @@
 package cms.controller.admin.tag;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.TagEntityMeta;
 import cms.model.model.TagEntity;
 import cms.model.service.ServiceException;
@@ -8,12 +9,11 @@ import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.BeanUtil;
 import org.slim3.util.RequestMap;
 
-public class EditController extends Controller {
+public class EditController extends AdminController {
 
 	private TagService tagService = GuiceUtil.getService(TagService.class);
 	private TagEntityMeta tagMeta = TagEntityMeta.get();

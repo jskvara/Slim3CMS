@@ -108,7 +108,10 @@ public class PageEntity implements IEntity {
 			ret.append(pageTagEntity.getTagRef().getModel().getName()).append(",");
 		}
 		ret.append("}");
-		ret.append("Template:").append(templateRef.getModel().getName()).append(",");
+		ret.append("Template:");
+		if (templateRef.getModel() != null) {
+			ret.append(templateRef.getModel().getName());
+		}
 		ret.append("}");
 
 		return ret.toString();

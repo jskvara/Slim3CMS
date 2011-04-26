@@ -1,11 +1,11 @@
 package cms.controller.admin.news;
 
+import cms.controller.admin.AdminController;
 import cms.model.service.NewsService;
 import cms.util.GuiceUtil;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
-public class IndexController extends Controller {
+public class IndexController extends AdminController {
 
 	private NewsService newsService = GuiceUtil.getService(NewsService.class);
 

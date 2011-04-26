@@ -29,6 +29,10 @@ public class PageService implements Service {
 		return pageDAO.getByUrl(url);
 	}
 
+	public PageEntity getVisiblePageByUrl(String url) {
+		return pageDAO.getVisibleByUrl(url);
+	}
+
 	public PageEntity insert(Map<String, Object> input) throws ServiceException {
 		PageEntity pageEntity = pageConverter.convert(input);
 		pageValidator.validateAdd(pageEntity);

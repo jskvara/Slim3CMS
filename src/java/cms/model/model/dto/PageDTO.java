@@ -2,13 +2,9 @@ package cms.model.model.dto;
 
 import cms.model.model.PageEntity;
 import cms.model.model.PageTagEntity;
-import cms.model.model.TagEntity;
-import com.google.appengine.api.datastore.Key;
+import cms.model.model.TemplateEntity;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.util.List;
-import org.apache.tools.ant.Project;
-import org.slim3.datastore.Datastore;
-import org.slim3.datastore.InverseModelListRef;
 
 public class PageDTO {
 	protected PageEntity pageEntity;
@@ -33,8 +29,8 @@ public class PageDTO {
 		return pageEntity.getContent();
 	}
 
-	public String getVisible() {
-		return (pageEntity.getVisible() ? "Yes" : "No");
+	public boolean getVisible() {
+		return pageEntity.getVisible();
 	}
 
 	public String getTemplateName() {
@@ -48,7 +44,10 @@ public class PageDTO {
 		if (pageEntity.getTemplateRef().getModel() == null) {
 			return "";
 		}
-		return pageEntity.getTemplateRef().getModel().getContent();
+		TemplateEntity templateEntity = pageEntity.getTemplateRef().getModel();
+		TemplateDTO templateDTO = new TemplateDTO(templateEntity);
+		
+		return templateDTO.getContent();
 	}
 
 	public String[] getTags() {

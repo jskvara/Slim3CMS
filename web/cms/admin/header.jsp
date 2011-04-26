@@ -24,8 +24,8 @@
     </div>
     <div id="userbox" class="span-12 last">
       <p>
-        <strong>jskvara@gmail.com</strong> |
-        <a href="/admin/auth/logout/">odhlásit</a>
+        <strong>${username}</strong> |
+        <a href="${logoutUrl}">odhlásit</a>
       </p>
     </div>
   </div><!-- /#header -->

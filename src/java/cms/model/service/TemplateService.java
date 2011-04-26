@@ -40,7 +40,7 @@ public class TemplateService implements Service {
 	public TemplateEntity edit(Map<String, Object> input) throws ServiceException {
 		TemplateEntity templateEntity = templateConverter.convert(input);
 		templateValidator.validateEdit(templateEntity);
-
+		
 		return templateDAO.edit(templateEntity);
 	}
 

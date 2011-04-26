@@ -1,15 +1,15 @@
 package cms.controller.admin.page;
 
+import cms.controller.admin.AdminController;
 import cms.model.service.PageService;
 import cms.model.service.ServiceException;
 import cms.model.service.TemplateService;
 import cms.util.GuiceUtil;
 import cms.util.Messages;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.RequestMap;
 
-public class AddController extends Controller {
+public class AddController extends AdminController {
 
 	private PageService pageService = GuiceUtil.getService(PageService.class);
 	private TemplateService templateService = GuiceUtil.getService(TemplateService.class);

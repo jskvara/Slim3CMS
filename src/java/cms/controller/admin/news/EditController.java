@@ -1,5 +1,6 @@
 package cms.controller.admin.news;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.NewsEntityMeta;
 import cms.model.model.NewsEntity;
 import cms.model.model.dto.NewsDTO;
@@ -9,12 +10,11 @@ import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.BeanUtil;
 import org.slim3.util.RequestMap;
 
-public class EditController extends Controller {
+public class EditController extends AdminController {
 
 	private NewsService newsService = GuiceUtil.getService(NewsService.class);
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();

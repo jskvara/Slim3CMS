@@ -1,5 +1,6 @@
 package cms.controller.admin.page;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageEntity;
 import cms.model.model.dto.PageDTO;
@@ -11,11 +12,10 @@ import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.RequestMap;
 
-public class TagsController extends Controller {
+public class TagsController extends AdminController {
 
 	private PageService pageService = GuiceUtil.getService(PageService.class);
 	private PageTagService pageTagService = GuiceUtil.getService(PageTagService.class);

@@ -22,6 +22,10 @@ public class NewsService implements Service {
 		return newsDAO.getAll();
 	}
 
+	public List<NewsEntity> getHomepageNews() {
+		return newsDAO.getHomepage();
+	}
+
 	public NewsEntity getNews(Key key) {
 		return newsDAO.get(key);
 	}

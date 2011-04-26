@@ -1,6 +1,7 @@
 package cms.model.model;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
 
@@ -11,11 +12,8 @@ public class TemplateEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-//	@Attribute(version = true)
-//	private Long version;
-
 	private String name;
-	private String content;
+	private Text content;
 
 	public Key getKey() {
 		return key;
@@ -25,14 +23,6 @@ public class TemplateEntity implements IEntity {
 		this.key = key;
 	}
 
-//	public Long getVersion() {
-//		return version;
-//	}
-//
-//	public void setVersion(Long version) {
-//		this.version = version;
-//	}
-
 	public String getName() {
 		return name;
 	}
@@ -41,11 +31,29 @@ public class TemplateEntity implements IEntity {
 		this.name = name;
 	}
 
-	public String getContent() {
+	public Text getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(Text content) {
 		this.content = content;
+	}
+
+	public void setContent(String content) {
+		this.content = new Text(content);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder ret = new StringBuilder("TemplateEntity{");
+		ret.append("Key:").append(key).append(",");
+		ret.append("Name:").append(name).append(",");
+		ret.append("Content:");
+		if (content != null) {
+			ret.append(content.getValue());
+		}
+		ret.append("}");
+
+		return ret.toString();
 	}
 }

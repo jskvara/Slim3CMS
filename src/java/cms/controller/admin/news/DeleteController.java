@@ -1,5 +1,6 @@
 package cms.controller.admin.news;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.NewsEntityMeta;
 import cms.model.model.NewsEntity;
 import cms.model.service.NewsService;
@@ -7,10 +8,9 @@ import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
-public class DeleteController extends Controller {
+public class DeleteController extends AdminController {
 
 	private NewsService newsService = GuiceUtil.getService(NewsService.class);
 	private NewsEntityMeta newsMeta = NewsEntityMeta.get();

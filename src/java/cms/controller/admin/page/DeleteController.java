@@ -1,5 +1,6 @@
 package cms.controller.admin.page;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageEntity;
 import cms.model.service.PageService;
@@ -7,10 +8,9 @@ import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
-public class DeleteController extends Controller {
+public class DeleteController extends AdminController {
 
 	private PageService pageService = GuiceUtil.getService(PageService.class);
 	private PageEntityMeta pageMeta = PageEntityMeta.get();

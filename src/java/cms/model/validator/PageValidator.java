@@ -20,6 +20,10 @@ public class PageValidator extends AbstractValidator {
 			validators.getErrors().put(meta.url.toString(), "Url nesmí začínat nebo končit '/'.");
 		}
 
+		if (url.startsWith("admin/") || url.startsWith("_ah/")) {
+			validators.getErrors().put(meta.url.toString(), "Tato url je rezervovaná.");
+		}
+
 		if(isAdd()) {
 			if (pageService.getPageByUrl(url) != null) {
 				validators.getErrors().put(meta.url.toString(), "Tato url již existuje.");

@@ -4,6 +4,7 @@ import cms.model.model.TemplateEntity;
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import org.slim3.datastore.CoreAttributeMeta;
 import org.slim3.datastore.ModelMeta;
 import org.slim3.datastore.StringAttributeMeta;
@@ -21,15 +22,15 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 	public final StringAttributeMeta<TemplateEntity> name =
 			new StringAttributeMeta<TemplateEntity>(this, "name", "name");
 
-	public final StringAttributeMeta<TemplateEntity> content =
-			new StringAttributeMeta<TemplateEntity>(this, "content", "content");
+	public final CoreAttributeMeta<TemplateEntity, Text> content =
+			new CoreAttributeMeta<TemplateEntity, Text>(this, "content", "content", Text.class);
 
 	private static final TemplateEntityMeta slim3_singleton = new TemplateEntityMeta();
 
 	/**
 	 * @return the singleton
 	 */
-	public static final TemplateEntityMeta get() {
+	public static TemplateEntityMeta get() {
 	   return slim3_singleton;
 	}
 
@@ -42,7 +43,7 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		TemplateEntity model = new TemplateEntity();
 		model.setKey(entity.getKey());
 		model.setName((String) entity.getProperty("name"));
-		model.setContent((String) entity.getProperty("content"));
+		model.setContent((Text) entity.getProperty("content"));
 		return model;
 	}
 
@@ -114,9 +115,11 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		encoder = new Default();
 		encoder.encode(writer, m.getName());
 
-		writer.setNextPropertyName("content");
-		encoder = new Default();
-		encoder.encode(writer, m.getContent());
+		if (m.getContent() != null) {
+			writer.setNextPropertyName("content");
+			encoder = new Default();
+			encoder.encode(writer, m.getContent().getValue());
+		}
 		writer.endObject();
 	}
 
@@ -128,9 +131,11 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
+		
 		reader = rootReader.newObjectReader("name");
 		decoder = new Default();
 		m.setName(decoder.decode(reader, m.getName()));
+
 		reader = rootReader.newObjectReader("content");
 		decoder = new Default();
 		m.setContent(decoder.decode(reader, m.getContent()));

@@ -1,11 +1,11 @@
 package cms.controller.admin.page;
 
+import cms.controller.admin.AdminController;
 import cms.model.service.PageService;
 import cms.util.GuiceUtil;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
-public class IndexController extends Controller {
+public class IndexController extends AdminController {
 
 	private PageService pageService = GuiceUtil.getService(PageService.class);
 

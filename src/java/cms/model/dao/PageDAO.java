@@ -12,7 +12,8 @@ public class PageDAO implements DAO {
 	private PageEntityMeta pageMeta = PageEntityMeta.get();
 	
 	public List<PageEntity> getAll() {
-		List<PageEntity> pageEntities = Datastore.query(pageMeta)./*sort(pageMeta.position.desc).*/asList();
+		List<PageEntity> pageEntities = Datastore.query(pageMeta)
+				./*sort(pageMeta.position.desc).*/asList();
 		return pageEntities;
 	}
 
@@ -22,15 +23,21 @@ public class PageDAO implements DAO {
 	}
 
 	public PageEntity getByUrl(String url) {
-		PageEntity pageEntity = Datastore.query(pageMeta).filter(pageMeta.url.equal(url)).asSingle();
+		PageEntity pageEntity = Datastore.query(pageMeta)
+				.filter(pageMeta.url.equal(url)).asSingle();
+		return pageEntity;
+	}
+
+	public PageEntity getVisibleByUrl(String url) {
+		PageEntity pageEntity = Datastore.query(pageMeta)
+				.filter(pageMeta.url.equal(url))
+				.filter(pageMeta.visible.equal(true))
+				.asSingle();
 		return pageEntity;
 	}
 
 	public PageEntity insert(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
-		/*for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
-			Datastore.put(tx, pageTagEntity);
-		}*/
 		Datastore.put(tx, pageEntity);
 		tx.commit();
 
@@ -39,9 +46,6 @@ public class PageDAO implements DAO {
 
 	public PageEntity edit(PageEntity pageEntity) {
 		Transaction tx = Datastore.beginTransaction();
-		/*for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
-			Datastore.put(tx, pageTagEntity);
-		}*/
 		Datastore.put(tx, pageEntity);
 		tx.commit();
 

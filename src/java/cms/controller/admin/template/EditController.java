@@ -1,19 +1,20 @@
 package cms.controller.admin.template;
 
+import cms.controller.admin.AdminController;
 import cms.model.meta.TemplateEntityMeta;
 import cms.model.model.TemplateEntity;
+import cms.model.model.dto.TemplateDTO;
 import cms.model.service.ServiceException;
 import cms.model.service.TemplateService;
 import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
 import com.google.appengine.api.datastore.Key;
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.util.BeanUtil;
 import org.slim3.util.RequestMap;
 
-public class EditController extends Controller {
+public class EditController extends AdminController {
 
 	private TemplateService templateService = GuiceUtil.getService(TemplateService.class);
 	private TemplateEntityMeta templateMeta = TemplateEntityMeta.get();
@@ -39,7 +40,8 @@ public class EditController extends Controller {
 			return redirect("/admin/template/");
 		}
 		TemplateEntity templateEntity = templateService.getTemplate(key);
-		BeanUtil.copy(templateEntity, request);
+		TemplateDTO templateDTO = new TemplateDTO(templateEntity);
+		BeanUtil.copy(templateDTO, request);
 		
 		return forward("/cms/admin/template/edit.jsp");
 	}
