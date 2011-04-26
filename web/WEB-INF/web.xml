@@ -24,7 +24,7 @@
         <filter-name>FrontController</filter-name>
         <filter-class>org.slim3.controller.FrontController</filter-class>
     </filter>
-    <filter>
+   <filter>
         <filter-name>FrontendFilter</filter-name>
         <filter-class>cms.util.FrontendFilter</filter-class>
     </filter>

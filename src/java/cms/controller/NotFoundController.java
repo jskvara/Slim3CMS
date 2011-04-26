@@ -30,16 +30,14 @@ public class NotFoundController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		PrintWriter out = response.getWriter();
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND); // TODO nefunguje
-//		response.setHeader("Content-Type", "text/html; charset=utf-8");
-//		System.out.println("R: "+ response.getContentType() +" "+ response.getCharacterEncoding());
 
 		TemplateEntity templateEntity = templateService.getTemplateByName("notFound");
 		if (templateEntity == null) {
 			out.println("<html>");
 			out.println("<head>");
-			out.println("	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+			out.println("	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
 			out.println("	<title>Stránka nenalezena</title>");
 			out.println("</head>");
 			out.println("<body>");

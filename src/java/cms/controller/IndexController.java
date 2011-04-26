@@ -39,11 +39,8 @@ public class IndexController extends Controller {
 
 	@Override
 	public Navigation run() throws Exception {
+		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
-		response.setContentType("text/html; charset=utf-8"); // TODO nefunguje
-//		response.setCharacterEncoding("utf-8");
-//		response.setHeader("Content-Type", "text/html; charset=utf-8");
-//		System.out.println("R: "+ response.getContentType() +" "+ response.getCharacterEncoding());
 
 		if (basePath.equals("/")) {
 			basePath = "index";
@@ -90,7 +87,7 @@ public class IndexController extends Controller {
 		}
 		TemplateDTO newsTemplateDTO = new TemplateDTO(newsTemplateEntity);
 		String newsTemplate = newsTemplateDTO.getContent();
-		TemplateDTO newsItemTemplateDTO = new TemplateDTO(newsTemplateEntity);
+		TemplateDTO newsItemTemplateDTO = new TemplateDTO(newsItemTemplateEntity);
 		String newsItemTemplate = newsItemTemplateDTO.getContent();
 
 		List<NewsEntity> newsList = newsService.getHomepageNews();
@@ -105,7 +102,7 @@ public class IndexController extends Controller {
 			news.append(newsItem);
 		}
 
-		newsTemplate = newsTemplate.replace("{news}", news.toString());
+		newsTemplate = newsTemplate.replace("{newsItem}", news.toString());
 
 		return newsTemplate;
 	}

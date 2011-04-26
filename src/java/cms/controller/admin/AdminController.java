@@ -16,7 +16,7 @@ public abstract class AdminController extends Controller {
 			requestScope("username", userService.getCurrentUser().getNickname());
 			requestScope("logoutUrl", userService.createLogoutURL(thisURL));
 		} else {
-			return new Navigation(userService.createLoginURL(thisURL), false);
+			return new Navigation(userService.createLoginURL(thisURL), true);
 		}
 
 		return null;
