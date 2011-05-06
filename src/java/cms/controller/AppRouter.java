@@ -17,5 +17,8 @@ public class AppRouter extends RouterImpl {
 
 		addRouting("/admin/template/edit/{key}", "/admin/template/edit?key={key}");
 		addRouting("/admin/template/delete/{key}", "/admin/template/delete?key={key}");
+
+		addRouting("/admin/author/edit/{key}", "/admin/author/edit?key={key}");
+		addRouting("/admin/author/delete/{key}", "/admin/author/delete?key={key}");
 	}
 } 

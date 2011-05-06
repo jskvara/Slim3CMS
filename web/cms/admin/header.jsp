@@ -39,6 +39,7 @@
 				<li><a href="/admin/news/">Novinky</a></li>
 				<li><a href="/admin/tag/">Štítky</a></li>
 				<li><a href="/admin/template/">Šablony</a></li>
+				<li><a href="/admin/author/">Autoři</a></li>
 			</ul>
 		</div><!-- /#sidebar -->
 
