@@ -6,6 +6,7 @@ import cms.model.model.NewsEntity;
 import cms.model.validator.NewsValidator;
 import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.List;
 
@@ -40,11 +41,22 @@ public class NewsService implements Service {
 	public NewsEntity edit(Map<String, Object> input) throws ServiceException {
 		NewsEntity newsEntity = (NewsEntity) newsConverter.convert(input);
 		newsValidator.validateEdit(newsEntity);
-		
-		return newsDAO.edit(newsEntity);
+
+		NewsEntity editedNews = null;
+		try {
+			editedNews = newsDAO.edit(newsEntity);
+		} catch (ConcurrentModificationException e) {
+			throw new ServiceException("Novinku upravuje někdo jiný.");
+		}
+
+		return editedNews;
 	}
 
-	public void delete(Key key) {
-		newsDAO.delete(key);
+	public void delete(Key key, Long version) throws ServiceException {
+		try {
+			newsDAO.delete(key, version);
+		} catch (ConcurrentModificationException e) {
+			throw new ServiceException("Novinku upravuje někdo jiný.");
+		}
 	}
 }

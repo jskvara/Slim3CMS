@@ -24,14 +24,18 @@ public final class Messages {
 		messages.add(new Message(message, type));
 		session.setAttribute(FLASH_SESSION_KEY, messages);
 	}
-
+	
 	public static void setRequestMessage(String message) {
+		setRequestMessage(message, Message.SUCCESS);
+	}
+
+	public static void setRequestMessage(String message, String type) {
 		HttpServletRequest request = getRequest();
 		List<Message> messages = (List<Message>) request.getAttribute(FLASH_REQUEST_KEY);
 		if (messages == null) {
 			messages = new ArrayList<Message>();
 		}
-		messages.add(new Message(message));
+		messages.add(new Message(message, type));
 		request.setAttribute(FLASH_REQUEST_KEY, messages);
 	}
 

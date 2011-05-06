@@ -8,7 +8,8 @@
 <form method="post" action='${f:url("/admin/template/delete")}'>
 	<p class="notice">Opravdu si přejete smazat šablonu: &quot;${f:h(entity.name)}&quot;?</p>
 	<p>
-		<input type="hidden" ${f:hidden("key")} />
+		<input type="hidden" ${f:hidden("key")}/>
+		<input type="hidden" ${f:hidden("version")}/>
 		<input type="submit" name="submit" id="submit" class="default" value="Smazat" /> &nbsp;
 		<a href="/admin/template/">Zpět</a>
 	</p>

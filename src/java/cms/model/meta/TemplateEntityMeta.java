@@ -18,20 +18,19 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 
 	public final CoreAttributeMeta<TemplateEntity, Key> key =
 			new CoreAttributeMeta<TemplateEntity, Key>(this, "__key__", "key", Key.class);
-
+	public final CoreAttributeMeta<TemplateEntity, Long> version =
+			new CoreAttributeMeta<TemplateEntity, Long>(this, "version", "version", Long.class);
 	public final StringAttributeMeta<TemplateEntity> name =
 			new StringAttributeMeta<TemplateEntity>(this, "name", "name");
-
 	public final CoreAttributeMeta<TemplateEntity, Text> content =
 			new CoreAttributeMeta<TemplateEntity, Text>(this, "content", "content", Text.class);
-
 	private static final TemplateEntityMeta slim3_singleton = new TemplateEntityMeta();
 
 	/**
 	 * @return the singleton
 	 */
 	public static TemplateEntityMeta get() {
-	   return slim3_singleton;
+		return slim3_singleton;
 	}
 
 	public TemplateEntityMeta() {
@@ -42,6 +41,7 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 	public TemplateEntity entityToModel(Entity entity) {
 		TemplateEntity model = new TemplateEntity();
 		model.setKey(entity.getKey());
+		model.setVersion((Long) entity.getProperty("version"));
 		model.setName((String) entity.getProperty("name"));
 		model.setContent((Text) entity.getProperty("content"));
 		return model;
@@ -56,6 +56,7 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		} else {
 			entity = new Entity(kind);
 		}
+		entity.setProperty("version", m.getVersion());
 		entity.setProperty("name", m.getName());
 		entity.setProperty("content", m.getContent());
 		return entity;
@@ -76,15 +77,19 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 
 	@Override
 	protected long getVersion(Object model) {
-		return 0L;
-	}
-
-	@Override
-	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) throws NullPointerException {
+		TemplateEntity m = (TemplateEntity) model;
+		return m.getVersion() != null ? m.getVersion().longValue() : 0L;
 	}
 
 	@Override
 	protected void incrementVersion(Object model) {
+		TemplateEntity m = (TemplateEntity) model;
+		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
+		m.setVersion(Long.valueOf(ver + 1L));
+	}
+
+	@Override
+	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) throws NullPointerException {
 	}
 
 	@Override
@@ -106,11 +111,19 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		TemplateEntity m = (TemplateEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
-		if(m.getKey() != null){
+		
+		if (m.getKey() != null) {
 			writer.setNextPropertyName("key");
 			encoder = new Default();
 			encoder.encode(writer, m.getKey());
 		}
+
+		if(m.getVersion() != null){
+			writer.setNextPropertyName("version");
+			encoder = new Default();
+			encoder.encode(writer, m.getVersion());
+		}
+
 		writer.setNextPropertyName("name");
 		encoder = new Default();
 		encoder.encode(writer, m.getName());
@@ -128,10 +141,15 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		TemplateEntity m = new TemplateEntity();
 		JsonReader reader = null;
 		JsonCoder decoder = null;
+
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
-		
+
+		reader = rootReader.newObjectReader("version");
+		decoder = new Default();
+		m.setVersion(decoder.decode(reader, m.getVersion()));
+
 		reader = rootReader.newObjectReader("name");
 		decoder = new Default();
 		m.setName(decoder.decode(reader, m.getName()));

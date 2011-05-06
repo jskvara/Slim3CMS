@@ -19,6 +19,9 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 	public final CoreAttributeMeta<NewsEntity, Key> key =
 			new CoreAttributeMeta<NewsEntity, Key>(this, "__key__", "key", Key.class);
 
+	public final CoreAttributeMeta<NewsEntity, Long> version =
+			new CoreAttributeMeta<NewsEntity, Long>(this, "version", "version", Long.class);
+
 	public final StringAttributeMeta<NewsEntity> title =
 			new StringAttributeMeta<NewsEntity>(this, "title", "title");
 
@@ -45,6 +48,7 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 	public NewsEntity entityToModel(Entity entity) {
 		NewsEntity model = new NewsEntity();
 		model.setKey(entity.getKey());
+		model.setVersion((Long) entity.getProperty("version"));
 		model.setTitle((String) entity.getProperty("title"));
 		model.setText((String) entity.getProperty("text"));
 		model.setCreated((Date) entity.getProperty("created"));
@@ -61,10 +65,12 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 		} else {
 			entity = new Entity(kind);
 		}
+		entity.setProperty("version", m.getVersion());
 		entity.setProperty("title", m.getTitle());
 		entity.setProperty("text", m.getText());
 		entity.setProperty("created", m.getCreated());
 		entity.setProperty("visible", m.getVisible());
+		entity.setProperty("slim3.schemaVersion", 1);
 		return entity;
 	}
 	
@@ -83,11 +89,15 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 
 	@Override
 	protected long getVersion(Object model) {
-		return 0L;
+		NewsEntity m = (NewsEntity) model;
+		return m.getVersion() != null ? m.getVersion().longValue() : 0L;
 	}
 
 	@Override
 	protected void incrementVersion(Object model) {
+		NewsEntity m = (NewsEntity) model;
+		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
+		m.setVersion(Long.valueOf(ver + 1L));
 	}
 
 	@Override
@@ -113,10 +123,17 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 		NewsEntity m = (NewsEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
+
 		if(m.getKey() != null){
 			writer.setNextPropertyName("key");
 			encoder = new Default();
 			encoder.encode(writer, m.getKey());
+		}
+
+		if(m.getVersion() != null){
+			writer.setNextPropertyName("version");
+			encoder = new Default();
+			encoder.encode(writer, m.getVersion());
 		}
 
 		writer.setNextPropertyName("tile");
@@ -142,9 +159,14 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 		NewsEntity m = new NewsEntity();
 		JsonReader reader = null;
 		JsonCoder decoder = null;
+
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
+
+		reader = rootReader.newObjectReader("version");
+		decoder = new Default();
+		m.setVersion(decoder.decode(reader, m.getVersion()));
 
 		reader = rootReader.newObjectReader("title");
 		decoder = new Default();

@@ -4,6 +4,7 @@ import cms.controller.admin.AdminController;
 import cms.model.meta.TemplateEntityMeta;
 import cms.model.model.TemplateEntity;
 import cms.model.model.dto.TemplateDTO;
+import cms.model.service.ServiceException;
 import cms.model.service.TemplateService;
 import cms.util.GuiceUtil;
 import cms.util.Message;
@@ -19,10 +20,21 @@ public class DeleteController extends AdminController {
 	@Override
 	public Navigation run() throws Exception {
 		requestScope("pageTitle", "Smazat šablonu");
-		
+
 		if (param("submit") != null) {
 			Key key = asKey(templateMeta.key);
-			templateService.delete(key);
+			Long version = asLong(templateMeta.version);
+			if (key == null || version == null) {
+				Messages.setSessionMessage("Šablona neexistuje.", Message.ERROR);
+				return redirect("/admin/template/");
+			}
+			try {
+				templateService.delete(key, version);
+			} catch (ServiceException e) {
+				Messages.setSessionMessage(e.getMessage(), Message.ERROR);
+
+				return redirect("/admin/template/");
+			}
 			Messages.setSessionMessage("Šablona byla smazána.");
 
 			return redirect("/admin/template/");
@@ -30,13 +42,14 @@ public class DeleteController extends AdminController {
 
 		Key key = asKey(templateMeta.key);
 		if (key == null) {
-			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
+			Messages.setSessionMessage("Šablona neexistuje.", Message.ERROR);
 			return redirect("/admin/template/");
 		}
 		TemplateEntity templateEntity = templateService.getTemplate(key);
 		TemplateDTO templateDTO = new TemplateDTO(templateEntity);
 		requestScope("entity", templateDTO);
-		
+		requestScope("version", templateEntity.getVersion());
+
 		return forward("/cms/admin/template/delete.jsp");
 	}
 }

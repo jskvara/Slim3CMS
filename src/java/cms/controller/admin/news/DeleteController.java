@@ -4,6 +4,7 @@ import cms.controller.admin.AdminController;
 import cms.model.meta.NewsEntityMeta;
 import cms.model.model.NewsEntity;
 import cms.model.service.NewsService;
+import cms.model.service.ServiceException;
 import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
@@ -18,10 +19,21 @@ public class DeleteController extends AdminController {
 	@Override
 	public Navigation run() throws Exception {
 		requestScope("pageTitle", "Smazat novinku");
-		
+
 		if (param("submit") != null) {
 			Key key = asKey(newsMeta.key);
-			newsService.delete(key);
+			Long version = asLong(newsMeta.version);
+			if (key == null || version == null) {
+				Messages.setSessionMessage("Novinka neexistuje.", Message.ERROR);
+				return redirect("/admin/news/");
+			}
+			try {
+				newsService.delete(key, version);
+			} catch (ServiceException e) {
+				Messages.setSessionMessage(e.getMessage(), Message.ERROR);
+
+				return redirect("/admin/news/");
+			}
 			Messages.setSessionMessage("Novinka byla smazána.");
 
 			return redirect("/admin/news/");
@@ -29,12 +41,13 @@ public class DeleteController extends AdminController {
 
 		Key key = asKey(newsMeta.key);
 		if (key == null) {
-			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
+			Messages.setSessionMessage("Novinka neexistuje.", Message.ERROR);
 			return redirect("/admin/news/");
 		}
 		NewsEntity newsEntity = newsService.getNews(key);
 		requestScope("entity", newsEntity);
-		
+		requestScope("version", newsEntity.getVersion());
+
 		return forward("/cms/admin/news/delete.jsp");
 	}
 }

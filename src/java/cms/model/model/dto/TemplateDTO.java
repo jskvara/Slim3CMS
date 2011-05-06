@@ -14,6 +14,10 @@ public class TemplateDTO {
 		return KeyFactory.keyToString(templateEntity.getKey());
 	}
 
+	public Long getVersion() {
+		return templateEntity.getVersion();
+	}
+
 	public String getName() {
 		return templateEntity.getName();
 	}

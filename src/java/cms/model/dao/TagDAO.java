@@ -4,12 +4,14 @@ import cms.model.model.TagEntity;
 import cms.model.meta.TagEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
 public class TagDAO implements DAO {
+
 	private TagEntityMeta meta = TagEntityMeta.get();
-	
+
 	public List<TagEntity> getAll() {
 		List<TagEntity> tagEntities = Datastore.query(meta).sort(meta.name.asc).asList();
 		return tagEntities;
@@ -33,18 +35,36 @@ public class TagDAO implements DAO {
 		return tagEntity;
 	}
 
-	public TagEntity edit(TagEntity tagEntity) {
+	public TagEntity edit(TagEntity tagEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		Datastore.put(tagEntity);
-		tx.commit();
+		try {
+			// throws ConcurrentModificationException
+			Datastore.get(tx, TagEntity.class, tagEntity.getKey(), tagEntity.getVersion());
+
+			Datastore.put(tx, tagEntity);
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 
 		return tagEntity;
 	}
 
-	public void delete(Key key) {
+	public void delete(Key key, Long version) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		TagEntity tag = Datastore.get(tx, meta, key);
-		Datastore.delete(tx, tag.getKey());
-		tx.commit();
+		try {
+			TagEntity tagEntity = Datastore.get(tx, meta, key, version);
+
+			Datastore.delete(tx, tagEntity.getKey());
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 	}
 }

@@ -4,24 +4,25 @@ import cms.model.model.NewsEntity;
 import cms.model.meta.NewsEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
 public class NewsDAO implements DAO {
-	private NewsEntityMeta newsMeta = NewsEntityMeta.get();
+	private NewsEntityMeta meta = NewsEntityMeta.get();
 	
 	public List<NewsEntity> getAll() {
-		List<NewsEntity> newsEntities = Datastore.query(newsMeta)
-				.sort(newsMeta.created.desc).asList();
+		List<NewsEntity> newsEntities = Datastore.query(meta)
+				.sort(meta.created.desc).asList();
 		return newsEntities;
 	}
 
 	public List<NewsEntity> getHomepage() {
-		List<NewsEntity> newsEntities = Datastore.query(newsMeta)
-				.filter(newsMeta.visible.equal(Boolean.TRUE))
-				.filter(newsMeta.created.lessThanOrEqual(new Date()))
-				.sort(newsMeta.created.desc)
+		List<NewsEntity> newsEntities = Datastore.query(meta)
+				.filter(meta.visible.equal(Boolean.TRUE))
+				.filter(meta.created.lessThanOrEqual(new Date()))
+				.sort(meta.created.desc)
 				.limit(10)
 				.asList();
 		return newsEntities;
@@ -40,18 +41,36 @@ public class NewsDAO implements DAO {
 		return newsEntity;
 	}
 
-	public NewsEntity edit(NewsEntity newsEntity) {
+	public NewsEntity edit(NewsEntity newsEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		Datastore.put(newsEntity);
-		tx.commit();
+		try {
+			// throws ConcurrentModificationException
+			Datastore.get(tx, NewsEntity.class, newsEntity.getKey(), newsEntity.getVersion());
+
+			Datastore.put(tx, newsEntity);
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 
 		return newsEntity;
 	}
 
-	public void delete(Key key) {
+	public void delete(Key key, Long version) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		NewsEntity news = Datastore.get(tx, newsMeta, key);
-		Datastore.delete(tx, news.getKey());
-		tx.commit();
+		try {
+			NewsEntity newsEntity = Datastore.get(tx, meta, key, version);
+
+			Datastore.delete(tx, newsEntity.getKey());
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 	}
 }

@@ -17,17 +17,17 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 
 	public final CoreAttributeMeta<TagEntity, Key> key =
 			new CoreAttributeMeta<TagEntity, Key>(this, "__key__", "key", Key.class);
-
+	public final CoreAttributeMeta<TagEntity, Long> version =
+			new CoreAttributeMeta<TagEntity, Long>(this, "version", "version", Long.class);
 	public final StringAttributeMeta<TagEntity> name =
 			new StringAttributeMeta<TagEntity>(this, "name", "name");
-
 	private static final TagEntityMeta slim3_singleton = new TagEntityMeta();
 
 	/**
 	 * @return the singleton
 	 */
 	public static TagEntityMeta get() {
-	   return slim3_singleton;
+		return slim3_singleton;
 	}
 
 	/** */
@@ -39,6 +39,7 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 	public TagEntity entityToModel(Entity entity) {
 		TagEntity model = new TagEntity();
 		model.setKey(entity.getKey());
+		model.setVersion((Long) entity.getProperty("version"));
 		model.setName((String) entity.getProperty("name"));
 		return model;
 	}
@@ -52,7 +53,9 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 		} else {
 			entity = new Entity(kind);
 		}
+		entity.setProperty("version", m.getVersion());
 		entity.setProperty("name", m.getName());
+		entity.setProperty("slim3.schemaVersion", 1);
 		return entity;
 	}
 
@@ -71,11 +74,15 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 
 	@Override
 	protected long getVersion(Object model) {
-		return 0L;
+		TagEntity m = (TagEntity) model;
+		return m.getVersion() != null ? m.getVersion().longValue() : 0L;
 	}
 
 	@Override
 	protected void incrementVersion(Object model) {
+		TagEntity m = (TagEntity) model;
+		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
+		m.setVersion(Long.valueOf(ver + 1L));
 	}
 
 	@Override
@@ -101,11 +108,19 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 		TagEntity m = (TagEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
-		if(m.getKey() != null){
+
+		if (m.getKey() != null) {
 			writer.setNextPropertyName("key");
 			encoder = new Default();
 			encoder.encode(writer, m.getKey());
 		}
+
+		if (m.getVersion() != null) {
+			writer.setNextPropertyName("version");
+			encoder = new Default();
+			encoder.encode(writer, m.getVersion());
+		}
+
 		writer.setNextPropertyName("name");
 		encoder = new Default();
 		encoder.encode(writer, m.getName());
@@ -121,9 +136,14 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
 
+		reader = rootReader.newObjectReader("version");
+		decoder = new Default();
+		m.setVersion(decoder.decode(reader, m.getVersion()));
+
 		reader = rootReader.newObjectReader("name");
 		decoder = new Default();
 		m.setName(decoder.decode(reader, m.getName()));
+
 		return m;
 	}
 }

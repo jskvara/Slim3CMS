@@ -15,6 +15,10 @@ public class NewsDTO {
 		return KeyFactory.keyToString(newsEntity.getKey());
 	}
 
+	public Long getVersion() {
+		return newsEntity.getVersion();
+	}
+
 	public String getTitle() {
 		return newsEntity.getTitle();
 	}

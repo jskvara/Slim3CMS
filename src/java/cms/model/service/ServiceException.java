@@ -9,6 +9,10 @@ public class ServiceException extends Exception {
 	public ServiceException() {
 	}
 
+	public ServiceException(String msg) {
+		super(msg);
+	}
+
 	public ServiceException(String name, String msg) {
 		this.errors = new Errors();
 		this.errors.put(name, msg);

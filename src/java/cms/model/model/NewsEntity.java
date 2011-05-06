@@ -5,7 +5,6 @@ import java.util.Date;
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.CreationDate;
 import org.slim3.datastore.Model;
-import org.slim3.datastore.ModelRef;
 
 @Model(schemaVersion = 1)
 public class NewsEntity implements IEntity {
@@ -14,18 +13,15 @@ public class NewsEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-//	@Attribute(version = true)
-//	private Long version;
-
-//	private ModelRef<AuthorEntity> authortRef =
-//			new ModelRef<AuthorEntity>(AuthorEntity.class);
+	@Attribute(version = true)
+	private Long version;
 
 	private String title;
 	
 	private String text;
 
-	@Attribute(listener = CreationDate.class)
-	private Date created; // = new Date();
+	@Attribute(listener = CreationDate.class) // TODO
+	private Date created;
 
 	private Boolean visible;
 
@@ -37,17 +33,13 @@ public class NewsEntity implements IEntity {
 		this.key = key;
 	}
 
-//	public Long getVersion() {
-//		return version;
-//	}
-//
-//	public void setVersion(Long version) {
-//		this.version = version;
-//	}
+	public Long getVersion() {
+		return version;
+	}
 
-//	public ModelRef<AuthorEntity> getAuthortRef() {
-//		return authortRef;
-//	}
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 	public String getTitle() {
 		return title;

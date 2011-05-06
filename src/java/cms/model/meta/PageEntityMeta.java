@@ -21,8 +21,8 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	public final CoreAttributeMeta<PageEntity, Key> key =
 			new CoreAttributeMeta<PageEntity, Key>(this, "__key__", "key", Key.class);
 
-//	public final CoreAttributeMeta<PageEntity, Long> version =
-//			new CoreAttributeMeta<PageEntity, Long>(this, "version", "version", Long.class);
+	public final CoreAttributeMeta<PageEntity, Long> version =
+			new CoreAttributeMeta<PageEntity, Long>(this, "version", "version", Long.class);
 
 	public final StringAttributeMeta<PageEntity> url = 
 			new StringAttributeMeta<PageEntity>(this, "url", "url");
@@ -41,9 +41,6 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //
 	public final ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity> templateRef =
 			new ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity>(this, "templateRef", "templateRef", ModelRef.class, TemplateEntity.class);
-
-//	public final ModelRefAttributeMeta<PageEntity, ModelRef<AuthorEntity>, AuthorEntity> authorRef =
-//			new ModelRefAttributeMeta<PageEntity, ModelRef<AuthorEntity>, AuthorEntity>(this, "authorRef", "authorRef", ModelRef.class, AuthorEntity.class);
 
 	//private static final persistencejs.utils.CreatedDate slim3_createdDateAttributeListener = new persistencejs.utils.CreatedDate();
 
@@ -65,7 +62,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	public PageEntity entityToModel(Entity entity) {
 		PageEntity model = new PageEntity();
 		model.setKey(entity.getKey());
-//		model.setVersion((Long) entity.getProperty("version"));
+		model.setVersion((Long) entity.getProperty("version"));
 		model.setUrl((String) entity.getProperty("url"));
 		model.setTitle((String) entity.getProperty("title"));
 		model.setContent((String) entity.getProperty("content"));
@@ -75,12 +72,6 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 			throw new NullPointerException("The property (templateRef) is null.");
 		}
 		model.getTemplateRef().setKey((Key) entity.getProperty("templateRef"));
-		// model.setAuthorKey((Key) entity.getProperty("authorKey"));
-//		if (model.getAuthorRef() == null) {
-//			throw new NullPointerException("The property(authorRef) is null.");
-//		}
-//		model.getAuthorRef().setKey((Key) entity.getProperty("authorRef"));
-//		model.setCreatedDate((java.util.Date) entity.getProperty("createdDate"));
 		return model;
 	}
 
@@ -93,7 +84,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		} else {
 			entity = new Entity(kind);
 		}
-//		entity.setProperty("version", m.getVersion());
+		entity.setProperty("version", m.getVersion());
 		entity.setProperty("url", m.getUrl());
 		entity.setProperty("title", m.getTitle());
 		entity.setProperty("content", m.getContent());
@@ -103,11 +94,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 			throw new NullPointerException("The property (templateRef) must not be null.");
 		}
 		entity.setProperty("templateRef", m.getTemplateRef().getKey());
-//		if (m.getAuthorRef() == null) {
-//			throw new NullPointerException("The property(authorRef) must not be null.");
-//		}
-//		entity.setProperty("authorRef", m.getAuthorRef().getKey());
-//		entity.setProperty("slim3.schemaVersion", 1);
+		entity.setProperty("slim3.schemaVersion", 1);
 		return entity;
 	}
 
@@ -126,16 +113,15 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 
 	@Override
 	protected long getVersion(Object model) {
-//		PageEntity m = (PageEntity) model;
-//		return m.getVersion() != null ? m.getVersion().longValue() : 0L;
-		return 0L;
+		PageEntity m = (PageEntity) model;
+		return m.getVersion() != null ? m.getVersion().longValue() : 0L;
 	}
 
 	@Override
 	protected void incrementVersion(Object model) {
-//		PageEntity m = (PageEntity) model;
-//		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
-//		m.setVersion(Long.valueOf(ver + 1L));
+		PageEntity m = (PageEntity) model;
+		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
+		m.setVersion(Long.valueOf(ver + 1L));
 	}
 	
 	@Override
@@ -145,10 +131,6 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 			throw new NullPointerException("The property (templateRef) must not be null.");
 		}
 		m.getTemplateRef().assignKeyIfNecessary(ds);
-//		if (m.getAuthorRef() == null) {
-//			throw new NullPointerException("The property(authorRef) must not be null.");
-//		}
-//		m.getAuthorRef().assignKeyIfNecessary(ds);
 	}
 
 	@Override
@@ -175,16 +157,19 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		PageEntity m = (PageEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
+		
 		if(m.getKey() != null){
 			writer.setNextPropertyName("key");
 			encoder = new Default();
 			encoder.encode(writer, m.getKey());
 		}
-//		if(m.getVersion() != null){
-//			writer.setNextPropertyName("version");
-//			encoder = new Default();
-//			encoder.encode(writer, m.getVersion());
-//		}
+
+		if(m.getVersion() != null){
+			writer.setNextPropertyName("version");
+			encoder = new Default();
+			encoder.encode(writer, m.getVersion());
+		}
+
 		writer.setNextPropertyName("url");
 		encoder = new Default();
 		encoder.encode(writer, m.getUrl());
@@ -200,24 +185,16 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		writer.setNextPropertyName("visible");
 		encoder = new Default();
 		encoder.encode(writer, m.getVisible());
+
 //		writer.setNextPropertyName("position");
 //		encoder = new Default();
 //		encoder.encode(writer, m.getPosition());
+		
 		if(m.getTemplateRef() != null && m.getTemplateRef().getKey() != null){
 			writer.setNextPropertyName("templateRef");
 			encoder = new Default();
 			encoder.encode(writer, m.getTemplateRef(), maxDepth, currentDepth);
 		}
-//		if(m.getAuthorKey() != null){
-//			writer.setNextPropertyName("authorKey");
-//			encoder = new Default();
-//			encoder.encode(writer, m.getAuthorKey());
-//		}
-//		if(m.getAuthorRef() != null && m.getAuthorRef().getKey() != null){
-//			writer.setNextPropertyName("authorRef");
-//			encoder = new Default();
-//			encoder.encode(writer, m.getAuthorRef(), maxDepth, currentDepth);
-//		}
 		writer.endObject();
 	}
 
@@ -226,12 +203,15 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		PageEntity m = new PageEntity();
 		JsonReader reader = null;
 		JsonCoder decoder = null;
+		
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
-//		reader = rootReader.newObjectReader("version");
-//		decoder = new Default();
-//		m.setVersion(decoder.decode(reader, m.getVersion()));
+
+		reader = rootReader.newObjectReader("version");
+		decoder = new Default();
+		m.setVersion(decoder.decode(reader, m.getVersion()));
+
 		reader = rootReader.newObjectReader("url");
 		decoder = new Default();
 		m.setUrl(decoder.decode(reader, m.getUrl()));
@@ -247,18 +227,15 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		reader = rootReader.newObjectReader("visible");
 		decoder = new Default();
 		m.setVisible(decoder.decode(reader, m.getVisible()));
+
 //		reader = rootReader.newObjectReader("position");
 //		decoder = new Default();
 //		m.setPosition(decoder.decode(reader, m.getPosition()));
+		
 		reader = rootReader.newObjectReader("templateRef");
 		decoder = new Default();
 		decoder.decode(reader, m.getTemplateRef(), maxDepth, currentDepth);
-//		reader = rootReader.newObjectReader("authorRef");
-//		decoder = new Default();
-//		decoder.decode(reader, m.getAuthorRef(), maxDepth, currentDepth);
-//		reader = rootReader.newObjectReader("authorKey");
-//		decoder = new Default();
-//		m.setAuthorKey(decoder.decode(reader, m.getAuthorKey()));
+		
 		return m;
 	}
 }

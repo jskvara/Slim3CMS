@@ -1,6 +1,8 @@
 package cms.util;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
 	protected String message;
 	protected String type;
 

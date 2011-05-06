@@ -13,8 +13,8 @@ public class PageEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
-//	@Attribute(version = true)
-//	private Long version;
+	@Attribute(version = true)
+	private Long version;
 
 	@Attribute(persistent = false)
 	private InverseModelListRef<PageTagEntity, PageEntity> pageTagListRef =
@@ -38,13 +38,13 @@ public class PageEntity implements IEntity {
 		this.key = key;
 	}
 
-//	public Long getVersion() {
-//		return version;
-//	}
-//
-//	public void setVersion(Long version) {
-//		this.version = version;
-//	}
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 	public InverseModelListRef<PageTagEntity, PageEntity> getPageTagListRef() {
 		return pageTagListRef;
@@ -98,6 +98,7 @@ public class PageEntity implements IEntity {
 	public String toString() {
 		StringBuilder ret = new StringBuilder("PageEntity{");
 		ret.append("Key:").append(key).append(",");
+		ret.append("Version:").append(version).append(",");
 		ret.append("Url:").append(url).append(",");
 		ret.append("Title:").append(title).append(",");
 		ret.append("Content:").append(content).append(",");

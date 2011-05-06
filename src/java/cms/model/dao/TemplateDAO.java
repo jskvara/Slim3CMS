@@ -4,15 +4,16 @@ import cms.model.model.TemplateEntity;
 import cms.model.meta.TemplateEntityMeta;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
 public class TemplateDAO {
-	private TemplateEntityMeta templateMeta = new TemplateEntityMeta();
+	private TemplateEntityMeta meta = new TemplateEntityMeta();
 
 	public List<TemplateEntity> getAll() {
-		List<TemplateEntity> templateEntities = Datastore.query(templateMeta)
-				.sort(templateMeta.name.asc)
+		List<TemplateEntity> templateEntities = Datastore.query(meta)
+				.sort(meta.name.asc)
 				.asList();
 		return templateEntities;
 	}
@@ -23,7 +24,7 @@ public class TemplateDAO {
 	}
 
 	public TemplateEntity getByName(String name) {
-		TemplateEntity templateEntity = Datastore.query(templateMeta).filter(templateMeta.name.equal(name)).asSingle();
+		TemplateEntity templateEntity = Datastore.query(meta).filter(meta.name.equal(name)).asSingle();
 		return templateEntity;
 	}
 
@@ -35,18 +36,36 @@ public class TemplateDAO {
 		return templateEntity;
 	}
 
-	public TemplateEntity edit(TemplateEntity templateEntity) {
+	public TemplateEntity edit(TemplateEntity templateEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		Datastore.put(templateEntity);
-		tx.commit();
+		try {
+			// throws ConcurrentModificationException
+			Datastore.get(tx, TemplateEntity.class, templateEntity.getKey(), templateEntity.getVersion());
+
+			Datastore.put(tx, templateEntity);
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 
 		return templateEntity;
 	}
 
-	public void delete(Key key) {
+	public void delete(Key key, Long version) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		TemplateEntity tag = Datastore.get(tx, templateMeta, key);
-		Datastore.delete(tx, tag.getKey());
-		tx.commit();
+		try {
+			TemplateEntity templateEntity = Datastore.get(tx, meta, key, version);
+
+			Datastore.delete(tx, templateEntity.getKey());
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 	}
 }

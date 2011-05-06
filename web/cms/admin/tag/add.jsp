@@ -5,22 +5,22 @@
 <p><a href="/admin/tag/">Štítky</a></p>
 
 <form method="post" action="${f:url('/admin/tag/add')}">
-<table>
-	<tr>
-		<th><label for="name">Jméno:</label></th>
-		<td>
-			<input type="text" id="name" ${f:text("name")} class="text ${f:errorClass('name', 'error')}" />
-			${f:h(errors.name)}
-		</td>
-	</tr>
-	<tr>
-		<th>&nbsp;</th>
-		<td>
-			<input type="submit" name="submit" id="submit" class="default" value="Přidat" /> &nbsp;
-			<a href="/admin/tag/">Zpět</a>
-		</td>
-	</tr>
-</table>
+	<table>
+		<tr>
+			<th><label for="name">Jméno:</label></th>
+			<td>
+				<input type="text" id="name" ${f:text("name")} class="text ${f:errorClass('name', 'error')}" />
+				${f:h(errors.name)}
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				<input type="submit" name="submit" id="submit" class="default" value="Přidat" /> &nbsp;
+				<a href="/admin/tag/">Zpět</a>
+			</td>
+		</tr>
+	</table>
 </form>
 
 <%@include file="/cms/admin/footer.jsp" %>

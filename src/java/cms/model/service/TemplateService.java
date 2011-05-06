@@ -6,6 +6,7 @@ import cms.model.model.TemplateEntity;
 import cms.model.validator.TemplateValidator;
 import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.List;
 
@@ -33,18 +34,29 @@ public class TemplateService implements Service {
 	public TemplateEntity insert(Map<String, Object> input) throws ServiceException {
 		TemplateEntity templateEntity = templateConverter.convert(input);
 		templateValidator.validateAdd(templateEntity);
-		
+
 		return templateDAO.insert(templateEntity);
 	}
 
 	public TemplateEntity edit(Map<String, Object> input) throws ServiceException {
 		TemplateEntity templateEntity = templateConverter.convert(input);
 		templateValidator.validateEdit(templateEntity);
-		
-		return templateDAO.edit(templateEntity);
+
+		TemplateEntity editedTemplate = null;
+		try {
+			editedTemplate = templateDAO.edit(templateEntity);
+		} catch (ConcurrentModificationException e) {
+			throw new ServiceException("Šablonu upravuje někdo jiný.");
+		}
+
+		return editedTemplate;
 	}
 
-	public void delete(Key key) {
-		templateDAO.delete(key);
+	public void delete(Key key, Long version) throws ServiceException {
+		try {
+			templateDAO.delete(key, version);
+		} catch (ConcurrentModificationException e) {
+			throw new ServiceException("Šablonu upravuje někdo jiný.");
+		}
 	}
 }

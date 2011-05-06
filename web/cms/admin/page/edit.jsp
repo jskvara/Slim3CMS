@@ -4,12 +4,6 @@
 
 <p><a href="/admin/page/">Stránky</a></p>
 
-<%--<ul>
-<c:forEach var="error" items="${f:errors()}">
-	<li>${f:h(error)}</li>
-</c:forEach>
-</ul>--%>
-
 <form method="post" action="${f:url('/admin/page/edit')}">
 <table>
 	<tr>
@@ -56,6 +50,7 @@
 		<th>&nbsp;</th>
 		<td>
 			<input type="hidden" ${f:hidden("key")}/>
+			<input type="hidden" ${f:hidden("version")}/>
 			<input type="submit" name="submit" id="submit" class="default" value="Upravit" /> &nbsp;
 			<a href="/admin/page/">Zpět</a>
 		</td>

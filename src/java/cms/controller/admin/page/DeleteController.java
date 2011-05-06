@@ -4,6 +4,7 @@ import cms.controller.admin.AdminController;
 import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageEntity;
 import cms.model.service.PageService;
+import cms.model.service.ServiceException;
 import cms.util.GuiceUtil;
 import cms.util.Message;
 import cms.util.Messages;
@@ -21,7 +22,19 @@ public class DeleteController extends AdminController {
 		
 		if (param("submit") != null) {
 			Key key = asKey(pageMeta.key);
-			pageService.delete(key);
+			Long version = asLong(pageMeta.version);
+			if (key == null || version == null) {
+				Messages.setSessionMessage("Stránka neexistuje.", Message.ERROR);
+				return redirect("/admin/page/");
+			}
+			
+			try {
+				pageService.delete(key, version);
+			} catch (ServiceException e) {
+				Messages.setSessionMessage(e.getMessage(), Message.ERROR);
+
+				return redirect("/admin/page/");
+			}
 			Messages.setSessionMessage("Stránka byla smazána.");
 
 			return redirect("/admin/page/");
@@ -29,11 +42,12 @@ public class DeleteController extends AdminController {
 
 		Key key = asKey(pageMeta.key);
 		if (key == null) {
-			Messages.setSessionMessage("Chybný parametr.", Message.ERROR);
+			Messages.setSessionMessage("Stránka neexistuje.", Message.ERROR);
 			return redirect("/admin/page/");
 		}
 		PageEntity pageEntity = pageService.getPage(key);
 		requestScope("entity", pageEntity);
+		requestScope("version", pageEntity.getVersion());
 		
 //		Enumeration names = request.getAttributeNames();
 //		String name = (String)names.nextElement();

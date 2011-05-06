@@ -5,15 +5,16 @@ import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageTagEntity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
 
 public class PageDAO implements DAO {
-	private PageEntityMeta pageMeta = PageEntityMeta.get();
-	
+
+	private PageEntityMeta meta = PageEntityMeta.get();
+
 	public List<PageEntity> getAll() {
-		List<PageEntity> pageEntities = Datastore.query(pageMeta)
-				./*sort(pageMeta.position.desc).*/asList();
+		List<PageEntity> pageEntities = Datastore.query(meta)./*sort(pageMeta.position.desc).*/asList();
 		return pageEntities;
 	}
 
@@ -23,16 +24,12 @@ public class PageDAO implements DAO {
 	}
 
 	public PageEntity getByUrl(String url) {
-		PageEntity pageEntity = Datastore.query(pageMeta)
-				.filter(pageMeta.url.equal(url)).asSingle();
+		PageEntity pageEntity = Datastore.query(meta).filter(meta.url.equal(url)).asSingle();
 		return pageEntity;
 	}
 
 	public PageEntity getVisibleByUrl(String url) {
-		PageEntity pageEntity = Datastore.query(pageMeta)
-				.filter(pageMeta.url.equal(url))
-				.filter(pageMeta.visible.equal(true))
-				.asSingle();
+		PageEntity pageEntity = Datastore.query(meta).filter(meta.url.equal(url)).filter(meta.visible.equal(true)).asSingle();
 		return pageEntity;
 	}
 
@@ -44,21 +41,38 @@ public class PageDAO implements DAO {
 		return pageEntity;
 	}
 
-	public PageEntity edit(PageEntity pageEntity) {
+	public PageEntity edit(PageEntity pageEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		Datastore.put(tx, pageEntity);
-		tx.commit();
+		try {
+			// throws ConcurrentModificationException
+			Datastore.get(tx, PageEntity.class, pageEntity.getKey(), pageEntity.getVersion());
+
+			Datastore.put(tx, pageEntity);
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
+		}
 
 		return pageEntity;
 	}
 
-	public void delete(Key key) {
+	public void delete(Key key, Long version) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
-		PageEntity pageEntity = Datastore.get(tx, pageMeta, key);
-		for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
-			Datastore.delete(tx, pageTagEntity.getKey());
+		try {
+			PageEntity pageEntity = Datastore.get(tx, meta, key, version);
+			for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
+				Datastore.delete(tx, pageTagEntity.getKey());
+			}
+			Datastore.delete(tx, pageEntity.getKey());
+			tx.commit();
+		} catch (ConcurrentModificationException e) {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			throw e;
 		}
-		Datastore.delete(tx, pageEntity.getKey());
-		tx.commit();
 	}
 }

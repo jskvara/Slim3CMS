@@ -28,10 +28,14 @@ public class EditController extends AdminController {
 		if (param("submit") != null) {
 			try {
 				pageService.edit(new RequestMap(request));
-			} catch(ServiceException e) {
-				request.setAttribute("errors", e.getErrors());
+			} catch (ServiceException e) {
+				if (e.getErrors() != null) {
+					requestScope("errors", e.getErrors());
+				} else {
+					Messages.setRequestMessage(e.getMessage(), Message.ERROR);
+				}
 				requestScope("templates", templateService.getAllTemplates());
-				
+
 				return forward("/cms/admin/page/edit.jsp");
 			}
 			Messages.setSessionMessage("Stránka byla upravena.");
@@ -48,7 +52,7 @@ public class EditController extends AdminController {
 		BeanUtil.copy(pageDTO, request);
 		requestScope("templates", templateService.getAllTemplates());
 		requestScope("templateName", pageDTO.getTemplateName());
-		
+
 		return forward("/cms/admin/page/edit.jsp");
 	}
 }

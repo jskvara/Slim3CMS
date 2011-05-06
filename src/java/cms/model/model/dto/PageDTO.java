@@ -17,6 +17,10 @@ public class PageDTO {
 		return KeyFactory.keyToString(pageEntity.getKey());
 	}
 
+	public Long getVersion() {
+		return pageEntity.getVersion();
+	}
+
 	public String getUrl() {
 		return pageEntity.getUrl();
 	}

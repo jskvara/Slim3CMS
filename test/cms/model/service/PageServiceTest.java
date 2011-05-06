@@ -88,12 +88,20 @@ public class PageServiceTest extends AppEngineTestCase {
 	public void delete() {
 		PageEntity page = new PageEntity();
 		Datastore.put(page);
-		service.delete(page.getKey());
+		try {
+			service.delete(page.getKey(), page.getVersion());
+		} catch (ServiceException e) {
+			fail();
+		}
 	}
 
 	@Test(expected=EntityNotFoundRuntimeException.class)
 	public void deleteWhenModelIsNotFound() {
-		service.delete(Datastore.createKey(PageEntity.class, 1));
+		try {
+			service.delete(Datastore.createKey(PageEntity.class, 1), 1L);
+		} catch (ServiceException ex) {
+			fail();
+		}
 	}
 
 //	@Test(expected=ConcurrentModificationException.class)

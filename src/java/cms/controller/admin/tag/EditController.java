@@ -25,8 +25,13 @@ public class EditController extends AdminController {
 		if (param("submit") != null) {
 			try {
 				tagService.edit(new RequestMap(request));
-			} catch(ServiceException e) {
-				request.setAttribute("errors", e.getErrors());
+			} catch (ServiceException e) {
+				if (e.getErrors() != null) {
+					requestScope("errors", e.getErrors());
+				} else {
+					Messages.setRequestMessage(e.getMessage(), Message.ERROR);
+				}
+
 				return forward("/cms/admin/tag/edit.jsp");
 			}
 			Messages.setSessionMessage("Štítek byl upraven.");

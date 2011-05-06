@@ -27,7 +27,12 @@ public class EditController extends AdminController {
 			try {
 				templateService.edit(new RequestMap(request));
 			} catch(ServiceException e) {
-				request.setAttribute("errors", e.getErrors());
+				if (e.getErrors() != null) {
+					requestScope("errors", e.getErrors());
+				} else {
+					Messages.setRequestMessage(e.getMessage(), Message.ERROR);
+				}
+				
 				return forward("/cms/admin/template/edit.jsp");
 			}
 			Messages.setSessionMessage("Šablona byla upravena.");

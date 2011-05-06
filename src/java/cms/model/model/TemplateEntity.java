@@ -12,6 +12,9 @@ public class TemplateEntity implements IEntity {
 	@Attribute(primaryKey = true)
 	private Key key;
 
+	@Attribute(version = true)
+	private Long version;
+
 	private String name;
 	private Text content;
 
@@ -21,6 +24,14 @@ public class TemplateEntity implements IEntity {
 
 	public void setKey(Key key) {
 		this.key = key;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	public String getName() {
@@ -47,6 +58,7 @@ public class TemplateEntity implements IEntity {
 	public String toString() {
 		StringBuilder ret = new StringBuilder("TemplateEntity{");
 		ret.append("Key:").append(key).append(",");
+		ret.append("Version:").append(version).append(",");
 		ret.append("Name:").append(name).append(",");
 		ret.append("Content:");
 		if (content != null) {
