@@ -2,6 +2,7 @@ package cms.model.dao;
 
 import cms.model.model.TagEntity;
 import cms.model.meta.TagEntityMeta;
+import cms.model.model.PageTagEntity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 import java.util.ConcurrentModificationException;
@@ -57,6 +58,9 @@ public class TagDAO implements DAO {
 		Transaction tx = Datastore.beginTransaction();
 		try {
 			TagEntity tagEntity = Datastore.get(tx, meta, key, version);
+			for (PageTagEntity pageTagEntity : tagEntity.getPageTagListRef().getModelList()) {
+				Datastore.deleteWithoutTx(pageTagEntity.getKey());
+			}
 
 			Datastore.delete(tx, tagEntity.getKey());
 			tx.commit();

@@ -64,7 +64,7 @@ public class PageDAO implements DAO {
 		try {
 			PageEntity pageEntity = Datastore.get(tx, meta, key, version);
 			for (PageTagEntity pageTagEntity : pageEntity.getPageTagListRef().getModelList()) {
-				Datastore.delete(tx, pageTagEntity.getKey());
+				Datastore.deleteWithoutTx(pageTagEntity.getKey());
 			}
 			Datastore.delete(tx, pageEntity.getKey());
 			tx.commit();
