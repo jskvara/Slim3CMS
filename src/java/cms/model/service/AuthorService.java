@@ -13,11 +13,11 @@ import java.util.List;
 public class AuthorService implements Service {
 
 	@Inject
-	private AuthorDAO authorDAO = new AuthorDAO();
+	private AuthorDAO authorDAO;
 	@Inject
-	private AuthorConverter authorConverter = new AuthorConverter();
+	private AuthorConverter authorConverter;
 	@Inject
-	private AuthorValidator authorValidator = new AuthorValidator();
+	private AuthorValidator authorValidator;
 
 	public List<AuthorEntity> getAllAuthors() {
 		return authorDAO.getAll();

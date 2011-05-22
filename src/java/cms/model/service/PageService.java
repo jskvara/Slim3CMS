@@ -22,6 +22,10 @@ public class PageService implements Service {
 		return pageDAO.getAll();
 	}
 
+	public List<PageEntity> getVisiblePages() {
+		return pageDAO.getVisible();
+	}
+
 	public PageEntity getPage(Key key) {
 		return pageDAO.get(key);
 	}

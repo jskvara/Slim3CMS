@@ -28,7 +28,7 @@ public class PageEntity implements IEntity {
 	private String title;
 	private String content;
 	private Boolean visible;
-	private Integer position;
+//	private Integer position;
 
 	public Key getKey() {
 		return key;
@@ -86,13 +86,13 @@ public class PageEntity implements IEntity {
 		this.visible = visible;
 	}
 
-	public Integer getPosition() {
-		return position;
-	}
-
-	public void setPosition(Integer position) {
-		this.position = position;
-	}
+//	public Integer getPosition() {
+//		return position;
+//	}
+//
+//	public void setPosition(Integer position) {
+//		this.position = position;
+//	}
 
 	@Override
 	public String toString() {
@@ -103,7 +103,7 @@ public class PageEntity implements IEntity {
 		ret.append("Title:").append(title).append(",");
 		ret.append("Content:").append(content).append(",");
 		ret.append("Visible:").append(visible).append(",");
-		ret.append("Position:").append(position).append(",");
+//		ret.append("Position:").append(position).append(",");
 		ret.append("Tags:{");
 		for (PageTagEntity pageTagEntity : pageTagListRef.getModelList()) {
 			ret.append(pageTagEntity.getTagRef().getModel().getName()).append(",");

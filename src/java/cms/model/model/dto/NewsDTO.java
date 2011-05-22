@@ -32,6 +32,6 @@ public class NewsDTO {
 	}
 
 	public String getVisible() {
-		return (newsEntity.getVisible() ? "Yes" : "No");
+		return (newsEntity.getVisible() ? "true" : "false");
 	}
 }

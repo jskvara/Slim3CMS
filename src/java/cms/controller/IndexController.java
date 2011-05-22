@@ -62,9 +62,27 @@ public class IndexController extends Controller {
 		
 		template = template.replace("{title}", page.getTitle());
 		template = template.replace("{content}", page.getContent());
+		if (template.contains("{tags}")) {
+			StringBuilder tags = new StringBuilder();
+			for (String tag : page.getTags()) {
+				tags.append(tag).append(" ");
+			}
+			template = template.replace("{tags}", tags);
+		}
+
+		if (template.contains("{pages}")) {
+			String pages = getPages();
+			template = template.replace("{pages}", pages);
+		}
+
 		if (template.contains("{news}")) {
-			String news = getNews();
+			String news = getNews("homepage");
 			template = template.replace("{news}", news);
+		}
+
+		if (template.contains("{newsAll}")) {
+			String newsAll = getNews("all");
+			template = template.replace("{newsAll}", newsAll);
 		}
 
 		String[] tagsArray = page.getTags();
@@ -79,7 +97,34 @@ public class IndexController extends Controller {
 		return null;
 	}
 
-	public String getNews() {
+	public String getPages() {
+		TemplateEntity pagesTemplateEntity = templateService.getTemplateByName("pages");
+		TemplateEntity pageItemTemplateEntity = templateService.getTemplateByName("pageItem");
+		if (pagesTemplateEntity == null || pageItemTemplateEntity == null) {
+			return "";
+		}
+		TemplateDTO pagesTemplateDTO = new TemplateDTO(pagesTemplateEntity);
+		String pagesTemplate = pagesTemplateDTO.getContent();
+		TemplateDTO pageItemTemplateDTO = new TemplateDTO(pageItemTemplateEntity);
+		String pageItemTemplate = pageItemTemplateDTO.getContent();
+
+		List<PageEntity> pagesList = pageService.getVisiblePages();
+
+		StringBuilder pages = new StringBuilder();
+		for (PageEntity pageEntity : pagesList) {
+			PageDTO pageDTO = new PageDTO(pageEntity);
+			String pageItem = pageItemTemplate;
+			pageItem = pageItem.replace("{url}", pageDTO.getUrl());
+			pageItem = pageItem.replace("{title}", pageDTO.getTitle());
+			pages.append(pageItem);
+		}
+
+		pagesTemplate = pagesTemplate.replace("{pageItem}", pages.toString());
+
+		return pagesTemplate;
+	}
+
+	public String getNews(String where) {
 		TemplateEntity newsTemplateEntity = templateService.getTemplateByName("news");
 		TemplateEntity newsItemTemplateEntity = templateService.getTemplateByName("newsItem");
 		if (newsTemplateEntity == null || newsItemTemplateEntity == null) {
@@ -90,7 +135,12 @@ public class IndexController extends Controller {
 		TemplateDTO newsItemTemplateDTO = new TemplateDTO(newsItemTemplateEntity);
 		String newsItemTemplate = newsItemTemplateDTO.getContent();
 
-		List<NewsEntity> newsList = newsService.getHomepageNews();
+		List<NewsEntity> newsList = null;
+		if (where.equalsIgnoreCase("all")) {
+			newsList = newsService.getAllVisibleNews();
+		} else {
+			newsList = newsService.getHomepageNews();
+		}
 
 		StringBuilder news = new StringBuilder();
 		for (NewsEntity newsEntity : newsList) {

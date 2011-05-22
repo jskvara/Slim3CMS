@@ -20,7 +20,6 @@ public class NewsEntity implements IEntity {
 	
 	private String text;
 
-	@Attribute(listener = CreationDate.class) // TODO
 	private Date created;
 
 	private Boolean visible;

@@ -33,35 +33,6 @@ h1, h2, h3, h4, h5, h6 {
 /* sidebar */
 #sidebar {
 	font-size: 110%;
-	list-style-type: none;
-	margin: 0 0.5em 0 0;
-	padding: 0;
-}
-
-#sidebar ul {
-	list-style-type: none;
-}
-
-#sidebar li {
-	padding-bottom: 5px;
-}
-
-#sidebar li * {
-	padding-left: 5px;
-}
-
-.box {
-	background: #dfefdd;
-	border: 1px solid #00af93;
-	padding: 1em;
-}
-
-/* content */
-#content h1 {
-	border-bottom: 1px solid #569B29;
-	clear: both;
-	color: #569B29;
-	text-align: center;
 }
 
 #content p {

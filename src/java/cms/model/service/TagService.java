@@ -13,11 +13,11 @@ import java.util.List;
 public class TagService implements Service {
 
 	@Inject
-	private TagDAO tagDAO = new TagDAO();
+	private TagDAO tagDAO;
 	@Inject
-	private TagConverter tagConverter = new TagConverter();
+	private TagConverter tagConverter;
 	@Inject
-	private TagValidator tagValidator = new TagValidator();
+	private TagValidator tagValidator;
 
 	public List<TagEntity> getAllTags() {
 		return tagDAO.getAll();

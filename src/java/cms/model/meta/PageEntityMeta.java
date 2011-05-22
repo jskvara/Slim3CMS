@@ -38,7 +38,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 
 //	public final CoreAttributeMeta<PageEntity, Integer> position =
 //			new CoreAttributeMeta<PageEntity, Integer>(this, "position", "position", Integer.class);
-//
+
 	public final ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity> templateRef =
 			new ModelRefAttributeMeta<PageEntity, ModelRef<TemplateEntity>, TemplateEntity>(this, "templateRef", "templateRef", ModelRef.class, TemplateEntity.class);
 
@@ -67,7 +67,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		model.setTitle((String) entity.getProperty("title"));
 		model.setContent((String) entity.getProperty("content"));
 		model.setVisible(booleanToPrimitiveBoolean(((Boolean) entity.getProperty("visible"))));
-//		model.setPosition(longToPrimitiveInt((Long )entity.getProperty("position")));
+//		model.setPosition(longToPrimitiveInt((Long) entity.getProperty("position")));
 		if (model.getTemplateRef() == null) {
 			throw new NullPointerException("The property (templateRef) is null.");
 		}
