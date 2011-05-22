@@ -23,6 +23,11 @@ public class NewsService implements Service {
 		return newsDAO.getAll();
 	}
 
+	// TODO
+	public List<NewsEntity> getAllVisibleNews() {
+		return newsDAO.getAllVisible();
+	}
+
 	public List<NewsEntity> getHomepageNews() {
 		return newsDAO.getHomepage();
 	}

@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class AuthorDAO implements DAO {
 
@@ -18,7 +19,13 @@ public class AuthorDAO implements DAO {
 	}
 
 	public AuthorEntity get(Key key) {
-		AuthorEntity authorEntity = Datastore.get(AuthorEntity.class, key);
+		AuthorEntity authorEntity = null;
+		try {
+			authorEntity = Datastore.get(AuthorEntity.class, key);
+		} catch (EntityNotFoundRuntimeException e) {
+			return null;
+		}
+
 		return authorEntity;
 	}
 

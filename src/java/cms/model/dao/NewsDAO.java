@@ -8,6 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.List;
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class NewsDAO implements DAO {
 	private NewsEntityMeta meta = NewsEntityMeta.get();
@@ -15,6 +16,15 @@ public class NewsDAO implements DAO {
 	public List<NewsEntity> getAll() {
 		List<NewsEntity> newsEntities = Datastore.query(meta)
 				.sort(meta.created.desc).asList();
+		return newsEntities;
+	}
+
+	public List<NewsEntity> getAllVisible() {
+		List<NewsEntity> newsEntities = Datastore.query(meta)
+				.filter(meta.visible.equal(Boolean.TRUE))
+				.filter(meta.created.lessThanOrEqual(new Date()))
+				.sort(meta.created.desc)
+				.asList();
 		return newsEntities;
 	}
 
@@ -29,7 +39,13 @@ public class NewsDAO implements DAO {
 	}
 
 	public NewsEntity get(Key key) {
-		NewsEntity newsEntity = Datastore.get(NewsEntity.class, key);
+		NewsEntity newsEntity = null;
+		try {
+			newsEntity = Datastore.get(NewsEntity.class, key);
+		} catch (EntityNotFoundRuntimeException e) {
+			return null;
+		}
+
 		return newsEntity;
 	}
 

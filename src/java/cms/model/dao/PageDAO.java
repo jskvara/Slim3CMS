@@ -8,18 +8,26 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class PageDAO implements DAO {
 
 	private PageEntityMeta meta = PageEntityMeta.get();
 
 	public List<PageEntity> getAll() {
-		List<PageEntity> pageEntities = Datastore.query(meta)./*sort(pageMeta.position.desc).*/asList();
+		List<PageEntity> pageEntities = Datastore.query(meta)./*TODOsort(pageMeta.position.desc).*/asList();
+
 		return pageEntities;
 	}
 
 	public PageEntity get(Key key) {
-		PageEntity pageEntity = Datastore.get(PageEntity.class, key);
+		PageEntity pageEntity = null;
+		try {
+			pageEntity = Datastore.get(PageEntity.class, key);
+		} catch (EntityNotFoundRuntimeException e) {
+			return null;
+		}
+
 		return pageEntity;
 	}
 

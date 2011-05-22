@@ -1,8 +1,8 @@
 package cms.model.validator;
 
+import cms.model.dao.PageDAO;
 import cms.model.meta.PageEntityMeta;
 import cms.model.model.PageEntity;
-import cms.model.service.PageService;
 import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
 
@@ -10,7 +10,7 @@ public class PageValidator extends AbstractValidator {
 
 	protected PageEntityMeta meta = PageEntityMeta.get();
 	@Inject
-	protected PageService pageService;
+	protected PageDAO pageDAO;
 	
 	protected boolean validateFields() {		
 		validators.add(meta.url, validators.required(), validators.maxlength(255));
@@ -25,17 +25,17 @@ public class PageValidator extends AbstractValidator {
 		}
 
 		if(isAdd()) {
-			if (pageService.getPageByUrl(url) != null) {
+			if (pageDAO.getByUrl(url) != null) {
 				validators.getErrors().put(meta.url.toString(), "Tato url již existuje.");
 			}
 		}
 
 		if(isEdit()) {
 			Key pageKey = (Key) input.get(meta.key.toString());
-			PageEntity oldPageEntity = pageService.getPage(pageKey);
+			PageEntity oldPageEntity = pageDAO.get(pageKey);
 			String oldUrl = oldPageEntity.getUrl();
 			if(!oldUrl.equals(url)) {
-				if (pageService.getPageByUrl(url) != null) {
+				if (pageDAO.getByUrl(url) != null) {
 					validators.getErrors().put(meta.url.toString(), "Tato url již existuje.");
 				}
 			}

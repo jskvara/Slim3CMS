@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class TemplateDAO {
 	private TemplateEntityMeta meta = new TemplateEntityMeta();
@@ -19,7 +20,13 @@ public class TemplateDAO {
 	}
 
 	public TemplateEntity get(Key key) {
-		TemplateEntity templateEntity = Datastore.get(TemplateEntity.class, key);
+		TemplateEntity templateEntity = null;
+		try {
+			templateEntity = Datastore.get(TemplateEntity.class, key);
+		} catch (EntityNotFoundRuntimeException e) {
+			return null;
+		}
+
 		return templateEntity;
 	}
 

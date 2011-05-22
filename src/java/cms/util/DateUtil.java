@@ -17,6 +17,9 @@ public class DateUtil {
 	}
 
 	public static Date stringToDate(String date) throws ParseException {
+		if (date == null) {
+			return new Date();
+		}
 		date = date.replace(" ", "").replace(".", ". ");
 		Date dateConverted = DATE_FORMAT.parse(date);
 

@@ -19,8 +19,8 @@ public class PageConverter implements IConverter {
 		pageEntity.setUrl(pageEntity.getUrl().toLowerCase().trim());
 
 		// template
-		String templateName = (String)input.get("templateName");
-		if(!templateName.equals("")) {
+		String templateName = (String) input.get("templateName");
+		if(templateName != null && !templateName.equals("")) {
 			TemplateEntity templateEntity = templateService.getTemplateByName(templateName);
 			if (templateEntity != null) {
 				pageEntity.getTemplateRef().setModel(templateEntity);

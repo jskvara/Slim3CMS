@@ -1,8 +1,8 @@
 package cms.model.validator;
 
+import cms.model.dao.TagDAO;
 import cms.model.meta.TagEntityMeta;
 import cms.model.model.TagEntity;
-import cms.model.service.TagService;
 import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
 
@@ -10,7 +10,7 @@ public class TagValidator extends AbstractValidator {
 
 	protected TagEntityMeta meta = TagEntityMeta.get();
 	@Inject
-	protected TagService tagService;
+	protected TagDAO tagDAO;
 
 	protected boolean validateFields() {
 		boolean ret = true;
@@ -18,7 +18,7 @@ public class TagValidator extends AbstractValidator {
 
 		if (isAdd()) {
 			String name = (String) input.get(meta.name.toString());
-			if (tagService.getTagByName(name) != null) {
+			if (tagDAO.getByName(name) != null) {
 				validators.getErrors().put(meta.name.toString(), "Tento štítek již existuje.");
 
 				ret = false;
@@ -27,11 +27,11 @@ public class TagValidator extends AbstractValidator {
 
 		if(isEdit()) {
 			Key tagKey = (Key) input.get(meta.key.toString());
-			TagEntity oldTagEntity = tagService.getTag(tagKey);
+			TagEntity oldTagEntity = tagDAO.get(tagKey);
 			String oldName = oldTagEntity.getName();
 			String name = (String) input.get(meta.name.toString());
 			if(!oldName.equals(name)) {
-				if (tagService.getTagByName(name) != null) {
+				if (tagDAO.getByName(name) != null) {
 					validators.getErrors().put(meta.name.toString(), "Tento štítek již existuje.");
 
 					ret = false;

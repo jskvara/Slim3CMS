@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.Transaction;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import org.slim3.datastore.Datastore;
+import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class TagDAO implements DAO {
 
@@ -19,7 +20,13 @@ public class TagDAO implements DAO {
 	}
 
 	public TagEntity get(Key key) {
-		TagEntity tagEntity = Datastore.get(TagEntity.class, key);
+		TagEntity tagEntity = null;
+		try {
+			tagEntity = Datastore.get(TagEntity.class, key);
+		} catch (EntityNotFoundRuntimeException e) {
+			return null;
+		}
+
 		return tagEntity;
 	}
 

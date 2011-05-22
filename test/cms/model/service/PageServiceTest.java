@@ -1,5 +1,7 @@
 package cms.model.service;
 
+import com.google.appengine.api.datastore.Key;
+import cms.util.GuiceUtil;
 import cms.model.model.PageEntity;
 import org.slim3.datastore.EntityNotFoundRuntimeException;
 import java.util.HashMap;
@@ -13,79 +15,97 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class PageServiceTest extends AppEngineTestCase {
 
-	private PageService service = new PageService();
+	private PageService service = GuiceUtil.getService(PageService.class);
 
 	@Test
-	public void test() {
-		assertThat(service, is(notNullValue()));
-	}
-
-	@Test
-	public void get() {
-		PageEntity page = new PageEntity();
-		Datastore.put(page);
-		assertThat(service.getPage(page.getKey()), is(notNullValue()));
-	}
-
-	@Test(expected=EntityNotFoundRuntimeException.class)
-	public void getWhenModelIsNotFound() {
-		service.getPage(Datastore.createKey(PageEntity.class, 1));
-	}
-
-//	@Test(expected=ConcurrentModificationException.class)
-//	public void getWhenOptimisticLockFailed() {
-//		PageEntity page = new PageEntity();
-//		Datastore.put(page);
-//		service.getPage(page.getKey(), page.getVersion() + 1);
-//	}
-
-	@Test
-	public void getAll() {
+	public void testGetAllPages() {
 		int count = Datastore.query(PageEntity.class).count();
-		PageEntity page = new PageEntity();
-		Datastore.put(page);
-		assertThat(service.getAllPages().size(), is(count + 1));
+		
+		assertThat(service.getAllPages().size(), is(count));
 	}
 
-//	@Test
-//	public void insert() throws Exception {
-//		PageEntity page = new PageEntity();
-//		service.insert(page);
-//		assertThat(page.getKey(), is(notNullValue()));
-//	}
+	@Test
+	public void testGetPage() {
+		PageEntity page = new PageEntity();
+		Datastore.put(page);
+		
+		assertThat(service.getPage(page.getKey()), is(notNullValue()));
+		Datastore.delete(page.getKey());
+	}
 
 	@Test
-    public void insert() {
+	public void testGetPageWhenModelIsNotFound() {
+		Key pageKey = Datastore.createKey(PageEntity.class, 1);
+		PageEntity noPage = service.getPage(pageKey);
+		
+		assertThat(noPage, is(nullValue()));
+	}
+
+	@Test
+	public void testGetPageByUrl() {
+		PageEntity page = new PageEntity();
+		page.setUrl("test-url-1");
+		Datastore.put(page);
+
+		assertThat(service.getPageByUrl(page.getUrl()), is(notNullValue()));
+		Datastore.delete(page.getKey());
+	}
+
+	@Test
+	public void testGetVisiblePageByUrl() {
+		PageEntity page = new PageEntity();
+		page.setVisible(true);
+		page.setUrl("test-url-2");
+		Datastore.put(page);
+
+		assertThat(service.getVisiblePageByUrl(page.getUrl()), is(notNullValue()));
+		Datastore.delete(page.getKey());
+	}
+
+	@Test
+    public void testInsert() {
 		Map<String, Object> input = new HashMap<String, Object>();
-		input.put("url", "url");
+		input.put("url", "test-url-3");
+		PageEntity pageEntity = null;
+
 		try {
-			PageEntity pageEntity = service.insert(input);
+			pageEntity = service.insert(input);
 			PageEntity stored = Datastore.get(PageEntity.class, pageEntity.getKey());
-			assertThat(stored.getUrl(), is("url"));
+
+			assertThat(stored.getUrl(), is("test-url-3"));
 		} catch(ServiceException e) {
-			fail();
+			fail(e.getErrors().toString());
+		} finally {
+			if (pageEntity != null) {
+				Datastore.delete(pageEntity.getKey());
+			}
 		}
 	}
 
 	@Test
-	public void update() {
+	public void testEdit() {
 		PageEntity page = new PageEntity();
-		page.setUrl("url2");
+		page.setUrl("test-url-4");
 		Datastore.put(page);
+
 		Map<String, Object> input = new HashMap<String, Object>();
 		input.put("key", page.getKey());
-		input.put("url", "url3");
-		PageEntity updated;
+		input.put("version", page.getVersion());
+		input.put("url", "test-url-5");
+		PageEntity updated = null;
 		try {
 			updated = service.edit(input);
-			assertThat(updated.getUrl(), is("url3"));
-		} catch (ServiceException ex) {
+
+			assertThat(updated.getUrl(), is("test-url-5"));
+		} catch (ServiceException e) {
 			fail();
+		} finally {
+			Datastore.delete(page.getKey());
 		}
 	}
 
 	@Test
-	public void delete() {
+	public void testDelete() {
 		PageEntity page = new PageEntity();
 		Datastore.put(page);
 		try {
@@ -96,7 +116,7 @@ public class PageServiceTest extends AppEngineTestCase {
 	}
 
 	@Test(expected=EntityNotFoundRuntimeException.class)
-	public void deleteWhenModelIsNotFound() {
+	public void testDeleteWhenModelIsNotFound() {
 		try {
 			service.delete(Datastore.createKey(PageEntity.class, 1), 1L);
 		} catch (ServiceException ex) {
@@ -104,10 +124,18 @@ public class PageServiceTest extends AppEngineTestCase {
 		}
 	}
 
-//	@Test(expected=ConcurrentModificationException.class)
-//	public void deleteWhenOptimisticLockFailed() {
-//		PageEntity page = new PageEntity();
-//		Datastore.put(page);
-//		service.delete(page.getKey(), page.getVersion() + 1);
-//	}
+	@Test
+	public void testDeleteWhenOptimisticLockFailed() {
+		PageEntity page = new PageEntity();
+		Datastore.put(page);
+		try {
+			service.delete(page.getKey(), page.getVersion() + 1);
+		} catch (ServiceException ex) {
+			if (!ex.getMessage().contains("upravuje")) {
+				fail();
+			}
+		} finally {
+			Datastore.delete(page.getKey());
+		}
+	}
 }

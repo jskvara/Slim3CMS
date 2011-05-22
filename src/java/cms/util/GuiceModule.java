@@ -8,6 +8,7 @@ import com.google.inject.AbstractModule;
 
 public class GuiceModule extends AbstractModule {
 	public void configure() {
+		// TODO
 		//bind(PageDAO.class).to(PageDAOImpl.class);
 		//bind(PageValidator.class).to(PageValidatorImpl.class);
 	}

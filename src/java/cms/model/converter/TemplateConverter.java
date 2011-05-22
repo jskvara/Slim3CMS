@@ -11,7 +11,10 @@ public class TemplateConverter implements IConverter {
 		TemplateEntity templateEntity = new TemplateEntity();
 		BeanUtil.copy(input, templateEntity);
 
-		Text content = new Text((String) input.get("content"));
+		Text content = new Text("");
+		if (input.get("content") != null) {
+			content = new Text((String) input.get("content"));
+		}
 		templateEntity.setContent(content);
 		
 		return templateEntity;

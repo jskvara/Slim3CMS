@@ -1,8 +1,8 @@
 package cms.model.validator;
 
+import cms.model.dao.TemplateDAO;
 import cms.model.meta.TemplateEntityMeta;
 import cms.model.model.TemplateEntity;
-import cms.model.service.TemplateService;
 import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
 
@@ -10,7 +10,7 @@ public class TemplateValidator extends AbstractValidator {
 
 	protected TemplateEntityMeta meta = TemplateEntityMeta.get();
 	@Inject
-	protected TemplateService templateService;
+	protected TemplateDAO templateDAO;
 
 	protected boolean validateFields() {
 		boolean ret = true;
@@ -18,7 +18,7 @@ public class TemplateValidator extends AbstractValidator {
 
 		if(isAdd()) {
 			String name = (String) input.get(meta.name.toString());
-			if (templateService.getTemplateByName(name) != null) {
+			if (templateDAO.getByName(name) != null) {
 				validators.getErrors().put(meta.name.toString(), "Tato šablona již existuje.");
 
 				ret = false;
@@ -27,11 +27,11 @@ public class TemplateValidator extends AbstractValidator {
 
 		if(isEdit()) {
 			Key templateKey = (Key) input.get(meta.key.toString());
-			TemplateEntity oldTemplateEntity = templateService.getTemplate(templateKey);
+			TemplateEntity oldTemplateEntity = templateDAO.get(templateKey);
 			String oldName = oldTemplateEntity.getName();
 			String name = (String) input.get(meta.name.toString());
 			if(!oldName.equals(name)) {
-				if (templateService.getTemplateByName(name) != null) {
+				if (templateDAO.getByName(name) != null) {
 					validators.getErrors().put(meta.name.toString(), "Tato šablona již existuje.");
 
 					ret = false;
