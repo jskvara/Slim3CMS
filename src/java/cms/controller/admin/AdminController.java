@@ -16,8 +16,7 @@ public abstract class AdminController extends Controller {
 		UserService userService = UserServiceFactory.getUserService();
 
 		String thisURL = request.getRequestURI();
-		if (userService.isUserLoggedIn() && 
-				(userService.isUserAdmin() ||
+		if (userService.isUserLoggedIn() && (userService.isUserAdmin() ||
 				authorService.isAuthor(userService.getCurrentUser().getEmail()))) {
 			requestScope("username", userService.getCurrentUser().getEmail());
 			requestScope("logoutUrl", userService.createLogoutURL(thisURL));
