@@ -16,7 +16,8 @@ public class PageDAO implements DAO {
 
 	public List<PageEntity> getAll() {
 		List<PageEntity> pageEntities = Datastore.query(meta)
-				./*TODOsort(pageMeta.position.desc).*/asList();
+				//.sort(pageMeta.position.desc)
+				.asList();
 
 		return pageEntities;
 	}
@@ -24,7 +25,8 @@ public class PageDAO implements DAO {
 	public List<PageEntity> getVisible() {
 		List<PageEntity> pageEntities = Datastore.query(meta)
 				.filter(meta.visible.equal(true))
-				./*TODOsort(pageMeta.position.desc).*/asList();
+				//.sort(pageMeta.position.desc)
+				.asList();
 
 		return pageEntities;
 	}
@@ -51,7 +53,7 @@ public class PageDAO implements DAO {
 		PageEntity pageEntity = Datastore.query(meta)
 				.filter(meta.url.equal(url))
 				.filter(meta.visible.equal(true)).asSingle();
-		
+
 		return pageEntity;
 	}
 
@@ -66,7 +68,6 @@ public class PageDAO implements DAO {
 	public PageEntity edit(PageEntity pageEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
 		try {
-			// throws ConcurrentModificationException
 			Datastore.get(tx, PageEntity.class, pageEntity.getKey(), pageEntity.getVersion());
 
 			Datastore.put(tx, pageEntity);

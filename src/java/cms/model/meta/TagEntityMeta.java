@@ -94,6 +94,10 @@ public class TagEntityMeta extends ModelMeta<TagEntity> {
 	}
 
 	@Override
+	protected void postGet(Object model) {
+	}
+
+	@Override
 	public String getSchemaVersionName() {
 		return "slim3.schemaVersion";
 	}

@@ -97,6 +97,10 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 	}
 
 	@Override
+	protected void postGet(Object model) {
+	}
+
+	@Override
 	public String getSchemaVersionName() {
 		return "slim3.schemaVersion";
 	}
@@ -111,7 +115,7 @@ public final class TemplateEntityMeta extends ModelMeta<TemplateEntity> {
 		TemplateEntity m = (TemplateEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
-		
+
 		if (m.getKey() != null) {
 			writer.setNextPropertyName("key");
 			encoder = new Default();

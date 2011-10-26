@@ -86,13 +86,17 @@ public final class AuthorEntityMeta extends ModelMeta<AuthorEntity> {
 		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
 		m.setVersion(Long.valueOf(ver + 1L));
 	}
-	
+
 	@Override
 	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) {
 	}
 
 	@Override
 	protected void prePut(Object model) {
+	}
+
+	@Override
+	protected void postGet(Object model) {
 	}
 
 	@Override
@@ -115,7 +119,7 @@ public final class AuthorEntityMeta extends ModelMeta<AuthorEntity> {
 		AuthorEntity m = (AuthorEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
-		
+
 		if(m.getKey() != null){
 			writer.setNextPropertyName("key");
 			encoder = new Default();
@@ -131,7 +135,7 @@ public final class AuthorEntityMeta extends ModelMeta<AuthorEntity> {
 		writer.setNextPropertyName("email");
 		encoder = new Default();
 		encoder.encode(writer, m.getEmail());
-		
+
 		writer.endObject();
 	}
 
@@ -140,7 +144,7 @@ public final class AuthorEntityMeta extends ModelMeta<AuthorEntity> {
 		AuthorEntity m = new AuthorEntity();
 		JsonReader reader = null;
 		JsonCoder decoder = null;
-		
+
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));

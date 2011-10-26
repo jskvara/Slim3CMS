@@ -97,7 +97,7 @@ public final class PageTagEntityMeta extends ModelMeta<PageTagEntity> {
 	@Override
 	protected void incrementVersion(Object model) {
 	}
-	
+
 	@Override
 	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) {
 		PageTagEntity m = (PageTagEntity) model;
@@ -114,6 +114,10 @@ public final class PageTagEntityMeta extends ModelMeta<PageTagEntity> {
 
 	@Override
 	protected void prePut(Object model) {
+	}
+
+	@Override
+	protected void postGet(Object model) {
 	}
 
 	@Override

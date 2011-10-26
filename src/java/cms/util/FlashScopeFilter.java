@@ -30,25 +30,6 @@ public class FlashScopeFilter implements Filter {
 		}
 
 		chain.doFilter(request, response);
-
-//		// insert request messagesi starting with "flash." to session
-//		if (request instanceof HttpServletRequest) {
-//			HttpServletRequest httpRequest = (HttpServletRequest) request;
-//			Map<String, Object> flashParams = new HashMap();
-//			Enumeration e = httpRequest.getAttributeNames();
-//			while (e.hasMoreElements()) {
-//				String paramName = (String) e.nextElement();
-//				if (paramName.startsWith("flash.")) {
-//					Object value = request.getAttribute(paramName);
-//					paramName = paramName.substring(6, paramName.length());
-//					flashParams.put(paramName, value);
-//				}
-//			}
-//			if (flashParams.size() > 0) {
-//				HttpSession session = httpRequest.getSession(false);
-//				session.setAttribute(FLASH_SESSION_KEY, flashParams);
-//			}
-//		}
 	}
 
 	public void destroy() {

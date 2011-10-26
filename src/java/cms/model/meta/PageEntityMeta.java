@@ -24,7 +24,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 	public final CoreAttributeMeta<PageEntity, Long> version =
 			new CoreAttributeMeta<PageEntity, Long>(this, "version", "version", Long.class);
 
-	public final StringAttributeMeta<PageEntity> url = 
+	public final StringAttributeMeta<PageEntity> url =
 			new StringAttributeMeta<PageEntity>(this, "url", "url");
 
 	public final StringAttributeMeta<PageEntity> title =
@@ -123,7 +123,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		long ver = m.getVersion() != null ? m.getVersion().longValue() : 0L;
 		m.setVersion(Long.valueOf(ver + 1L));
 	}
-	
+
 	@Override
 	protected void assignKeyToModelRefIfNecessary(AsyncDatastoreService ds, Object model) {
 		PageEntity m = (PageEntity) model;
@@ -135,6 +135,10 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 
 	@Override
 	protected void prePut(Object model) {
+	}
+
+	@Override
+	protected void postGet(Object model) {
 	}
 
 	@Override
@@ -157,7 +161,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		PageEntity m = (PageEntity) model;
 		writer.beginObject();
 		JsonCoder encoder = null;
-		
+
 		if(m.getKey() != null){
 			writer.setNextPropertyName("key");
 			encoder = new Default();
@@ -181,7 +185,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		writer.setNextPropertyName("content");
 		encoder = new Default();
 		encoder.encode(writer, m.getContent());
-		
+
 		writer.setNextPropertyName("visible");
 		encoder = new Default();
 		encoder.encode(writer, m.getVisible());
@@ -189,7 +193,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		writer.setNextPropertyName("position");
 //		encoder = new Default();
 //		encoder.encode(writer, m.getPosition());
-		
+
 		if(m.getTemplateRef() != null && m.getTemplateRef().getKey() != null){
 			writer.setNextPropertyName("templateRef");
 			encoder = new Default();
@@ -203,7 +207,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		PageEntity m = new PageEntity();
 		JsonReader reader = null;
 		JsonCoder decoder = null;
-		
+
 		reader = rootReader.newObjectReader("key");
 		decoder = new Default();
 		m.setKey(decoder.decode(reader, m.getKey()));
@@ -223,7 +227,7 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 		reader = rootReader.newObjectReader("content");
 		decoder = new Default();
 		m.setTitle(decoder.decode(reader, m.getContent()));
-		
+
 		reader = rootReader.newObjectReader("visible");
 		decoder = new Default();
 		m.setVisible(decoder.decode(reader, m.getVisible()));
@@ -231,11 +235,11 @@ public final class PageEntityMeta extends ModelMeta<PageEntity> {
 //		reader = rootReader.newObjectReader("position");
 //		decoder = new Default();
 //		m.setPosition(decoder.decode(reader, m.getPosition()));
-		
+
 		reader = rootReader.newObjectReader("templateRef");
 		decoder = new Default();
 		decoder.decode(reader, m.getTemplateRef(), maxDepth, currentDepth);
-		
+
 		return m;
 	}
 }

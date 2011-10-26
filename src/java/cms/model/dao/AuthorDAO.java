@@ -45,7 +45,6 @@ public class AuthorDAO implements DAO {
 	public AuthorEntity edit(AuthorEntity authorEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
 		try {
-			// throws ConcurrentModificationException
 			Datastore.get(tx, AuthorEntity.class, authorEntity.getKey(), authorEntity.getVersion());
 
 			Datastore.put(tx, authorEntity);

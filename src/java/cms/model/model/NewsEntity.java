@@ -3,7 +3,6 @@ package cms.model.model;
 import com.google.appengine.api.datastore.Key;
 import java.util.Date;
 import org.slim3.datastore.Attribute;
-import org.slim3.datastore.CreationDate;
 import org.slim3.datastore.Model;
 
 @Model(schemaVersion = 1)
@@ -17,7 +16,7 @@ public class NewsEntity implements IEntity {
 	private Long version;
 
 	private String title;
-	
+
 	private String text;
 
 	private Date created;

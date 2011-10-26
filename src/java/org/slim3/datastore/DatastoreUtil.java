@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 
-import org.slim3.util.AppEngineUtil;
 import org.slim3.util.ClassUtil;
 import org.slim3.util.Cleanable;
 import org.slim3.util.Cleaner;
@@ -40,19 +39,16 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.KeyRange;
 import com.google.appengine.api.datastore.KeyUtil;
 import com.google.appengine.api.datastore.Transaction;
-import com.google.apphosting.api.ApiProxy;
-import com.google.apphosting.api.DatastorePb.GetSchemaRequest;
-import com.google.apphosting.api.DatastorePb.Schema;
 import com.google.storage.onestore.v3.OnestoreEntity.EntityProto;
-import com.google.storage.onestore.v3.OnestoreEntity.Reference;
 import com.google.storage.onestore.v3.OnestoreEntity.Path.Element;
+import com.google.storage.onestore.v3.OnestoreEntity.Reference;
 
 /**
  * A utility for {@link DatastoreService}.
- * 
+ *
  * @author higa
  * @since 1.0.0
- * 
+ *
  */
 public final class DatastoreUtil {
 
@@ -72,10 +68,6 @@ public final class DatastoreUtil {
     public static final int EXTRA_SIZE = 200;
 
     private static final int KEY_CACHE_SIZE = 50;
-
-    private static final String DATASTORE_SERVICE = "datastore_v3";
-
-    private static final String GET_SCHEMA_METHOD = "GetSchema";
 
     /**
      * The cache for {@link ModelMeta}.
@@ -113,8 +105,15 @@ public final class DatastoreUtil {
     }
 
     /**
+     * Clears the keys cache.
+     */
+    public static void clearKeysCache() {
+        keysCache.clear();
+    }
+
+    /**
      * Begins a transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @return a begun transaction
@@ -128,7 +127,7 @@ public final class DatastoreUtil {
 
     /**
      * Allocates a key within a namespace defined by the kind with caching.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param kind
@@ -160,7 +159,7 @@ public final class DatastoreUtil {
 
     /**
      * Allocates a key within a namespace defined by the parentKey and the kind.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param parentKey
@@ -194,7 +193,7 @@ public final class DatastoreUtil {
 
     /**
      * Allocates keys within a namespace defined by the kind asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param kind
@@ -220,7 +219,7 @@ public final class DatastoreUtil {
     /**
      * Allocates keys within a namespace defined by the parent key and the kind
      * asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param parentKey
@@ -250,7 +249,7 @@ public final class DatastoreUtil {
 
     /**
      * Assigns a new key to the entity if necessary.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param entity
@@ -281,7 +280,7 @@ public final class DatastoreUtil {
 
     /**
      * Assigns a new key to the entity if necessary.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param entities
@@ -307,7 +306,7 @@ public final class DatastoreUtil {
     /**
      * Returns entities specified by the keys as map within the provided
      * transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -336,7 +335,7 @@ public final class DatastoreUtil {
     /**
      * Returns entities specified by the keys as map within the provided
      * transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -364,7 +363,7 @@ public final class DatastoreUtil {
     /**
      * Returns entities specified by the keys as map within the provided
      * transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -387,7 +386,7 @@ public final class DatastoreUtil {
     /**
      * Returns entities specified by the keys as map within the provided
      * transaction asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -419,14 +418,14 @@ public final class DatastoreUtil {
 
     /**
      * Puts the entity to datastore within the provided transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
      *            the transaction
      * @param entity
      *            the entity
-     * 
+     *
      * @return a list of keys
      * @throws NullPointerException
      *             if the ds parameter is null or if the entity parameter is
@@ -447,14 +446,14 @@ public final class DatastoreUtil {
 
     /**
      * Puts the entities to datastore within the provided transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
      *            the transaction
      * @param entities
      *            the entities
-     * 
+     *
      * @return a list of keys
      * @throws NullPointerException
      *             if the ds parameter is null or if the entities parameter is
@@ -472,14 +471,14 @@ public final class DatastoreUtil {
     /**
      * Puts the entity to datastore within the provided transaction
      * asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
      *            the transaction
      * @param entity
      *            the entity
-     * 
+     *
      * @return a list of keys represented as {@link Future}
      * @throws NullPointerException
      *             if the ds parameter is null or if the entity parameter is
@@ -501,14 +500,14 @@ public final class DatastoreUtil {
     /**
      * Puts the entities to datastore within the provided transaction
      * asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
      *            the transaction
      * @param entities
      *            the entities
-     * 
+     *
      * @return a list of keys represented as {@link Future}
      * @throws NullPointerException
      *             if the ds parameter is null or if the entities parameter is
@@ -536,7 +535,7 @@ public final class DatastoreUtil {
 
     /**
      * Deletes the entity specified by the key within the provided transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -560,7 +559,7 @@ public final class DatastoreUtil {
 
     /**
      * Deletes entities specified by the keys within the provided transaction.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -582,7 +581,7 @@ public final class DatastoreUtil {
     /**
      * Deletes entities specified by the keys within the provided transaction
      * asynchronously.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param tx
@@ -614,7 +613,7 @@ public final class DatastoreUtil {
 
     /**
      * Filters the list in memory.
-     * 
+     *
      * @param <M>
      *            the model type
      * @param list
@@ -668,7 +667,7 @@ public final class DatastoreUtil {
 
     /**
      * Sorts the list in memory.
-     * 
+     *
      * @param <M>
      *            the model type
      * @param list
@@ -699,7 +698,7 @@ public final class DatastoreUtil {
 
     /**
      * Returns a meta data of the model
-     * 
+     *
      * @param <M>
      *            the model type
      * @param modelClass
@@ -731,7 +730,7 @@ public final class DatastoreUtil {
 
     /**
      * Returns a meta data of the model
-     * 
+     *
      * @param <M>
      *            the model type
      * @param modelMeta
@@ -764,8 +763,8 @@ public final class DatastoreUtil {
             return modelMeta;
         }
         Class<M> subModelClass =
-            ClassUtil.forName(classHierarchyList
-                .get(classHierarchyList.size() - 1));
+            ClassUtil
+                .forName(classHierarchyList.get(classHierarchyList.size() - 1));
         if (!modelMeta.getModelClass().isAssignableFrom(subModelClass)) {
             throw new IllegalArgumentException("The model class("
                 + modelMeta.getModelClass().getName()
@@ -778,7 +777,7 @@ public final class DatastoreUtil {
 
     /**
      * Creates a meta data of the model
-     * 
+     *
      * @param <M>
      *            the model type
      * @param modelClass
@@ -803,7 +802,7 @@ public final class DatastoreUtil {
 
     /**
      * Replaces a package name with another one.
-     * 
+     *
      * @param className
      *            the class name
      * @param fromPackageName
@@ -843,7 +842,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the entity to an array of bytes.
-     * 
+     *
      * @param entity
      *            the entity
      * @return an array of bytes
@@ -864,7 +863,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the array of bytes to an entity.
-     * 
+     *
      * @param bytes
      *            the array of bytes
      * @return an entity
@@ -884,7 +883,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the reference to a key.
-     * 
+     *
      * @param reference
      *            the reference object
      * @return a key
@@ -926,7 +925,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the model to an entity.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param model
@@ -958,7 +957,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the models to entities.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param models
@@ -992,7 +991,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the map of entities to a list of entities.
-     * 
+     *
      * @param keys
      *            the keys
      * @param map
@@ -1032,7 +1031,7 @@ public final class DatastoreUtil {
 
     /**
      * Converts the map of entities to a list of models.
-     * 
+     *
      * @param <M>
      *            the model type
      * @param modelMeta
@@ -1076,14 +1075,16 @@ public final class DatastoreUtil {
             }
             ModelMeta<M> mm = getModelMeta(modelMeta, entity);
             mm.validateKey(key);
-            list.add(mm.entityToModel(entity));
+            M model = mm.entityToModel(entity);
+            mm.postGet(model);
+            list.add(model);
         }
         return list;
     }
 
     /**
      * Converts the map of entities to a map of models.
-     * 
+     *
      * @param <M>
      *            the model type
      * @param modelMeta
@@ -1110,14 +1111,16 @@ public final class DatastoreUtil {
             Entity entity = map.get(key);
             ModelMeta<M> mm = getModelMeta(modelMeta, entity);
             mm.validateKey(key);
-            modelMap.put(key, mm.entityToModel(entity));
+            M model = mm.entityToModel(entity);
+            mm.postGet(model);
+            modelMap.put(key, model);
         }
         return modelMap;
     }
 
     /**
      * Returns a root key.
-     * 
+     *
      * @param key
      *            the key
      * @return a root key
@@ -1135,61 +1138,6 @@ public final class DatastoreUtil {
             key = parent;
         }
         return key;
-    }
-
-    /**
-     * Returns a schema.
-     * 
-     * @return a schema
-     * @throws IllegalStateException
-     *             if this method is called on production server
-     */
-    public static Schema getSchema() throws IllegalStateException {
-        if (AppEngineUtil.isProduction()) {
-            throw new IllegalStateException(
-                "This method does not work on production server.");
-        }
-        GetSchemaRequest req = new GetSchemaRequest();
-        req.setApp(ApiProxy.getCurrentEnvironment().getAppId());
-        byte[] resBuf =
-            ApiProxy.makeSyncCall(DATASTORE_SERVICE, GET_SCHEMA_METHOD, req
-                .toByteArray());
-        Schema schema = new Schema();
-        schema.mergeFrom(resBuf);
-        return schema;
-    }
-
-    /**
-     * Returns a list of kinds.
-     * 
-     * @return a list of kinds
-     * @throws IllegalStateException
-     *             if this method is called on production server
-     */
-    public static List<String> getKinds() throws IllegalStateException {
-        if (AppEngineUtil.isProduction()) {
-            throw new IllegalStateException(
-                "This method does not work on production server.");
-        }
-        Schema schema = getSchema();
-        List<EntityProto> entityProtoList = schema.kinds();
-        List<String> kindList = new ArrayList<String>(entityProtoList.size());
-        for (EntityProto entityProto : entityProtoList) {
-            kindList.add(getKind(entityProto.getKey()));
-        }
-        return kindList;
-    }
-
-    /**
-     * Returns a leaf kind.
-     * 
-     * @param key
-     *            the key
-     * @return a list of kinds
-     */
-    public static String getKind(Reference key) {
-        List<Element> elements = key.getPath().elements();
-        return elements.get(elements.size() - 1).getType();
     }
 
     private DatastoreUtil() {

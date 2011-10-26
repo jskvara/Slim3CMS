@@ -41,12 +41,12 @@ import com.google.appengine.api.datastore.Text;
 
 /**
  * A meta data of model.
- * 
+ *
  * @author higa
  * @param <M>
  *            the model type
  * @since 1.0.0
- * 
+ *
  */
 public abstract class ModelMeta<M> {
 
@@ -74,7 +74,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param kind
      *            the kind of entity
      * @param modelClass
@@ -89,7 +89,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param kind
      *            the kind of entity
      * @param modelClass
@@ -126,7 +126,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns the kind of entity.
-     * 
+     *
      * @return the kind of entity
      */
     public String getKind() {
@@ -135,7 +135,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns the model class.
-     * 
+     *
      * @return the model class
      */
     public Class<M> getModelClass() {
@@ -144,7 +144,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns the list of class hierarchies.
-     * 
+     *
      * @return the list of class hierarchies
      */
     public List<String> getClassHierarchyList() {
@@ -153,21 +153,21 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns the schemaVersion property name.
-     * 
+     *
      * @return the schemaVersion property name
      */
     public abstract String getSchemaVersionName();
 
     /**
      * Returns the classHierarchyList property name.
-     * 
+     *
      * @return the classHierarchyList property name
      */
     public abstract String getClassHierarchyListName();
 
     /**
      * Converts the entity to a model.
-     * 
+     *
      * @param entity
      *            the entity
      * @return a model
@@ -176,7 +176,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the model to an entity.
-     * 
+     *
      * @param model
      *            the model
      * @return an entity
@@ -185,7 +185,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the model to JSON string assuming maxDepth is 0.
-     * 
+     *
      * @param model
      *            the model
      *
@@ -197,10 +197,10 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the model to JSON string.
-     * 
+     *
      * @param model
      *            the model
-     * 
+     *
      * @param maxDepth
      *            the max depth of ModelRef expanding
      *
@@ -223,7 +223,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the models to JSON string.
-     * 
+     *
      * @param models
      *            models
      *
@@ -235,10 +235,10 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the models to JSON string.
-     * 
+     *
      * @param models
      *            models
-     * 
+     *
      * @param maxDepth
      *            the max depth of ModelRef expanding
      *
@@ -266,16 +266,64 @@ public abstract class ModelMeta<M> {
         b.append("]");
         return b.toString();
     }
-    
+
+    /**
+     * Converts the models to JSON string.
+     *
+     * @param models
+     *            models
+     *
+     * @return JSON string
+     */
+    public String modelsToJson(Iterable<?> models){
+        return modelsToJson(models, 0);
+    }
+
+    /**
+     * Converts the models to JSON string.
+     *
+     * @param models
+     *            models
+     *
+     * @param maxDepth
+     *            the max depth of ModelRef expanding
+     *
+     * @return JSON string
+     */
+    public String modelsToJson(final Iterable<?> models, int maxDepth){
+        StringBuilder b = new StringBuilder();
+        JsonWriter w = new JsonWriter(b, new ModelWriter() {
+            @Override
+            public void write(JsonWriter writer, Object model, int maxDepth,
+                    int currentDepth) {
+                invokeModelToJson(
+                    Datastore.getModelMeta(model.getClass()),
+                    writer, model, maxDepth, currentDepth + 1);
+            }
+        });
+        b.append("[");
+        boolean first = true;
+        for(Object o : models){
+            if(first){
+                first = false;
+            } else{
+                b.append(",");
+            }
+            modelToJson(w, o, maxDepth, 0);
+        }
+        b.append("]");
+        return b.toString();
+    }
+
     /**
      * Converts the model to JSON string.
-     * 
+     *
      * @param writer
      *            the writer
-     * 
+     *
      * @param model
      *            the model
-     *            
+     *
      * @param maxDepth
      *            the max depth
      *
@@ -286,16 +334,16 @@ public abstract class ModelMeta<M> {
 
     /**
      * Invoke the modelToJson method.
-     * 
+     *
      * @param meta
      *            the meta
      *
      * @param writer
      *            the writer
-     * 
+     *
      * @param model
      *            the model
-     *            
+     *
      * @param maxDepth
      *            the max depth
      *
@@ -309,7 +357,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the JSON string to model.
-     * 
+     *
      * @param json
      *            the JSON string
      *
@@ -318,16 +366,16 @@ public abstract class ModelMeta<M> {
     public M jsonToModel(String json){
         return jsonToModel(json, 0);
     }
-    
+
     /**
      * Converts the JSON string to model.
-     * 
+     *
      * @param json
      *            the JSON string
-     *            
+     *
      * @param maxDepth
      *            the max depth
-     *            
+     *
      * @return model
      */
     public M jsonToModel(String json, int maxDepth){
@@ -336,10 +384,10 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the JSON string to model array.
-     * 
+     *
      * @param json
      *            the JSON string
-     *            
+     *
      * @return model array
      */
     public M[] jsonToModels(String json){
@@ -348,13 +396,13 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the JSON string to model array.
-     * 
+     *
      * @param json
      *            the JSON string
-     *            
+     *
      * @param maxDepth
      *            the max depth
-     *            
+     *
      * @return model array
      */
     @SuppressWarnings("unchecked")
@@ -375,19 +423,19 @@ public abstract class ModelMeta<M> {
         }
         return ret;
     }
-    
+
     /**
      * Converts the JSON string to model.
-     * 
+     *
      * @param json
      *            the JSON string
-     *            
+     *
      * @param maxDepth
      *            the max depth
-     *            
+     *
      * @param currentDepth
      *            the current depth
-     *            
+     *
      * @return model
      */
     protected M jsonToModel(String json, int maxDepth, int currentDepth){
@@ -405,38 +453,38 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the JSON string to model.
-     * 
+     *
      * @param reader
      *            the JSON reader
-     *            
+     *
      * @param maxDepth
      *            the max depth
-     *            
+     *
      * @param currentDepth
      *            the current depth
-     *            
+     *
      * @return model
      */
     protected abstract M jsonToModel(JsonRootReader reader, int maxDepth, int currentDepth);
-    
+
     /**
      * Converts the JSON string to model.
-     * 
+     *
      * @param <T>
      *            the type of model
-     *            
+     *
      * @param meta
      *            the model meta
-     *            
+     *
      * @param reader
      *            the JSON reader
-     *            
+     *
      * @param maxDepth
      *            the max depth
-     *            
+     *
      * @param currentDepth
      *            the current depth
-     *            
+     *
      * @return model
      */
     protected <T> T invokeJsonToModel(ModelMeta<T> meta, JsonReader reader
@@ -446,7 +494,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns version property value of the model.
-     * 
+     *
      * @param model
      *            the model
      * @return a version property value of the model
@@ -455,7 +503,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Increments the version property value.
-     * 
+     *
      * @param model
      *            the model
      */
@@ -463,15 +511,23 @@ public abstract class ModelMeta<M> {
 
     /**
      * This method is called before a model is put to datastore.
-     * 
+     *
      * @param model
      *            the model
      */
     protected abstract void prePut(Object model);
 
     /**
+     * This method is called after a model is get from datastore.
+     *
+     * @param model
+     *            the model
+     */
+    protected abstract void postGet(Object model);
+
+    /**
      * Returns a key of the model.
-     * 
+     *
      * @param model
      *            the model
      * @return a key of the model
@@ -480,7 +536,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Sets the key to the model.
-     * 
+     *
      * @param model
      *            the model
      * @param key
@@ -490,7 +546,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Assigns a key to {@link ModelRef} if necessary.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param model
@@ -503,7 +559,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Validates the kind of the key.
-     * 
+     *
      * @param key
      *            the key
      * @throws IllegalArgumentException
@@ -524,7 +580,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the long to a primitive short.
-     * 
+     *
      * @param value
      *            the long
      * @return a primitive short
@@ -535,7 +591,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the long to a short.
-     * 
+     *
      * @param value
      *            the long
      * @return a short
@@ -546,7 +602,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the long to a primitive int.
-     * 
+     *
      * @param value
      *            the long
      * @return a primitive int
@@ -557,7 +613,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the long to an integer.
-     * 
+     *
      * @param value
      *            the long
      * @return an integer
@@ -568,7 +624,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the long to a primitive long.
-     * 
+     *
      * @param value
      *            the long
      * @return a primitive long
@@ -579,7 +635,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the double to a primitive float.
-     * 
+     *
      * @param value
      *            the double
      * @return a primitive float
@@ -590,7 +646,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the double to a float.
-     * 
+     *
      * @param value
      *            the double
      * @return a float
@@ -601,7 +657,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the double to a primitive double.
-     * 
+     *
      * @param value
      *            the double
      * @return a primitive double
@@ -612,7 +668,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the boolean to a primitive boolean.
-     * 
+     *
      * @param value
      *            the boolean
      * @return a primitive boolean
@@ -623,7 +679,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the {@link Enum} to a string representation.
-     * 
+     *
      * @param value
      *            the {@link Enum}
      * @return a string representation
@@ -634,7 +690,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the string to an {@link Enum}.
-     * 
+     *
      * @param <T>
      *            the enum type
      * @param clazz
@@ -649,7 +705,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the text to a string
-     * 
+     *
      * @param value
      *            the text
      * @return a string
@@ -660,7 +716,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the string to a text
-     * 
+     *
      * @param value
      *            the string
      * @return a text
@@ -671,7 +727,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the short blob to an array of bytes.
-     * 
+     *
      * @param value
      *            the short blob
      * @return an array of bytes
@@ -682,7 +738,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the array of bytes to a short blob.
-     * 
+     *
      * @param value
      *            the array of bytes
      * @return a short blob
@@ -693,7 +749,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the blob to an array of bytes.
-     * 
+     *
      * @param value
      *            the blob
      * @return an array of bytes
@@ -704,7 +760,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the array of bytes to a blob.
-     * 
+     *
      * @param value
      *            the array of bytes
      * @return a blob
@@ -715,7 +771,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the short blob to a serializable object.
-     * 
+     *
      * @param <T>
      *            the type
      * @param value
@@ -729,7 +785,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the serializable object to a short blob.
-     * 
+     *
      * @param value
      *            the serializable object
      * @return a short blob
@@ -742,7 +798,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the blob to a serializable object.
-     * 
+     *
      * @param <T>
      *            the type
      * @param value
@@ -756,7 +812,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the serializable object to a blob.
-     * 
+     *
      * @param value
      *            the serializable object
      * @return a blob
@@ -767,7 +823,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list to an array list.
-     * 
+     *
      * @param <T>
      *            the type
      * @param clazz
@@ -786,7 +842,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list of long to a list of short.
-     * 
+     *
      * @param value
      *            the list of long
      * @return a list of short
@@ -808,7 +864,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list of long to a list of integer.
-     * 
+     *
      * @param value
      *            the list of long
      * @return a list of integer
@@ -830,7 +886,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list of double to a list of float.
-     * 
+     *
      * @param value
      *            the list of double
      * @return a list of float
@@ -852,7 +908,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list of {@link Enum}s to a list of strings.
-     * 
+     *
      * @param value
      *            the list of {@link Enum}
      * @return a list of strings
@@ -872,7 +928,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Converts the list of strings to a list of {@link Enum}s.
-     * 
+     *
      * @param <T>
      *            the enum type
      * @param clazz
@@ -897,7 +953,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Returns the bean descriptor.
-     * 
+     *
      * @return the bean descriptor
      */
     protected BeanDesc getBeanDesc() {
@@ -910,7 +966,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Determines if the property is cipher.
-     * 
+     *
      * @param propertyName
      *            the property name
      * @return whether property is cipher
@@ -922,7 +978,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Encrypt the text.
-     * 
+     *
      * @param text
      *            the text
      * @return the encrypted text
@@ -935,7 +991,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Encrypt the text.
-     * 
+     *
      * @param text
      *            the text
      * @return the encrypted text
@@ -949,7 +1005,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Decrypt the encrypted text.
-     * 
+     *
      * @param encryptedText
      *            the encrypted text
      * @return the decrypted text
@@ -962,7 +1018,7 @@ public abstract class ModelMeta<M> {
 
     /**
      * Decrypt the encrypted text.
-     * 
+     *
      * @param encryptedText
      *            the encrypted text
      * @return the decrypted text

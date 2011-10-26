@@ -46,7 +46,6 @@ public class TemplateDAO {
 	public TemplateEntity edit(TemplateEntity templateEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
 		try {
-			// throws ConcurrentModificationException
 			Datastore.get(tx, TemplateEntity.class, templateEntity.getKey(), templateEntity.getVersion());
 
 			Datastore.put(tx, templateEntity);

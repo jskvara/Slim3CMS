@@ -46,7 +46,6 @@ public class TagDAO implements DAO {
 	public TagEntity edit(TagEntity tagEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
 		try {
-			// throws ConcurrentModificationException
 			Datastore.get(tx, TagEntity.class, tagEntity.getKey(), tagEntity.getVersion());
 
 			Datastore.put(tx, tagEntity);

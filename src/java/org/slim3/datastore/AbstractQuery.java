@@ -15,6 +15,14 @@
  */
 package org.slim3.datastore;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.slim3.util.AppEngineUtil;
+import org.slim3.util.ByteUtil;
+import org.slim3.util.ThrowableUtil;
+
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Entity;
@@ -22,33 +30,25 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.Query.SortPredicate;
 import com.google.appengine.api.datastore.QueryResultIterable;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.QueryResultList;
 import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Query.SortPredicate;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
-import org.slim3.util.AppEngineUtil;
-import org.slim3.util.ByteUtil;
-import org.slim3.util.ThrowableUtil;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * An abstract query.
- * 
+ *
  * @param <SUB>
  *            the sub type
  * @author higa
  * @since 1.0.0
- * 
+ *
  */
 public abstract class AbstractQuery<SUB> {
 
@@ -79,12 +79,12 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @throws NullPointerException
      *             if the ds parameter is null
-     * 
+     *
      */
     public AbstractQuery(AsyncDatastoreService ds) throws NullPointerException {
         if (ds == null) {
@@ -96,14 +96,14 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param kind
      *            the kind
      * @throws NullPointerException
      *             if the ds parameter is null or if the kind parameter is null
-     * 
+     *
      */
     public AbstractQuery(AsyncDatastoreService ds, String kind)
             throws NullPointerException {
@@ -116,7 +116,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param kind
@@ -126,7 +126,7 @@ public abstract class AbstractQuery<SUB> {
      * @throws NullPointerException
      *             if the ds parameter is null or if the kind parameter is null
      *             or if the ancestorKey parameter is null
-     * 
+     *
      */
     public AbstractQuery(AsyncDatastoreService ds, String kind, Key ancestorKey)
             throws NullPointerException {
@@ -139,7 +139,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Constructor.
-     * 
+     *
      * @param ds
      *            the asynchronous datastore service
      * @param ancestorKey
@@ -159,7 +159,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Sets up an internal query.
-     * 
+     *
      */
     protected void setUpQuery() {
         query = new Query();
@@ -167,12 +167,12 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Sets up an internal query.
-     * 
+     *
      * @param kind
      *            the kind
      * @throws NullPointerException
      *             if the kind parameter is null
-     * 
+     *
      */
     protected void setUpQuery(String kind) throws NullPointerException {
         if (kind == null) {
@@ -184,7 +184,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Sets up an internal query.
-     * 
+     *
      * @param kind
      *            the kind
      * @param ancestorKey
@@ -192,7 +192,7 @@ public abstract class AbstractQuery<SUB> {
      * @throws NullPointerException
      *             if the kind parameter is null or if the ancestorKey parameter
      *             is null
-     * 
+     *
      */
     protected void setUpQuery(String kind, Key ancestorKey)
             throws NullPointerException {
@@ -209,7 +209,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Sets up an internal query.
-     * 
+     *
      * @param ancestorKey
      *            the ancestor key
      * @throws NullPointerException
@@ -225,7 +225,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specified the transaction.
-     * 
+     *
      * @param tx
      *            the transaction
      * @throws IllegalStateException
@@ -242,7 +242,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the offset.
-     * 
+     *
      * @param offset
      *            the offset
      * @return this instance
@@ -255,7 +255,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the limit.
-     * 
+     *
      * @param limit
      *            the limit
      * @return this instance
@@ -268,7 +268,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the size of prefetch.
-     * 
+     *
      * @param prefetchSize
      *            the size of prefetch
      * @return this instance
@@ -281,7 +281,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the size of chunk.
-     * 
+     *
      * @param chunkSize
      *            the size of chunk
      * @return this instance
@@ -294,7 +294,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Use {@link #startCursor(Cursor)}.
-     * 
+     *
      * @param cursor
      *            the cursor
      * @return this instance
@@ -309,7 +309,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the start cursor.
-     * 
+     *
      * @param cursor
      *            the cursor
      * @return this instance
@@ -328,7 +328,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the end cursor.
-     * 
+     *
      * @param cursor
      *            the cursor
      * @return this instance
@@ -347,7 +347,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the encoded cursor.
-     * 
+     *
      * @param encodedCursor
      *            the encoded cursor
      * @return this instance
@@ -362,7 +362,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the encoded start cursor.
-     * 
+     *
      * @param encodedCursor
      *            the encoded cursor
      * @return this instance
@@ -382,7 +382,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the encoded end cursor.
-     * 
+     *
      * @param encodedCursor
      *            the encoded cursor
      * @return this instance
@@ -402,14 +402,14 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Adds the filter.
-     * 
+     *
      * @param propertyName
      *            the property name
      * @param operator
      *            the {@link FilterOperator}
      * @param value
      *            the value
-     * 
+     *
      * @return this instance
      * @throws NullPointerException
      *             if the propertyName parameter is null or if the operator
@@ -432,7 +432,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Adds the filters.
-     * 
+     *
      * @param filters
      *            the filters
      * @return this instance
@@ -453,7 +453,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the encoded filters.
-     * 
+     *
      * @param encodedFilters
      *            the encoded filters
      * @return this instance
@@ -477,7 +477,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Adds the sorts.
-     * 
+     *
      * @param sorts
      *            the array of sorts
      * @return this instance
@@ -498,7 +498,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Adds the sort.
-     * 
+     *
      * @param propertyName
      *            the property name
      * @return this instance
@@ -511,7 +511,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Adds the sort.
-     * 
+     *
      * @param propertyName
      *            the property name
      * @param direction
@@ -538,7 +538,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Specifies the encoded sorts.
-     * 
+     *
      * @param encodedSorts
      *            the encoded sorts
      * @return this instance
@@ -561,7 +561,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns the filters.
-     * 
+     *
      * @return the filters
      */
     public Filter[] getFilters() {
@@ -577,7 +577,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns the encoded filters.
-     * 
+     *
      * @return the encoded filters
      */
     public String getEncodedFilters() {
@@ -586,7 +586,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns the sorts.
-     * 
+     *
      * @return the sorts
      */
     public Sort[] getSorts() {
@@ -601,7 +601,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns the encoded sorts.
-     * 
+     *
      * @return the encoded sorts
      */
     public String getEncodedSorts() {
@@ -610,33 +610,16 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as list.
-     * 
+     *
      * @return entities as list
      */
     public List<Entity> asEntityList() {
-        if (!AppEngineUtil.isProduction() && query.getKind() == null) {
-            List<Entity> list = new ArrayList<Entity>();
-            List<String> kinds = DatastoreUtil.getKinds();
-            Key ancestor = query.getAncestor();
-            if (ancestor != null) {
-                for (String kind : kinds) {
-                    Query q = new Query(kind, ancestor);
-                    list.addAll(asEntityList(q));
-                }
-            } else {
-                for (String kind : kinds) {
-                    Query q = new Query(kind);
-                    list.addAll(asEntityList(q));
-                }
-            }
-            return list;
-        }
         return asEntityList(query);
     }
 
     /**
      * Returns entities as list.
-     * 
+     *
      * @param qry
      *            the query
      * @return entities as list
@@ -648,7 +631,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as query result list.
-     * 
+     *
      * @return entities as query result list
      */
     public QueryResultList<Entity> asQueryResultEntityList() {
@@ -658,7 +641,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as query result iterator.
-     * 
+     *
      * @return entities as query result iterator
      */
     protected QueryResultIterator<Entity> asQueryResultEntityIterator() {
@@ -668,7 +651,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as query result iterable.
-     * 
+     *
      * @return entities as query result iterable
      */
     public QueryResultIterable<Entity> asQueryResultEntityIterable() {
@@ -678,7 +661,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns a single entity.
-     * 
+     *
      * @return a single entity
      */
     public Entity asSingleEntity() {
@@ -698,7 +681,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns a list of keys.
-     * 
+     *
      * @return a list of keys
      */
     public List<Key> asKeyList() {
@@ -710,10 +693,10 @@ public abstract class AbstractQuery<SUB> {
         }
         return ret;
     }
-    
+
     /**
      * Returns key iterator.
-     * 
+     *
      * @return Iterator of keys.
      */
     public Iterator<Key> asKeyIterator() {
@@ -723,11 +706,11 @@ public abstract class AbstractQuery<SUB> {
             public void remove() {
                 entityIterator.remove();
             }
-            
+
             public Key next() {
                 return entityIterator.next().getKey();
             }
-            
+
             public boolean hasNext() {
                 return entityIterator.hasNext();
             }
@@ -736,7 +719,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns the number of entities.
-     * 
+     *
      * @return the number of entities
      */
     public int count() {
@@ -749,7 +732,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Use {@link #count()} instead of this method.
-     * 
+     *
      * @return the number of entities
      */
     @Deprecated
@@ -759,7 +742,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Return a minimum value of the property. The value does not include null.
-     * 
+     *
      * @param <T>
      *            the property type
      * @param propertyName
@@ -786,7 +769,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Return a maximum value of the property.
-     * 
+     *
      * @param <T>
      *            the property type
      * @param propertyName
@@ -812,7 +795,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as {@link Iterable}.
-     * 
+     *
      * @return entities as {@link Iterable}
      */
     public Iterable<Entity> asIterableEntities() {
@@ -822,7 +805,7 @@ public abstract class AbstractQuery<SUB> {
 
     /**
      * Returns entities as {@link Iterator}.
-     * 
+     *
      * @return entities as {@link Iterator}
      */
     public Iterator<Entity> asEntityIterator() {

@@ -2,7 +2,7 @@
 <project default="-deploy-ant" basedir=".">
 
     <!-- Google App Engine Properties -->
-    <property name="appengine.location" value="/usr/local/app-engine"/>
+    <property name="appengine.location" value="/usr/local/appengine"/>
     <property name="appengine.http.port" value="8080"/>
     <property name="appengine.debug.port" value="8765"/>
 

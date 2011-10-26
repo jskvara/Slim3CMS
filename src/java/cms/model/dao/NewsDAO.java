@@ -12,7 +12,7 @@ import org.slim3.datastore.EntityNotFoundRuntimeException;
 
 public class NewsDAO implements DAO {
 	private NewsEntityMeta meta = NewsEntityMeta.get();
-	
+
 	public List<NewsEntity> getAll() {
 		List<NewsEntity> newsEntities = Datastore.query(meta)
 				.sort(meta.created.desc).asList();
@@ -60,7 +60,6 @@ public class NewsDAO implements DAO {
 	public NewsEntity edit(NewsEntity newsEntity) throws ConcurrentModificationException {
 		Transaction tx = Datastore.beginTransaction();
 		try {
-			// throws ConcurrentModificationException
 			Datastore.get(tx, NewsEntity.class, newsEntity.getKey(), newsEntity.getVersion());
 
 			Datastore.put(tx, newsEntity);

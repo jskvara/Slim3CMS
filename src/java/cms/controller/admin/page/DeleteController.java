@@ -19,7 +19,7 @@ public class DeleteController extends AdminController {
 	@Override
 	public Navigation run() throws Exception {
 		requestScope("pageTitle", "Smazat stránku");
-		
+
 		if (param("submit") != null) {
 			Key key = asKey(pageMeta.key);
 			Long version = asLong(pageMeta.version);
@@ -27,7 +27,7 @@ public class DeleteController extends AdminController {
 				Messages.setSessionMessage("Stránka neexistuje.", Message.ERROR);
 				return redirect("/admin/page/");
 			}
-			
+
 			try {
 				pageService.delete(key, version);
 			} catch (ServiceException e) {
@@ -48,13 +48,7 @@ public class DeleteController extends AdminController {
 		PageEntity pageEntity = pageService.getPage(key);
 		requestScope("entity", pageEntity);
 		requestScope("version", pageEntity.getVersion());
-		
-//		Enumeration names = request.getAttributeNames();
-//		String name = (String)names.nextElement();
-//		for(; names.hasMoreElements(); name = (String) names.nextElement()) {
-//			System.out.println(name +" "+ request.getAttribute(name));
-//		}
-		
+
 		return forward("/cms/admin/page/delete.jsp");
 	}
 }

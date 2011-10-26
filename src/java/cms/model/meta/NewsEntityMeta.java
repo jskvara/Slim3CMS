@@ -28,7 +28,7 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 	public final StringAttributeMeta<NewsEntity> text =
 			new StringAttributeMeta<NewsEntity>(this, "text", "text");
 
-	public final CoreAttributeMeta<NewsEntity, Date> created = 
+	public final CoreAttributeMeta<NewsEntity, Date> created =
 			new CoreAttributeMeta<NewsEntity, Date>(this, "created", "created", Date.class);
 
 	public final CoreAttributeMeta<NewsEntity, Boolean> visible =
@@ -73,7 +73,7 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 		entity.setProperty("slim3.schemaVersion", 1);
 		return entity;
 	}
-	
+
 	@Override
 	protected Key getKey(Object model) {
 		NewsEntity m = (NewsEntity) model;
@@ -107,7 +107,11 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 	@Override
 	protected void prePut(Object model) {
 	}
-	
+
+	@Override
+	protected void postGet(Object model) {
+	}
+
 	@Override
 	public String getSchemaVersionName() {
 		return "slim3.schemaVersion";
@@ -143,7 +147,7 @@ public final class NewsEntityMeta extends ModelMeta<NewsEntity> {
 		writer.setNextPropertyName("text");
 		encoder = new Default();
 		encoder.encode(writer, m.getText());
-		
+
 		writer.setNextPropertyName("created");
 		encoder = new Default();
 		encoder.encode(writer, m.getCreated());
